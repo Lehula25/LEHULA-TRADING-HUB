@@ -6,4 +6,37 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-console.log("LEHULA Trading Hub connected to Supabase");
+async function testSupabaseConnection() {
+    const statusElement = document.getElementById("supabase-status");
+    const detailsElement = document.getElementById("supabase-details");
+
+    if (!statusElement || !detailsElement) {
+        return;
+    }
+
+    statusElement.textContent = "🟡 CONNECTING...";
+    detailsElement.textContent = "Contacting Supabase database...";
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("market_instruments")
+            .select("symbol, name")
+            .eq("is_active", true);
+
+        if (error) {
+            throw error;
+        }
+
+        statusElement.textContent = "🟢 SUPABASE CONNECTED";
+        detailsElement.textContent =
+            `Database online • ${data.length} active markets found`;
+    } catch (error) {
+        console.error("Supabase connection error:", error);
+
+        statusElement.textContent = "🔴 CONNECTION FAILED";
+        detailsElement.textContent =
+            error.message || "Unable to connect to Supabase";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", testSupabaseConnection);
