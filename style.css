@@ -238,4 +238,55 @@ footer {
     margin-top: 6px;
     color: #8fa1b5;
     font-size: 13px;
+    .auth-box {
+    max-width: 420px;
+    margin: 35px auto 0;
+    padding: 30px;
+    background: #0c1b2d;
+    border: 1px solid #1d3045;
+    border-radius: 14px;
+}
+
+.auth-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 14px;
+    background: #07111f;
+    color: white;
+    border: 1px solid #30465d;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.auth-box input:focus {
+    border-color: #20c66b;
+}
+
+.auth-box button {
+    width: 100%;
+}
+
+#register-status {
+    margin-top: 20px;
+    color: #aab8c7;
+    line-height: 1.5;
+}
+
+.auth-link {
+    margin-top: 20px;
+    color: #8fa1b5;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #20c66b;
+    font-weight: bold;
+    text-decoration: none;
     }
+
