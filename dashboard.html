@@ -134,32 +134,56 @@ async function checkUser() {
     }
 
     document.getElementById("user-email").textContent =
-        "Logged in as: " + user.email;
-}
+        "Email: " + user.email;
 
+    const {
+        data: profile,
+        error: profileError
+    } = await supabaseClient
+        .from("profiles")
+        .select("full_name, username, role")
+        .eq("id", user.id)
+        .maybeSingle();
 
-async function logoutUser() {
+    if (profileError) {
 
-    const { error } =
-        await supabaseClient.auth.signOut();
+        console.error(profileError);
 
-    if (error) {
+        document.getElementById("user-name").textContent =
+            "Name: Not available";
 
-        alert(error.message);
+        document.getElementById("user-username").textContent =
+            "Username: Not available";
+
+        document.getElementById("user-role").textContent =
+            "Role: User";
 
         return;
     }
 
-    window.location.href = "login.html";
+    if (profile) {
+
+        document.getElementById("user-name").textContent =
+            "Name: " + (profile.full_name || "Not set");
+
+        document.getElementById("user-username").textContent =
+            "Username: @" + (profile.username || "Not set");
+
+        document.getElementById("user-role").textContent =
+            "Role: " + (profile.role || "User");
+
+    } else {
+
+        document.getElementById("user-name").textContent =
+            "Name: Not set";
+
+        document.getElementById("user-username").textContent =
+            "Username: Not set";
+
+        document.getElementById("user-role").textContent =
+            "Role: User";
+    }
 }
-
-
-document
-    .getElementById("logout-button")
-    .addEventListener("click", logoutUser);
-
-
-document.addEventListener("DOMContentLoaded", checkUser);
 
 </script>
 
