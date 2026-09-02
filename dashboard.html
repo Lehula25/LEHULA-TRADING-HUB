@@ -60,6 +60,82 @@
         </div>
 
     </section>
+    <section class="journal-section">
+
+    <div class="journal-header">
+        <div>
+            <p class="country">📓 TRADING JOURNAL</p>
+            <h2>RECORD YOUR <span>TRADES.</span></h2>
+        </div>
+
+        <button id="show-trade-form" class="primary">
+            + ADD TRADE
+        </button>
+    </div>
+
+    <div id="trade-form-container" class="auth-box" style="display:none;">
+
+        <form id="trade-form">
+
+            <input
+                type="text"
+                id="trade-symbol"
+                placeholder="Symbol e.g. XAUUSD"
+                required
+            >
+
+            <select id="trade-type" required>
+                <option value="">Select trade type</option>
+                <option value="BUY">BUY</option>
+                <option value="SELL">SELL</option>
+            </select>
+
+            <input type="number" id="entry-price"
+                placeholder="Entry price" step="any">
+
+            <input type="number" id="stop-loss"
+                placeholder="Stop loss" step="any">
+
+            <input type="number" id="take-profit"
+                placeholder="Take profit" step="any">
+
+            <input type="number" id="exit-price"
+                placeholder="Exit price" step="any">
+
+            <input type="number" id="lot-size"
+                placeholder="Lot size" step="any">
+
+            <input type="number" id="profit-loss"
+                placeholder="Profit / Loss" step="any">
+
+            <input type="text" id="strategy"
+                placeholder="Strategy e.g. ICT / SMC">
+
+            <textarea id="trade-notes"
+                placeholder="Trade notes..."
+                rows="4"></textarea>
+
+            <button type="submit" class="primary">
+                SAVE TRADE
+            </button>
+
+            <button type="button"
+                id="cancel-trade"
+                class="secondary">
+                CANCEL
+            </button>
+
+        </form>
+
+        <p id="trade-status"></p>
+
+    </div>
+
+    <div id="trades-list">
+        <p>Loading your trades...</p>
+    </div>
+
+    </section>
 
     <section class="features">
 
@@ -182,7 +258,225 @@ document
     .addEventListener("click", logoutUser);
 
 document.addEventListener("DOMContentLoaded", checkUser);
-        </script>
+    const tradeForm = document.getElementById("trade-form");
+
+const tradeFormContainer =
+    document.getElementById("trade-form-container");
+
+const tradeStatus =
+    document.getElementById("trade-status");
+
+const tradesList =
+    document.getElementById("trades-list");
+
+
+document
+    .getElementById("show-trade-form")
+    .addEventListener("click", function () {
+
+        tradeFormContainer.style.display = "block";
+
+    });
+
+
+document
+    .getElementById("cancel-trade")
+    .addEventListener("click", function () {
+
+        tradeForm.reset();
+
+        tradeFormContainer.style.display = "none";
+
+        tradeStatus.textContent = "";
+
+    });
+
+
+async function loadTrades() {
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+
+    const { data, error } = await supabaseClient
+        .from("trades")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("trade_date", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        tradesList.innerHTML =
+            "<p>Unable to load trades.</p>";
+
+        return;
+
+    }
+
+
+    if (!data.length) {
+
+        tradesList.innerHTML =
+            "<p>No trades recorded yet. Add your first trade.</p>";
+
+        return;
+
+    }
+
+
+    tradesList.innerHTML = data.map(function (trade) {
+
+        return `
+            <div class="feature">
+
+                <h3>
+                    ${trade.symbol}
+                    — ${trade.trade_type}
+                </h3>
+
+                <p>
+                    Entry: ${trade.entry_price ?? "-"}
+                </p>
+
+                <p>
+                    Exit: ${trade.exit_price ?? "-"}
+                </p>
+
+                <p>
+                    P/L: ${trade.profit_loss ?? "-"}
+                </p>
+
+                <p>
+                    Strategy: ${trade.strategy ?? "-"}
+                </p>
+
+                <p>
+                    ${trade.notes ?? ""}
+                </p>
+
+            </div>
+        `;
+
+    }).join("");
+
+}
+
+
+tradeForm.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    tradeStatus.textContent =
+        "🟡 Saving trade...";
+
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+
+    const trade = {
+
+        user_id: user.id,
+
+        symbol:
+            document.getElementById("trade-symbol").value
+            .trim()
+            .toUpperCase(),
+
+        trade_type:
+            document.getElementById("trade-type").value,
+
+        entry_price:
+            document.getElementById("entry-price").value || null,
+
+        stop_loss:
+            document.getElementById("stop-loss").value || null,
+
+        take_profit:
+            document.getElementById("take-profit").value || null,
+
+        exit_price:
+            document.getElementById("exit-price").value || null,
+
+        lot_size:
+            document.getElementById("lot-size").value || null,
+
+        profit_loss:
+            document.getElementById("profit-loss").value || null,
+
+        strategy:
+            document.getElementById("strategy").value.trim() || null,
+
+        notes:
+            document.getElementById("trade-notes").value.trim() || null
+
+    };
+
+
+    const { error } = await supabaseClient
+        .from("trades")
+        .insert(trade);
+
+
+    if (error) {
+
+        console.error(error);
+
+        tradeStatus.textContent =
+            "🔴 " + error.message;
+
+        return;
+
+    }
+
+
+    tradeStatus.textContent =
+        "🟢 Trade saved successfully!";
+
+
+    tradeForm.reset();
+
+
+    setTimeout(function () {
+
+        tradeFormContainer.style.display = "none";
+
+        tradeStatus.textContent = "";
+
+    }, 1000);
+
+
+    loadTrades();
+
+});
+
+
+loadTrades();   
+</script>
 
 </body>
   </html>
