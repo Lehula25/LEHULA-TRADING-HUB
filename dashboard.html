@@ -127,27 +127,31 @@ async function checkUser() {
     } = await supabaseClient.auth.getUser();
 
     if (error || !user) {
-
         window.location.href = "login.html";
-
         return;
     }
 
     document.getElementById("user-email").textContent =
         "Email: " + user.email;
 
-    const {
-        data: profile,
-        error: profileError
-    } = await supabaseClient
+    document.getElementById("user-name").textContent =
+        "Name: Loading...";
+
+    document.getElementById("user-username").textContent =
+        "Username: Loading...";
+
+    document.getElementById("user-role").textContent =
+        "Role: Loading...";
+
+    const { data, error: profileError } = await supabaseClient
         .from("profiles")
-        .select("full_name, username, role")
+        .select("username, full_name, role")
         .eq("id", user.id)
-        .maybeSingle();
+        .single();
 
     if (profileError) {
 
-        console.error(profileError);
+        console.error("Profile error:", profileError);
 
         document.getElementById("user-name").textContent =
             "Name: Not available";
@@ -156,35 +160,20 @@ async function checkUser() {
             "Username: Not available";
 
         document.getElementById("user-role").textContent =
-            "Role: User";
+            "Role: Not available";
 
         return;
     }
 
-    if (profile) {
+    document.getElementById("user-name").textContent =
+        "Name: " + (data.full_name || "Not set");
 
-        document.getElementById("user-name").textContent =
-            "Name: " + (profile.full_name || "Not set");
+    document.getElementById("user-username").textContent =
+        "Username: @" + (data.username || "Not set");
 
-        document.getElementById("user-username").textContent =
-            "Username: @" + (profile.username || "Not set");
-
-        document.getElementById("user-role").textContent =
-            "Role: " + (profile.role || "User");
-
-    } else {
-
-        document.getElementById("user-name").textContent =
-            "Name: Not set";
-
-        document.getElementById("user-username").textContent =
-            "Username: Not set";
-
-        document.getElementById("user-role").textContent =
-            "Role: User";
-    }
+    document.getElementById("user-role").textContent =
+        "Role: " + (data.role || "User");
 }
-
 </script>
 
 </body>
