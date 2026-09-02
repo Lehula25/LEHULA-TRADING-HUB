@@ -289,4 +289,8 @@ footer {
     font-weight: bold;
     text-decoration: none;
     }
-
+.buttons a {
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    }
