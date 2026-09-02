@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | LEHULA Trading Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">L25</div>
+
+    <div class="brand">
+        <h1>LEHULA</h1>
+        <p>TRADING HUB</p>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+
+        <p class="country">🇱🇸 JOIN LEHULA TRADING HUB</p>
+
+        <h2>CREATE YOUR<br>
+        <span>ACCOUNT.</span></h2>
+
+        <p class="description">
+            Create your account and access trading education,
+            journaling, analysis tools and your personal dashboard.
+        </p>
+
+        <div class="auth-box">
+
+            <form id="register-form">
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email address"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    minlength="8"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="confirm-password"
+                    placeholder="Confirm password"
+                    minlength="8"
+                    required
+                >
+
+                <button type="submit" class="primary">
+                    CREATE ACCOUNT
+                </button>
+
+            </form>
+
+            <p id="register-status"></p>
+
+            <p class="auth-link">
+                Already have an account?
+                <a href="login.html">LOGIN</a>
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>LEHULA TRADING HUB © 2026</p>
+    <p>Lesotho FX Trading to the World 🌍</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+
+<script>
+const registerForm = document.getElementById("register-form");
+const registerStatus = document.getElementById("register-status");
+
+registerForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    if (password !== confirmPassword) {
+        registerStatus.textContent = "❌ Passwords do not match.";
+        return;
+    }
+
+    registerStatus.textContent = "🟡 Creating your account...";
+
+    try {
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        registerStatus.textContent =
+            "🟢 Account created! Check your email to verify your account.";
+
+        registerForm.reset();
+
+    } catch (error) {
+
+        console.error(error);
+
+        registerStatus.textContent =
+            "🔴 " + error.message;
+    }
+});
+</script>
+
+</body>
+                  </html>
