@@ -515,6 +515,68 @@ tradeForm.addEventListener("submit", async function (event) {
 
 
 loadTrades();   
+    async function loadTradingStatistics() {
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("trades")
+        .select("profit_loss")
+        .eq("user_id", user.id);
+
+    if (error) {
+
+        console.error("Statistics error:", error);
+
+        return;
+    }
+
+    const totalTrades = data.length;
+
+    const winningTrades = data.filter(function(trade) {
+        return Number(trade.profit_loss) > 0;
+    }).length;
+
+    const losingTrades = data.filter(function(trade) {
+        return Number(trade.profit_loss) < 0;
+    }).length;
+
+    const totalProfit = data.reduce(function(total, trade) {
+
+        return total + Number(trade.profit_loss || 0);
+
+    }, 0);
+
+    const winRate =
+        totalTrades > 0
+        ? (winningTrades / totalTrades) * 100
+        : 0;
+
+    document.getElementById("total-trades").textContent =
+        totalTrades;
+
+    document.getElementById("winning-trades").textContent =
+        winningTrades;
+
+    document.getElementById("losing-trades").textContent =
+        losingTrades;
+
+    document.getElementById("win-rate").textContent =
+        winRate.toFixed(1) + "%";
+
+    document.getElementById("total-profit").textContent =
+        totalProfit.toFixed(2);
+
+}
+
+loadTradingStatistics();
 </script>
 
 </body>
