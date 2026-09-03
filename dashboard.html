@@ -365,13 +365,13 @@ async function checkUser() {
     }
 
     document.getElementById("user-name").textContent =
-        "Name: " + (data.full_name || "Not set");
+    data.full_name || "User";
 
-    document.getElementById("user-username").textContent =
-        "Username: @" + (data.username || "Not set");
+document.getElementById("user-username").textContent =
+    "@" + (data.username || "Not set");
 
-    document.getElementById("user-role").textContent =
-        "Role: " + (data.role || "User");
+document.getElementById("user-role").textContent =
+    data.role || "User";
 }
 
 async function logoutUser() {
