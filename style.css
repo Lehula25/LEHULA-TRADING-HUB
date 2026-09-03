@@ -465,3 +465,50 @@ footer {
     }
 
     }
+    .calculator-section {
+    padding: 40px 20px;
+}
+
+.calculator-box {
+    max-width: 700px;
+    margin: auto;
+    background: #0c1b2d;
+    border: 1px solid #1d3045;
+    padding: 30px;
+    border-radius: 14px;
+}
+
+.calculator-field {
+    margin-bottom: 18px;
+}
+
+.calculator-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #aab8c7;
+    font-size: 14px;
+}
+
+.calculator-field input {
+    width: 100%;
+    padding: 14px;
+    background: #07111f;
+    color: white;
+    border: 1px solid #30465d;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.risk-result {
+    margin-top: 25px;
+    padding: 20px;
+    background: #07111f;
+    border: 1px solid #1d3045;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+.risk-result strong {
+    color: #20c66b;
+    font-size: 20px;
+}
