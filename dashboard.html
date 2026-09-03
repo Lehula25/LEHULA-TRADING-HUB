@@ -42,8 +42,8 @@
         <div class="profile-card">
 
     <div class="profile-avatar" id="profile-avatar">
-        N
-    </div>
+    👤
+</div>
 
     <div class="profile-info">
 
@@ -364,8 +364,10 @@ async function checkUser() {
         return;
     }
 
-    document.getElementById("user-name").textContent =
-    data.full_name || "User";
+    const name = data.full_name || data.username || "User";
+
+document.getElementById("profile-avatar").textContent =
+    name.charAt(0).toUpperCase();
 
 document.getElementById("user-username").textContent =
     "@" + (data.username || "Not set");
