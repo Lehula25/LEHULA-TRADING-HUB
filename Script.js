@@ -40,3 +40,52 @@ async function testSupabaseConnection() {
 }
 
 document.addEventListener("DOMContentLoaded", testSupabaseConnection);
+// ===== LIVE XAUUSD MARKET DATA =====
+
+async function loadXAUUSD() {
+    const priceElement = document.getElementById("price-XAUUSD");
+    const changeElement = document.getElementById("change-XAUUSD");
+    const statusElement = document.getElementById("market-status");
+
+    try {
+        const response = await fetch(
+            "https://qqavebqfrbkvbxsrtqke.supabase.co/functions/v1/market-data?symbol=XAU/USD"
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || data.status === "error") {
+            throw new Error(data.message || "Unable to load market data");
+        }
+
+        priceElement.textContent = Number(data.close).toFixed(2);
+
+        const change = Number(data.change);
+        const percent = Number(data.percent_change);
+
+        changeElement.textContent =
+            (change >= 0 ? "+" : "") +
+            change.toFixed(2) +
+            " (" +
+            (percent >= 0 ? "+" : "") +
+            percent.toFixed(2) +
+            "%)";
+
+        changeElement.style.color = change >= 0 ? "#20c66b" : "#ff4d4d";
+
+        statusElement.textContent =
+            data.is_market_open
+                ? "🟢 Market data connected"
+                : "🟡 Market currently closed";
+
+    } catch (error) {
+
+        console.error("XAUUSD market error:", error);
+
+        priceElement.textContent = "Unavailable";
+        changeElement.textContent = "--";
+        statusElement.textContent = "🔴 Unable to connect to market data";
+    }
+}
+
+loadXAUUSD();
