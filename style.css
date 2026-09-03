@@ -702,3 +702,132 @@ footer {
     }
 
     }
+/* ===== PREMIUM CLIENT PROFILE ===== */
+
+.profile-section {
+    padding: 35px 20px 10px;
+}
+
+.profile-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 28px;
+    background: linear-gradient(145deg, #10263b, #081522);
+    border: 1px solid #1d405b;
+    border-radius: 22px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #20c66b;
+}
+
+.profile-avatar {
+    width: 76px;
+    height: 76px;
+    min-width: 76px;
+    border-radius: 20px;
+    background: #20c66b;
+    color: #07111f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 800;
+    box-shadow: 0 8px 25px rgba(32, 198, 107, 0.2);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-label {
+    margin: 0 0 6px;
+    color: #20c66b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.profile-info h2 {
+    margin: 0 0 18px;
+    font-size: 25px;
+    line-height: 1.2;
+}
+
+.profile-info h2 span {
+    color: #20c66b;
+}
+
+.profile-details {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.profile-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-detail span {
+    color: #687d92;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.profile-detail strong {
+    color: #dce7f2;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.logout-button {
+    padding: 12px 20px;
+    background: transparent;
+    color: #ff7272;
+    border: 1px solid #673e48;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.logout-button:hover {
+    background: #ff7272;
+    color: #07111f;
+    border-color: #ff7272;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+
+    .profile-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 20px;
+    }
+
+    .profile-details {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .logout-button {
+        width: 100%;
+    }
+
+}
