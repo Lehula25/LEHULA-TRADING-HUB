@@ -39,19 +39,49 @@
             Welcome to your personal trading workspace.
         </p>
 
-        <div class="auth-box">
+        <div class="profile-card">
 
-    <h3>MY PROFILE</h3>
+    <div class="profile-avatar" id="profile-avatar">
+        N
+    </div>
 
-    <p id="user-name">Loading name...</p>
+    <div class="profile-info">
 
-    <p id="user-username">Loading username...</p>
+        <p class="profile-label">MY PROFILE</p>
 
-    <p id="user-email">Loading email...</p>
+        <h2>
+            Welcome back,
+            <span id="user-name">Loading name...</span> 👋
+        </h2>
 
-    <p id="user-role">Loading role...</p>
+        <div class="profile-details">
 
-    <button id="logout-button" class="secondary">
+            <div class="profile-detail">
+                <span>USERNAME</span>
+                <strong id="user-username">
+                    Loading username...
+                </strong>
+            </div>
+
+            <div class="profile-detail">
+                <span>EMAIL</span>
+                <strong id="user-email">
+                    Loading email...
+                </strong>
+            </div>
+
+            <div class="profile-detail">
+                <span>ROLE</span>
+                <strong id="user-role">
+                    Loading role...
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <button id="logout-button" class="logout-button">
         LOGOUT
     </button>
 
