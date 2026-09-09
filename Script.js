@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", testSupabaseConnection);
 
 const marketSymbols = {
     XAUUSD: "XAU/USD",
-    EURUSD: "EUR/USD"
+    EURUSD: "EUR/USD",
+    GBPUSD: "GBP/USD",
+    USDJPY: "USD/JPY"
 };
 
 async function loadMarket(symbol) {
@@ -121,6 +123,8 @@ async function loadMarket(symbol) {
 document.addEventListener("DOMContentLoaded", () => {
 
     loadMarket("XAUUSD");
-    loadMarket("EURUSD");
+loadMarket("EURUSD");
+loadMarket("GBPUSD");
+loadMarket("USDJPY");
 
 });
