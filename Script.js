@@ -48,8 +48,7 @@ const marketSymbols = {
     EURUSD: "EUR/USD",
     GBPUSD: "GBP/USD",
     USDJPY: "USD/JPY",
-    BTCUSD: "BTC/USD",
-    US30: "US30"
+    BTCUSD: "BTC/USD"
 };
 
 async function loadMarket(symbol) {
@@ -124,11 +123,10 @@ async function loadMarket(symbol) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    loadMarket("XAUUSD");
+loadMarket("XAUUSD");
 loadMarket("EURUSD");
 loadMarket("GBPUSD");
 loadMarket("USDJPY");
 loadMarket("BTCUSD");
-loadMarket("US30");
 
 });
