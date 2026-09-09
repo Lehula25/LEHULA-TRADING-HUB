@@ -40,28 +40,50 @@ async function testSupabaseConnection() {
 }
 
 document.addEventListener("DOMContentLoaded", testSupabaseConnection);
+
 // ===== LIVE XAUUSD MARKET DATA =====
 
 async function loadXAUUSD() {
+
     const priceElement = document.getElementById("price-XAUUSD");
     const changeElement = document.getElementById("change-XAUUSD");
     const statusElement = document.getElementById("market-status");
 
+    if (!priceElement || !changeElement || !statusElement) {
+        console.error("XAUUSD market elements not found.");
+        return;
+    }
+
     try {
+
         const response = await fetch(
-            "https://qqavebqfrbkvbxsrtqke.supabase.co/functions/v1/market-data?symbol=XAU/USD"
+            `${SUPABASE_URL}/functions/v1/market-data?symbol=XAU%2FUSD`,
+            {
+                method: "GET",
+                headers: {
+                    "apikey": SUPABASE_ANON_KEY,
+                    "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                }
+            }
         );
 
         const data = await response.json();
 
-        if (!response.ok || data.status === "error") {
-            throw new Error(data.message || "Unable to load market data");
+        console.log("XAUUSD market response:", data);
+
+        if (!response.ok || data.status === "error" || data.error) {
+            throw new Error(
+                data.message ||
+                data.error ||
+                "Unable to load market data"
+            );
         }
 
-        priceElement.textContent = Number(data.close).toFixed(2);
-
+        const price = Number(data.close);
         const change = Number(data.change);
         const percent = Number(data.percent_change);
+
+        priceElement.textContent = price.toFixed(2);
 
         changeElement.textContent =
             (change >= 0 ? "+" : "") +
@@ -71,7 +93,8 @@ async function loadXAUUSD() {
             percent.toFixed(2) +
             "%)";
 
-        changeElement.style.color = change >= 0 ? "#20c66b" : "#ff4d4d";
+        changeElement.style.color =
+            change >= 0 ? "#20c66b" : "#ff4d4d";
 
         statusElement.textContent =
             data.is_market_open
@@ -84,8 +107,9 @@ async function loadXAUUSD() {
 
         priceElement.textContent = "Unavailable";
         changeElement.textContent = "--";
-        statusElement.textContent = "🔴 Unable to connect to market data";
+        statusElement.textContent =
+            "🔴 Unable to connect to market data";
     }
 }
 
-loadXAUUSD();
+document.addEventListener("DOMContentLoaded", loadXAUUSD);
