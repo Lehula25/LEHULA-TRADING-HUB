@@ -41,23 +41,29 @@ async function testSupabaseConnection() {
 
 document.addEventListener("DOMContentLoaded", testSupabaseConnection);
 
-// ===== LIVE XAUUSD MARKET DATA =====
+// ===== LIVE MARKET DATA =====
 
-async function loadXAUUSD() {
+const marketSymbols = {
+    XAUUSD: "XAU/USD",
+    EURUSD: "EUR/USD"
+};
 
-    const priceElement = document.getElementById("price-XAUUSD");
-    const changeElement = document.getElementById("change-XAUUSD");
+async function loadMarket(symbol) {
+
+    const priceElement = document.getElementById(`price-${symbol}`);
+    const changeElement = document.getElementById(`change-${symbol}`);
     const statusElement = document.getElementById("market-status");
 
-    if (!priceElement || !changeElement || !statusElement) {
-        console.error("XAUUSD market elements not found.");
+    if (!priceElement || !changeElement) {
         return;
     }
 
     try {
 
+        const providerSymbol = marketSymbols[symbol];
+
         const response = await fetch(
-            `${SUPABASE_URL}/functions/v1/market-data?symbol=XAU%2FUSD`,
+            `${SUPABASE_URL}/functions/v1/market-data?symbol=${encodeURIComponent(providerSymbol)}`,
             {
                 method: "GET",
                 headers: {
@@ -69,7 +75,7 @@ async function loadXAUUSD() {
 
         const data = await response.json();
 
-        console.log("XAUUSD market response:", data);
+        console.log(`${symbol} market response:`, data);
 
         if (!response.ok || data.status === "error" || data.error) {
             throw new Error(
@@ -96,20 +102,25 @@ async function loadXAUUSD() {
         changeElement.style.color =
             change >= 0 ? "#20c66b" : "#ff4d4d";
 
-        statusElement.textContent =
-            data.is_market_open
-                ? "🟢 Market data connected"
-                : "🟡 Market currently closed";
+        if (statusElement) {
+            statusElement.textContent =
+                data.is_market_open
+                    ? "🟢 Market data connected"
+                    : "🟡 Market currently closed";
+        }
 
     } catch (error) {
 
-        console.error("XAUUSD market error:", error);
+        console.error(`${symbol} market error:`, error);
 
         priceElement.textContent = "Unavailable";
         changeElement.textContent = "--";
-        statusElement.textContent =
-            "🔴 Unable to connect to market data";
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadXAUUSD);
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadMarket("XAUUSD");
+    loadMarket("EURUSD");
+
+});
