@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Risk Calculator | LEHULA Trading Hub</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">L25</div>
+
+    <div class="brand">
+
+        <h1>LEHULA</h1>
+
+        <p>TRADING HUB</p>
+
+    </div>
+
+    <a href="dashboard.html" class="secondary">
+        DASHBOARD
+    </a>
+
+</header>
+
+
+<main>
+
+    <section class="calculator-section">
+
+        <div class="journal-header">
+
+            <div>
+
+                <p class="country">
+                    🧮 RISK MANAGEMENT
+                </p>
+
+                <h2>
+                    RISK
+                    <span>CALCULATOR.</span>
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="calculator-box">
+
+            <div class="calculator-field">
+
+                <label>
+                    Account Balance
+                </label>
+
+                <input
+                    type="number"
+                    id="account-balance"
+                    placeholder="e.g. 1000"
+                    step="any"
+                >
+
+            </div>
+
+
+            <div class="calculator-field">
+
+                <label>
+                    Risk Percentage
+                </label>
+
+                <input
+                    type="number"
+                    id="risk-percentage"
+                    placeholder="e.g. 1"
+                    step="any"
+                >
+
+            </div>
+
+
+            <div class="calculator-field">
+
+                <label>
+                    Entry Price
+                </label>
+
+                <input
+                    type="number"
+                    id="calculator-entry"
+                    placeholder="e.g. 3400"
+                    step="any"
+                >
+
+            </div>
+
+
+            <div class="calculator-field">
+
+                <label>
+                    Stop Loss Price
+                </label>
+
+                <input
+                    type="number"
+                    id="calculator-stop"
+                    placeholder="e.g. 3390"
+                    step="any"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                id="calculate-risk"
+                class="primary"
+            >
+                CALCULATE RISK
+            </button>
+
+
+            <div
+                id="risk-result"
+                class="risk-result"
+            >
+                Enter your trade information above.
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        LEHULA TRADING HUB © 2026
+    </p>
+
+    <p>
+        Lesotho FX Trading to the World 🌍
+    </p>
+
+</footer>
+
+
+<script>
+
+document
+    .getElementById("calculate-risk")
+    .addEventListener(
+        "click",
+        function() {
+
+            const balance =
+                Number(
+                    document.getElementById(
+                        "account-balance"
+                    ).value
+                );
+
+
+            const riskPercentage =
+                Number(
+                    document.getElementById(
+                        "risk-percentage"
+                    ).value
+                );
+
+
+            const entry =
+                Number(
+                    document.getElementById(
+                        "calculator-entry"
+                    ).value
+                );
+
+
+            const stop =
+                Number(
+                    document.getElementById(
+                        "calculator-stop"
+                    ).value
+                );
+
+
+            const result =
+                document.getElementById(
+                    "risk-result"
+                );
+
+
+            if (
+                balance <= 0 ||
+                riskPercentage <= 0 ||
+                entry <= 0 ||
+                stop <= 0
+            ) {
+
+                result.textContent =
+                    "⚠️ Please enter valid values.";
+
+                return;
+
+            }
+
+
+            const riskAmount =
+                balance *
+                (riskPercentage / 100);
+
+
+            const priceDistance =
+                Math.abs(entry - stop);
+
+
+            result.innerHTML = `
+
+                <strong>
+                    Risk Amount:
+                    ${riskAmount.toFixed(2)}
+                </strong>
+
+                <p>
+                    Stop Loss Distance:
+                    ${priceDistance.toFixed(2)}
+                </p>
+
+                <p>
+                    You are risking
+                    ${riskPercentage}%
+                    of your account.
+                </p>
+
+            `;
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+  </html>
