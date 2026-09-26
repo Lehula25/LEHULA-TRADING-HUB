@@ -592,3 +592,130 @@
     opacity: 0.7;
     cursor: wait;
 }
+
+/* =========================================================
+   COMMUNITY PHOTO POSTS
+   ========================================================= */
+
+.create-post-tools {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.add-photo-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 12px;
+    background: rgba(32, 232, 121, 0.07);
+    color: #20e879;
+    border: 1px solid rgba(32, 232, 121, 0.25);
+    border-radius: 8px;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+.add-photo-button:hover {
+    background: rgba(32, 232, 121, 0.13);
+    border-color: #20e879;
+}
+
+
+/* =========================
+   PHOTO PREVIEW
+   ========================= */
+
+.photo-preview-container {
+    position: relative;
+    width: 100%;
+    margin-top: 14px;
+    overflow: hidden;
+    background: #071522;
+    border: 1px solid #23445c;
+    border-radius: 12px;
+}
+
+.photo-preview {
+    display: block;
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    background: #071522;
+}
+
+.remove-photo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.remove-photo:hover {
+    background: #d93636;
+}
+
+
+/* =========================
+   FEED PHOTO
+   ========================= */
+
+.community-post-image {
+    width: 100%;
+    margin: 4px 0 18px;
+    overflow: hidden;
+    background: #071522;
+    border: 1px solid #1b374d;
+    border-radius: 13px;
+}
+
+.community-post-image img {
+    display: block;
+    width: 100%;
+    max-height: 650px;
+    object-fit: contain;
+    background: #071522;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .create-post-tools {
+        gap: 8px;
+    }
+
+    .add-photo-button {
+        padding: 0 9px;
+        font-size: 8px;
+    }
+
+    .photo-preview {
+        max-height: 300px;
+    }
+
+    .community-post-image img {
+        max-height: 450px;
+    }
+
+}
