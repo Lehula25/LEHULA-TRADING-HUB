@@ -42,8 +42,9 @@ a {
 }
 
 main {
+    width: 100%;
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
 }
 
 
@@ -53,10 +54,14 @@ main {
 
 header {
     height: 76px;
+
     display: flex;
     align-items: center;
+
     padding: 0 5%;
+
     border-bottom: 1px solid #172c40;
+
     background: #071522;
 }
 
@@ -82,13 +87,17 @@ header {
 }
 
 .brand h1 {
+    color: #ffffff;
+
     font-size: 20px;
     letter-spacing: 2px;
 }
 
 .brand p {
     margin-top: 2px;
+
     color: #20e879;
+
     font-size: 10px;
     letter-spacing: 3px;
 }
@@ -114,6 +123,7 @@ header {
 
 .hero {
     text-align: center;
+
     padding: 55px 20px 35px;
 }
 
@@ -130,7 +140,9 @@ header {
 
 .hero h2 {
     font-size: clamp(38px, 7vw, 68px);
+
     line-height: 1.05;
+
     letter-spacing: -2px;
 }
 
@@ -140,6 +152,7 @@ header {
 
 .description {
     max-width: 650px;
+
     margin: 20px auto;
 
     color: #91a5b9;
@@ -171,7 +184,10 @@ header {
 
     text-align: center;
 
-    transition: 0.2s ease;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .primary {
@@ -184,6 +200,7 @@ header {
 .primary:hover {
     background: #18c965;
     border-color: #18c965;
+
     transform: translateY(-2px);
 }
 
@@ -212,6 +229,7 @@ header {
     gap: 24px;
 
     margin: 30px auto 0;
+
     padding: 28px;
 
     max-width: 1100px;
@@ -223,9 +241,11 @@ header {
     );
 
     border: 1px solid #1b3b55;
+
     border-radius: 18px;
 
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35);
 
     text-align: left;
 
@@ -283,6 +303,8 @@ header {
 .profile-info h2 {
     margin-bottom: 18px;
 
+    color: #ffffff;
+
     font-size: 24px;
 }
 
@@ -292,13 +314,17 @@ header {
 
 .profile-details {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 30px;
 }
 
 .profile-detail {
     display: flex;
+
     flex-direction: column;
+
     gap: 5px;
 }
 
@@ -321,9 +347,11 @@ header {
     padding: 11px 18px;
 
     background: transparent;
+
     color: #ff687b;
 
     border: 1px solid #683a48;
+
     border-radius: 9px;
 
     font-size: 11px;
@@ -347,6 +375,7 @@ header {
 .journal-section,
 .markets-section {
     margin: 25px 20px;
+
     padding: 30px;
 
     background: linear-gradient(
@@ -356,9 +385,11 @@ header {
     );
 
     border: 1px solid #1b3b55;
+
     border-radius: 18px;
 
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.30);
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.30);
 }
 
 
@@ -383,6 +414,7 @@ header {
     color: #ffffff;
 
     font-size: 30px;
+
     letter-spacing: -1px;
 }
 
@@ -398,7 +430,8 @@ header {
 .statistics-grid {
     display: grid;
 
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
 
     gap: 16px;
 }
@@ -409,6 +442,7 @@ header {
     min-height: 170px;
 
     display: flex;
+
     flex-direction: column;
 
     justify-content: center;
@@ -418,6 +452,7 @@ header {
     background: #091a2a;
 
     border: 1px solid #234159;
+
     border-radius: 15px;
 
     overflow: hidden;
@@ -457,6 +492,7 @@ header {
     color: #ffffff;
 
     font-size: 42px;
+
     line-height: 1;
 
     font-weight: 800;
@@ -482,7 +518,7 @@ header {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr)
+        repeat(4, minmax(0, 1fr))
         1.3fr;
 
     gap: 16px;
@@ -494,11 +530,13 @@ header {
     background: #091a2a;
 
     border: 1px solid #234159;
+
     border-radius: 15px;
 }
 
 .calculator-field {
     display: flex;
+
     flex-direction: column;
 }
 
@@ -518,9 +556,11 @@ header {
     padding: 0 14px;
 
     background: #06111d;
+
     color: #ffffff;
 
     border: 1px solid #29435a;
+
     border-radius: 8px;
 
     outline: none;
@@ -537,6 +577,7 @@ header {
     height: 50px;
 
     border: 2px solid #20e879;
+
     border-radius: 8px;
 
     background: #20e879;
@@ -555,13 +596,14 @@ header {
 
     margin-top: 2px;
 
-    padding: 20px;
-
     min-height: 80px;
+
+    padding: 20px;
 
     background: #06111d;
 
     border: 1px solid #234159;
+
     border-radius: 12px;
 
     color: #ffffff;
@@ -589,7 +631,8 @@ header {
 #trades-list {
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
     gap: 18px;
 
@@ -601,13 +644,14 @@ header {
 }
 
 #trade-form-container {
-    margin: 0 auto 25px;
-
     max-width: 700px;
+
+    margin: 0 auto 25px;
 }
 
 #trade-form {
     display: flex;
+
     flex-direction: column;
 
     gap: 10px;
@@ -621,9 +665,11 @@ header {
     padding: 14px;
 
     background: #06111d;
+
     color: #ffffff;
 
     border: 1px solid #29435a;
+
     border-radius: 8px;
 
     outline: none;
@@ -649,7 +695,8 @@ header {
 .markets-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
 
     gap: 16px;
 
@@ -670,9 +717,11 @@ header {
     );
 
     border: 1px solid #1e435e;
+
     border-radius: 15px;
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.22);
 }
 
 .market-card:hover {
@@ -724,79 +773,153 @@ header {
 
 /* =========================================================
    FEATURE CARDS
+   4 COLUMNS × 2 ROWS
    ========================================================= */
 
 .features {
+    width: calc(100% - 40px);
+
+    max-width: 1160px;
+
+    margin: 0 auto;
+
+    padding: 25px 0 40px;
+
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
 
     gap: 18px;
 
-    padding: 25px 20px;
+    align-items: stretch;
 }
 
 .feature {
-    min-height: 250px;
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 230px;
 
     display: flex;
+
     flex-direction: column;
 
-    padding: 25px 22px;
+    padding: 24px 20px;
 
     background: #0b1d30;
 
     border: 1px solid #1b3b55;
+
     border-radius: 15px;
 
-    transition: 0.2s ease;
+    overflow: hidden;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .feature:hover {
     border-color: #20e879;
 
     transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
-.icon {
-    margin-bottom: 18px;
+.feature .icon {
+    flex-shrink: 0;
+
+    margin-bottom: 16px;
 
     font-size: 30px;
 }
 
 .feature h3 {
-    margin-bottom: 10px;
+    margin: 0 0 10px;
 
     color: #ffffff;
 
-    font-size: 18px;
+    font-size: 17px;
+
+    line-height: 1.3;
 }
 
 .feature p {
-    margin-bottom: 20px;
+    margin: 0;
 
     color: #8fa1b5;
 
-    line-height: 1.6;
+    font-size: 13px;
 
-    font-size: 14px;
+    line-height: 1.55;
 }
 
 
-/* ALL FEATURE BUTTONS */
+/* =========================================================
+   GREEN FEATURE BUTTONS
+   ========================================================= */
 
 .feature .primary {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
     width: 100%;
+
+    min-width: 0;
+
+    min-height: 46px;
 
     margin-top: auto;
 
-    min-height: 48px;
+    padding: 11px 12px;
 
-    padding: 12px 10px;
+    background: #20e879;
+
+    color: #06111d;
+
+    border: 2px solid #20e879;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.4px;
+
+    text-align: center;
 
     white-space: normal;
 
     line-height: 1.2;
+
+    box-sizing: border-box;
+
+    overflow-wrap: normal;
+
+    word-break: normal;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.feature .primary:hover {
+    background: #18c965;
+
+    border-color: #18c965;
+
+    color: #06111d;
+
+    transform: translateY(-2px);
 }
 
 
@@ -814,11 +937,13 @@ header {
     background: #0b1d30;
 
     border: 1px solid #1b3b55;
+
     border-radius: 15px;
 }
 
 .auth-box form {
     display: flex;
+
     flex-direction: column;
 
     gap: 14px;
@@ -830,9 +955,11 @@ header {
     padding: 14px;
 
     background: #06111d;
+
     color: #ffffff;
 
     border: 1px solid #29435a;
+
     border-radius: 8px;
 
     outline: none;
@@ -867,6 +994,7 @@ header {
 
 .connection-test {
     width: fit-content;
+
     max-width: 90%;
 
     margin: 25px auto 0;
@@ -876,6 +1004,7 @@ header {
     background: #0b1d30;
 
     border: 1px solid #1b3b55;
+
     border-radius: 10px;
 
     text-align: center;
@@ -916,34 +1045,65 @@ footer {
 
 
 /* =========================================================
-   MOBILE / TABLET
+   LARGE TABLETS / SMALL LAPTOPS
    ========================================================= */
 
 @media (max-width: 1100px) {
 
     .statistics-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
     }
 
     .calculator-box {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    #calculate-risk {
-        width: 100%;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
     .markets-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
+    /*
+       Keep feature cards at 4 columns
+       while there is enough screen width.
+    */
+
+    .features {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+
+        gap: 14px;
+    }
+
+    .feature {
+        padding: 22px 16px;
+    }
+
+    .feature h3 {
+        font-size: 15px;
+    }
+
+    .feature .primary {
+        font-size: 10px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 }
 
+
+/* =========================================================
+   TABLET
+   ========================================================= */
 
 @media (max-width: 800px) {
 
     .features {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 15px;
     }
 
     .profile-card {
@@ -952,6 +1112,10 @@ footer {
 
 }
 
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 600px) {
 
@@ -985,7 +1149,6 @@ footer {
         width: 100%;
     }
 
-
     .statistics-section,
     .calculator-section,
     .journal-section,
@@ -994,7 +1157,6 @@ footer {
 
         padding: 20px 15px;
     }
-
 
     .journal-header {
         flex-direction: column;
@@ -1005,7 +1167,6 @@ footer {
     .journal-header h2 {
         font-size: 25px;
     }
-
 
     .statistics-grid {
         grid-template-columns: 1fr 1fr;
@@ -1021,7 +1182,6 @@ footer {
         font-size: 32px;
     }
 
-
     .calculator-box {
         grid-template-columns: 1fr;
 
@@ -1032,25 +1192,26 @@ footer {
         grid-column: auto;
     }
 
-
     #trades-list {
         grid-template-columns: 1fr;
     }
-
 
     .markets-grid {
         grid-template-columns: 1fr;
     }
 
-
     .features {
+        width: calc(100% - 20px);
+
         grid-template-columns: 1fr;
 
-        padding: 18px 10px;
+        gap: 15px;
+
+        padding: 18px 0 30px;
     }
 
     .feature {
-        min-height: 220px;
+        min-height: 210px;
     }
 
 }
@@ -1073,7 +1234,18 @@ footer {
     .profile-avatar {
         width: 65px;
         height: 65px;
+
         min-width: 65px;
+    }
+
+    .feature {
+        padding: 22px 18px;
+    }
+
+    .feature .primary {
+        min-height: 46px;
+
+        font-size: 11px;
     }
 
 }
