@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Trading Statistics | LEHULA Trading Hub
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header>
+
+    <div class="logo">
+        L25
+    </div>
+
+    <div class="brand">
+
+        <h1>
+            LEHULA
+        </h1>
+
+        <p>
+            TRADING HUB
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main>
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <section class="hero">
+
+        <p class="country">
+            📊 TRADING PERFORMANCE
+        </p>
+
+        <h2>
+
+            TRADING
+            <br>
+
+            <span>
+                STATISTICS.
+            </span>
+
+        </h2>
+
+        <p class="description">
+
+            Analyse your trading performance,
+            win rate and overall results.
+
+        </p>
+
+        <a
+            href="dashboard.html"
+            class="primary"
+        >
+            ← BACK TO DASHBOARD
+        </a>
+
+    </section>
+
+
+
+    <!-- =================================================
+         STATISTICS
+         ================================================= -->
+
+    <section class="statistics-section">
+
+
+        <div class="journal-header">
+
+            <div>
+
+                <p class="country">
+                    📊 PERFORMANCE OVERVIEW
+                </p>
+
+                <h2>
+                    YOUR
+                    <span>
+                        RESULTS.
+                    </span>
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="statistics-grid">
+
+
+            <!-- TOTAL TRADES -->
+
+            <div class="stat-card">
+
+                <strong id="total-trades">
+                    0
+                </strong>
+
+                <p>
+                    TOTAL TRADES
+                </p>
+
+            </div>
+
+
+
+            <!-- WINNING TRADES -->
+
+            <div class="stat-card">
+
+                <strong id="winning-trades">
+                    0
+                </strong>
+
+                <p>
+                    WINNING TRADES
+                </p>
+
+            </div>
+
+
+
+            <!-- LOSING TRADES -->
+
+            <div class="stat-card">
+
+                <strong id="losing-trades">
+                    0
+                </strong>
+
+                <p>
+                    LOSING TRADES
+                </p>
+
+            </div>
+
+
+
+            <!-- WIN RATE -->
+
+            <div class="stat-card">
+
+                <strong id="win-rate">
+                    0%
+                </strong>
+
+                <p>
+                    WIN RATE
+                </p>
+
+            </div>
+
+
+
+            <!-- TOTAL PROFIT -->
+
+            <div class="stat-card">
+
+                <strong id="total-profit">
+                    0.00
+                </strong>
+
+                <p>
+                    TOTAL P/L
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PERFORMANCE DETAILS
+         ================================================= -->
+
+    <section class="statistics-section">
+
+
+        <div class="journal-header">
+
+            <div>
+
+                <p class="country">
+                    📈 TRADE PERFORMANCE
+                </p>
+
+                <h2>
+                    PERFORMANCE
+                    <span>
+                        SUMMARY.
+                    </span>
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="features">
+
+
+            <div class="feature">
+
+                <div class="icon">
+                    🏆
+                </div>
+
+                <h3>
+                    Winning Trades
+                </h3>
+
+                <p>
+                    Trades where your recorded
+                    profit and loss is greater than zero.
+                </p>
+
+                <strong
+                    id="summary-winning"
+                    style="
+                        margin-top:auto;
+                        color:#20e879;
+                        font-size:30px;
+                    "
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="icon">
+                    ❌
+                </div>
+
+                <h3>
+                    Losing Trades
+                </h3>
+
+                <p>
+                    Trades where your recorded
+                    profit and loss is below zero.
+                </p>
+
+                <strong
+                    id="summary-losing"
+                    style="
+                        margin-top:auto;
+                        color:#ff405d;
+                        font-size:30px;
+                    "
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="icon">
+                    💰
+                </div>
+
+                <h3>
+                    Total Profit / Loss
+                </h3>
+
+                <p>
+                    Combined profit and loss from
+                    all your recorded trades.
+                </p>
+
+                <strong
+                    id="summary-profit"
+                    style="
+                        margin-top:auto;
+                        color:#20e879;
+                        font-size:30px;
+                    "
+                >
+                    0.00
+                </strong>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Win Rate
+                </h3>
+
+                <p>
+                    Percentage of recorded trades
+                    that ended in profit.
+                </p>
+
+                <strong
+                    id="summary-winrate"
+                    style="
+                        margin-top:auto;
+                        color:#a14cff;
+                        font-size:30px;
+                    "
+                >
+                    0%
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         TRADE HISTORY
+         ================================================= -->
+
+    <section class="statistics-section">
+
+
+        <div class="journal-header">
+
+            <div>
+
+                <p class="country">
+                    📓 TRADE HISTORY
+                </p>
+
+                <h2>
+                    RECENT
+                    <span>
+                        TRADES.
+                    </span>
+                </h2>
+
+            </div>
+
+            <a
+                href="journal.html"
+                class="primary"
+            >
+                OPEN JOURNAL
+            </a>
+
+        </div>
+
+
+        <div id="performance-trades">
+
+            <p style="color:#91a5b9;">
+                Loading your trades...
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    <p>
+        LEHULA TRADING HUB © 2026
+    </p>
+
+    <p>
+        Lesotho FX Trading to the World 🌍
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     SUPABASE
+     ===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="Script.js"></script>
+
+
+
+<!-- =====================================================
+     PERFORMANCE JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+async function loadPerformance() {
+
+
+    /*
+       GET CURRENT USER
+    */
+
+    const {
+        data: { user },
+        error: userError
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (userError || !user) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+
+    /*
+       GET USER'S TRADES
+    */
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from("trades")
+
+            .select(
+                "symbol, trade_type, entry_price, exit_price, profit_loss, strategy, trade_date"
+            )
+
+            .eq(
+                "user_id",
+                user.id
+            )
+
+            .order(
+                "trade_date",
+                {
+                    ascending: false
+                }
+            );
+
+
+
+    if (error) {
+
+        console.error(
+            "Performance error:",
+            error
+        );
+
+        document.getElementById(
+            "performance-trades"
+        ).innerHTML = `
+
+            <p style="color:#ff405d;">
+                Unable to load your trading data.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    /*
+       CALCULATE STATISTICS
+    */
+
+    const totalTrades =
+        data.length;
+
+
+    const winningTrades =
+        data.filter(
+            function (trade) {
+
+                return Number(
+                    trade.profit_loss
+                ) > 0;
+
+            }
+        ).length;
+
+
+    const losingTrades =
+        data.filter(
+            function (trade) {
+
+                return Number(
+                    trade.profit_loss
+                ) < 0;
+
+            }
+        ).length;
+
+
+    const totalProfit =
+        data.reduce(
+            function (total, trade) {
+
+                return total +
+                    Number(
+                        trade.profit_loss || 0
+                    );
+
+            },
+            0
+        );
+
+
+    const winRate =
+        totalTrades > 0
+
+        ? (
+            winningTrades /
+            totalTrades
+        ) * 100
+
+        : 0;
+
+
+
+    /*
+       UPDATE MAIN STATISTICS
+    */
+
+    document.getElementById(
+        "total-trades"
+    ).textContent =
+        totalTrades;
+
+
+    document.getElementById(
+        "winning-trades"
+    ).textContent =
+        winningTrades;
+
+
+    document.getElementById(
+        "losing-trades"
+    ).textContent =
+        losingTrades;
+
+
+    document.getElementById(
+        "win-rate"
+    ).textContent =
+        winRate.toFixed(1) + "%";
+
+
+    document.getElementById(
+        "total-profit"
+    ).textContent =
+        totalProfit.toFixed(2);
+
+
+
+    /*
+       UPDATE SUMMARY
+    */
+
+    document.getElementById(
+        "summary-winning"
+    ).textContent =
+        winningTrades;
+
+
+    document.getElementById(
+        "summary-losing"
+    ).textContent =
+        losingTrades;
+
+
+    document.getElementById(
+        "summary-profit"
+    ).textContent =
+        totalProfit.toFixed(2);
+
+
+    document.getElementById(
+        "summary-winrate"
+    ).textContent =
+        winRate.toFixed(1) + "%";
+
+
+
+    /*
+       NO TRADES
+    */
+
+    if (!data.length) {
+
+        document.getElementById(
+            "performance-trades"
+        ).innerHTML = `
+
+            <div class="feature">
+
+                <div class="icon">
+                    📓
+                </div>
+
+                <h3>
+                    No Trades Yet
+                </h3>
+
+                <p>
+                    You have not recorded any trades yet.
+                    Add your first trade to start tracking
+                    your performance.
+                </p>
+
+                <a
+                    href="journal.html"
+                    class="primary"
+                >
+                    ADD FIRST TRADE
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    /*
+       DISPLAY TRADE HISTORY
+    */
+
+    document.getElementById(
+        "performance-trades"
+    ).innerHTML = `
+
+        <div
+            style="
+                display:grid;
+                gap:12px;
+            "
+        >
+
+            ${data.map(
+                function (trade) {
+
+                    const profit =
+                        Number(
+                            trade.profit_loss || 0
+                        );
+
+                    const profitColor =
+                        profit >= 0
+                        ? "#20e879"
+                        : "#ff405d";
+
+
+                    return `
+
+                        <div
+                            style="
+                                padding:18px;
+                                background:#091a2a;
+                                border:1px solid #234159;
+                                border-radius:12px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    display:flex;
+                                    justify-content:space-between;
+                                    align-items:center;
+                                    gap:15px;
+                                    flex-wrap:wrap;
+                                "
+                            >
+
+                                <div>
+
+                                    <strong
+                                        style="
+                                            color:#ffffff;
+                                            font-size:16px;
+                                        "
+                                    >
+                                        ${trade.symbol || "-"}
+                                    </strong>
+
+                                    <span
+                                        style="
+                                            margin-left:8px;
+                                            color:#91a5b9;
+                                            font-size:12px;
+                                        "
+                                    >
+                                        ${trade.trade_type || "-"}
+                                    </span>
+
+                                </div>
+
+
+                                <strong
+                                    style="
+                                        color:${profitColor};
+                                        font-size:17px;
+                                    "
+                                >
+                                    ${profit >= 0 ? "+" : ""}
+                                    ${profit.toFixed(2)}
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                style="
+                                    display:flex;
+                                    gap:25px;
+                                    flex-wrap:wrap;
+                                    margin-top:12px;
+                                    color:#91a5b9;
+                                    font-size:12px;
+                                "
+                            >
+
+                                <span>
+                                    Entry:
+                                    ${trade.entry_price ?? "-"}
+                                </span>
+
+                                <span>
+                                    Exit:
+                                    ${trade.exit_price ?? "-"}
+                                </span>
+
+                                <span>
+                                    Strategy:
+                                    ${trade.strategy ?? "-"}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("")}
+
+        </div>
+
+    `;
+
+}
+
+
+/*
+   LOAD PERFORMANCE
+*/
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadPerformance
+);
+
+</script>
+
+
+</body>
+
+</html>
