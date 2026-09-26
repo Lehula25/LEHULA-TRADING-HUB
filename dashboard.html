@@ -1,515 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Dashboard | LEHULA Trading Hub</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
 <header>
 
-    <div class="logo">L25</div>
-
-    <div class="brand">
-        <h1>LEHULA</h1>
-        <p>TRADING HUB</p>
+    <div class="logo">
+        L25
     </div>
 
-    <button class="menu">☰</button>
+    <div class="brand">
+
+        <h1>
+            LEHULA
+        </h1>
+
+        <p>
+            TRADING HUB
+        </p>
+
+    </div>
+
+    <button
+        class="menu"
+        type="button"
+    >
+        ☰
+    </button>
 
 </header>
 
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+     ===================================================== -->
+
 <main>
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
 
     <section class="hero">
 
-        <p class="country">🇱🇸 LESOTHO FX TRADING</p>
+        <p class="country">
+            🇱🇸 LESOTHO FX TRADING
+        </p>
 
         <h2>
-            TRADING<br>
-            <span>DASHBOARD.</span>
+
+            TRADING
+            <br>
+
+            <span>
+                DASHBOARD.
+            </span>
+
         </h2>
 
         <p class="description">
+
             Welcome to your personal trading workspace.
+
         </p>
+
+
+        <!-- PROFILE -->
 
         <div class="profile-card">
 
-    <div class="profile-avatar" id="profile-avatar">
-    👤
-</div>
 
-    <div class="profile-info">
-
-        <p class="profile-label">MY PROFILE</p>
-
-        <h2>
-            Welcome back,
-            <span id="user-name">Loading name...</span> 👋
-        </h2>
-
-        <div class="profile-details">
-
-            <div class="profile-detail">
-                <span>USERNAME</span>
-                <strong id="user-username">
-                    Loading username...
-                </strong>
+            <div
+                class="profile-avatar"
+                id="profile-avatar"
+            >
+                👤
             </div>
 
-            <div class="profile-detail">
-                <span>EMAIL</span>
-                <strong id="user-email">
-                    Loading email...
-                </strong>
+
+            <div class="profile-info">
+
+                <p class="profile-label">
+                    MY PROFILE
+                </p>
+
+
+                <h2>
+
+                    Welcome back,
+                    <span id="user-name">
+                        Loading name...
+                    </span>
+
+                    👋
+
+                </h2>
+
+
+                <div class="profile-details">
+
+
+                    <div class="profile-detail">
+
+                        <span>
+                            USERNAME
+                        </span>
+
+                        <strong id="user-username">
+                            Loading username...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-detail">
+
+                        <span>
+                            EMAIL
+                        </span>
+
+                        <strong id="user-email">
+                            Loading email...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-detail">
+
+                        <span>
+                            ROLE
+                        </span>
+
+                        <strong id="user-role">
+                            Loading role...
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
             </div>
 
-            <div class="profile-detail">
-                <span>ROLE</span>
-                <strong id="user-role">
-                    Loading role...
-                </strong>
-            </div>
 
-        </div>
-
-    </div>
-
-    <button id="logout-button" class="logout-button">
-        LOGOUT
-    </button>
-
-        </div>
-
-        </div>
-
-    </section>
-    <section class="statistics-section">
-
-    <div class="journal-header">
-        <div>
-            <p class="country">📊 PERFORMANCE</p>
-            <h2>TRADING <span>STATISTICS.</span></h2>
-        </div>
-    </div>
-
-    <div class="statistics-grid">
-
-        <div class="stat-card">
-            <strong id="total-trades">0</strong>
-            <p>TOTAL TRADES</p>
-        </div>
-
-        <div class="stat-card">
-            <strong id="winning-trades">0</strong>
-            <p>WINNING TRADES</p>
-        </div>
-
-        <div class="stat-card">
-            <strong id="losing-trades">0</strong>
-            <p>LOSING TRADES</p>
-        </div>
-
-        <div class="stat-card">
-            <strong id="win-rate">0%</strong>
-            <p>WIN RATE</p>
-        </div>
-
-        <div class="stat-card">
-            <strong id="total-profit">0</strong>
-            <p>TOTAL P/L</p>
-        </div>
-
-    </div>
-
-    </section>
-    <section class="calculator-section">
-
-    <div class="journal-header">
-        <div>
-            <p class="country">🧮 RISK MANAGEMENT</p>
-            <h2>RISK <span>CALCULATOR.</span></h2>
-        </div>
-    </div>
-
-    <div class="calculator-box">
-
-        <div class="calculator-field">
-            <label>Account Balance</label>
-            <input
-                type="number"
-                id="account-balance"
-                placeholder="e.g. 1000"
-                step="any"
+            <button
+                id="logout-button"
+                class="logout-button"
+                type="button"
             >
-        </div>
-
-        <div class="calculator-field">
-            <label>Risk Percentage</label>
-            <input
-                type="number"
-                id="risk-percentage"
-                placeholder="e.g. 1"
-                step="any"
-            >
-        </div>
-
-        <div class="calculator-field">
-            <label>Entry Price</label>
-            <input
-                type="number"
-                id="calculator-entry"
-                placeholder="e.g. 3400"
-                step="any"
-            >
-        </div>
-
-        <div class="calculator-field">
-            <label>Stop Loss Price</label>
-            <input
-                type="number"
-                id="calculator-stop"
-                placeholder="e.g. 3390"
-                step="any"
-            >
-        </div>
-
-        <button
-            type="button"
-            id="calculate-risk"
-            class="primary">
-            CALCULATE RISK
-        </button>
-
-        <div id="risk-result" class="risk-result">
-            Enter your trade information above.
-        </div>
-
-    </div>
-
-</section>
-    <section class="journal-section">
-
-    <div class="journal-header">
-        <div>
-            <p class="country">📓 TRADING JOURNAL</p>
-            <h2>RECORD YOUR <span>TRADES.</span></h2>
-        </div>
-
-        <button id="show-trade-form" class="primary">
-            + ADD TRADE
-        </button>
-    </div>
-
-    <div id="trade-form-container" class="auth-box" style="display:none;">
-
-        <form id="trade-form">
-
-            <input
-                type="text"
-                id="trade-symbol"
-                placeholder="Symbol e.g. XAUUSD"
-                required
-            >
-
-            <select id="trade-type" required>
-                <option value="">Select trade type</option>
-                <option value="BUY">BUY</option>
-                <option value="SELL">SELL</option>
-            </select>
-
-            <input type="number" id="entry-price"
-                placeholder="Entry price" step="any">
-
-            <input type="number" id="stop-loss"
-                placeholder="Stop loss" step="any">
-
-            <input type="number" id="take-profit"
-                placeholder="Take profit" step="any">
-
-            <input type="number" id="exit-price"
-                placeholder="Exit price" step="any">
-
-            <input type="number" id="lot-size"
-                placeholder="Lot size" step="any">
-
-            <input type="number" id="profit-loss"
-                placeholder="Profit / Loss" step="any">
-
-            <input type="text" id="strategy"
-                placeholder="Strategy e.g. ICT / SMC">
-
-            <textarea id="trade-notes"
-                placeholder="Trade notes..."
-                rows="4"></textarea>
-
-            <button type="submit" class="primary">
-                SAVE TRADE
+                LOGOUT
             </button>
 
-            <button type="button"
-                id="cancel-trade"
-                class="secondary">
-                CANCEL
-            </button>
-
-        </form>
-
-        <p id="trade-status"></p>
-
-    </div>
-
-    <div id="trades-list">
-        <p>Loading your trades...</p>
-    </div>
-
-    </section>
-    <section class="markets-section">
-
-        <div class="journal-header">
-            <div>
-                <p class="country">📈 LIVE MARKETS</p>
-                <h2>MARKET <span>WATCHLIST.</span></h2>
-            </div>
-        </div>
-
-        <div class="markets-grid">
-
-            <div class="market-card">
-                <div>
-                    <h3>XAUUSD</h3>
-                    <p>Gold / US Dollar</p>
-                </div>
-
-                <div class="market-price" id="price-XAUUSD">
-                    Loading...
-                </div>
-
-                <div class="market-change" id="change-XAUUSD">
-                    --
-                </div>
-            </div>
-
-
-            <div class="market-card">
-                <div>
-                    <h3>EURUSD</h3>
-                    <p>Euro / US Dollar</p>
-                </div>
-
-                <div class="market-price" id="price-EURUSD">
-                    Loading...
-                </div>
-
-                <div class="market-change" id="change-EURUSD">
-                    --
-                </div>
-            </div>
-
-
-            <div class="market-card">
-                <div>
-                    <h3>GBPUSD</h3>
-                    <p>British Pound / US Dollar</p>
-                </div>
-
-                <div class="market-price" id="price-GBPUSD">
-                    Loading...
-                </div>
-
-                <div class="market-change" id="change-GBPUSD">
-                    --
-                </div>
-            </div>
-
-
-            <div class="market-card">
-                <div>
-                    <h3>USDJPY</h3>
-                    <p>US Dollar / Japanese Yen</p>
-                </div>
-
-                <div class="market-price" id="price-USDJPY">
-                    Loading...
-                </div>
-
-                <div class="market-change" id="change-USDJPY">
-                    --
-                </div>
-            </div>
-
-
-            <div class="market-card">
-                <div>
-                    <h3>BTCUSD</h3>
-                    <p>Bitcoin / US Dollar</p>
-                </div>
-
-                <div class="market-price" id="price-BTCUSD">
-                    Loading...
-                </div>
-
-                <div class="market-change" id="change-BTCUSD">
-                    --
-                </div>
-            </div>
-
-
-            <div class="market-card">
-                <div>
-                    <h3>US30</h3>
-                    <p>Dow Jones</p>
-                </div>
-
-                <div class="market-price" id="price-US30">
-                    Loading...
-                </div>
-
-                <div class="market-change" id="change-US30">
-                    --
-                </div>
-            </div>
 
         </div>
 
-        <p class="market-status" id="market-status">
-            🟡 Connecting to market data...
-        </p>
-
     </section>
-    
+
+
+
+    <!-- =================================================
+         DASHBOARD FEATURES
+         EXACTLY 4 COLUMNS × 2 ROWS
+         ================================================= -->
+
     <section class="features">
 
+
+        <!-- 1. TRADING STATISTICS -->
+
         <div class="feature">
 
-    <div class="icon">📊</div>
+            <div class="icon">
+                📊
+            </div>
 
-    <h3>Trading Journal</h3>
+            <h3>
+                Trading Statistics
+            </h3>
 
-    <p>
-        Record and analyse your trades.
-    </p>
+            <p>
+                Analyse your trades, win rate,
+                profit and overall trading performance.
+            </p>
 
-    <a href="journal.html" class="primary">
-        OPEN JOURNAL
-    </a>
+            <a
+                href="performance.html"
+                class="primary"
+            >
+                OPEN STATISTICS
+            </a>
 
         </div>
 
-        
-    <div class="feature">
 
-    <div class="icon">🧮</div>
 
-    <h3>Risk Calculator</h3>
-
-    <p>
-        Calculate risk before entering a trade.
-    </p>
-
-    <a href="risk-calculator.html" class="primary">
-        OPEN RISK CALCULATOR
-    </a>
-
-    </div>
-
-<div class="feature">
-
-    <div class="icon">📈</div>
-
-    <h3>Markets</h3>
-
-    <p>
-        Monitor instruments and market activity.
-    </p>
-
-    <a href="markets.html" class="primary">
-        OPEN MARKETS
-    </a>
-
-</div>
+        <!-- 2. RISK CALCULATOR -->
 
         <div class="feature">
 
-    <div class="icon">📰</div>
+            <div class="icon">
+                🧮
+            </div>
 
-    <h3>News & Events</h3>
+            <h3>
+                Risk Calculator
+            </h3>
 
-    <p>
-        Follow important economic events.
-    </p>
+            <p>
+                Calculate your risk before entering
+                a trade and manage your account.
+            </p>
 
-    <a href="news.html" class="primary">
-        OPEN NEWS & EVENTS
-    </a>
+            <a
+                href="risk-calculator.html"
+                class="primary"
+            >
+                OPEN CALCULATOR
+            </a>
 
-</div>
+        </div>
 
-        <div class="feature">
 
-            <div class="feature">
 
-    <div class="icon">💬</div>
-
-    <h3>Community</h3>
-
-    <p>
-        Connect, share ideas and learn with other traders.
-    </p>
-
-    <a href="community.html" class="primary">
-        OPEN COMMUNITY
-    </a>
-
-</div>
-
+        <!-- 3. TRADING JOURNAL -->
 
         <div class="feature">
 
-    <div class="icon">🎓</div>
+            <div class="icon">
+                📓
+            </div>
 
-    <h3>Education</h3>
+            <h3>
+                Trading Journal
+            </h3>
 
-    <p>
-        Learn trading concepts, ICT, SMC and risk management.
-    </p>
+            <p>
+                Record, review and analyse
+                your trading activity.
+            </p>
 
-    <a href="education.html" class="primary">
-        OPEN EDUCATION
-    </a>
+            <a
+                href="journal.html"
+                class="primary"
+            >
+                OPEN JOURNAL
+            </a>
 
-</div>
+        </div>
 
+
+
+        <!-- 4. MARKET WATCHLIST -->
 
         <div class="feature">
 
-    <div class="icon">🔔</div>
+            <div class="icon">
+                📈
+            </div>
 
-    <h3>Notifications</h3>
+            <h3>
+                Market Watchlist
+            </h3>
 
-    <p>
-        Stay updated with important alerts.
-    </p>
+            <p>
+                Monitor instruments and
+                live market activity.
+            </p>
 
-    <a href="notifications.html" class="primary">
-        OPEN NOTIFICATIONS
-    </a>
+            <a
+                href="markets.html"
+                class="primary"
+            >
+                OPEN WATCHLIST
+            </a>
 
-</div>
+        </div>
+
+
+
+        <!-- 5. NEWS & EVENTS -->
+
+        <div class="feature">
+
+            <div class="icon">
+                📰
+            </div>
+
+            <h3>
+                News & Events
+            </h3>
+
+            <p>
+                Follow important market news
+                and economic events.
+            </p>
+
+            <a
+                href="news.html"
+                class="primary"
+            >
+                OPEN NEWS & EVENTS
+            </a>
+
+        </div>
+
+
+
+        <!-- 6. COMMUNITY -->
+
+        <div class="feature">
+
+            <div class="icon">
+                💬
+            </div>
+
+            <h3>
+                Community
+            </h3>
+
+            <p>
+                Connect, share ideas and
+                learn with other traders.
+            </p>
+
+            <a
+                href="community.html"
+                class="primary"
+            >
+                OPEN COMMUNITY
+            </a>
+
+        </div>
+
+
+
+        <!-- 7. EDUCATION -->
+
+        <div class="feature">
+
+            <div class="icon">
+                🎓
+            </div>
+
+            <h3>
+                Education
+            </h3>
+
+            <p>
+                Learn trading concepts,
+                ICT, SMC and risk management.
+            </p>
+
+            <a
+                href="education.html"
+                class="primary"
+            >
+                OPEN EDUCATION
+            </a>
+
+        </div>
+
+
+
+        <!-- 8. NOTIFICATIONS -->
+
+        <div class="feature">
+
+            <div class="icon">
+                🔔
+            </div>
+
+            <h3>
+                Notifications
+            </h3>
+
+            <p>
+                Stay updated with important
+                alerts and account activity.
+            </p>
+
+            <a
+                href="notifications.html"
+                class="primary"
+            >
+                OPEN NOTIFICATIONS
+            </a>
+
+        </div>
+
 
     </section>
+
 
 </main>
 
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
 <footer>
 
-    <p>LEHULA TRADING HUB © 2026</p>
+    <p>
+        LEHULA TRADING HUB © 2026
+    </p>
 
     <p>
         Lesotho FX Trading to the World 🌍
@@ -517,11 +439,24 @@
 
 </footer>
 
+
+
+<!-- =====================================================
+     SUPABASE
+     ===================================================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="Script.js"></script>
 
+
+
+<!-- =====================================================
+     DASHBOARD AUTH
+     ===================================================== -->
+
 <script>
+
 async function checkUser() {
 
     const {
@@ -529,393 +464,172 @@ async function checkUser() {
         error
     } = await supabaseClient.auth.getUser();
 
+
     if (error || !user) {
+
         window.location.href = "login.html";
+
         return;
+
     }
 
-    document.getElementById("user-email").textContent =
-        "Email: " + user.email;
 
-    const { data, error: profileError } = await supabaseClient
+    /*
+       EMAIL
+    */
+
+    document.getElementById("user-email").textContent =
+        user.email;
+
+
+
+    /*
+       LOAD PROFILE
+    */
+
+    const {
+        data,
+        error: profileError
+    } = await supabaseClient
         .from("profiles")
         .select("username, full_name, role")
         .eq("id", user.id)
         .single();
 
+
     if (profileError) {
-        console.error("Profile error:", profileError);
 
-        document.getElementById("user-name").textContent =
-            "Name: Not available";
+        console.error(
+            "Profile error:",
+            profileError
+        );
 
-        document.getElementById("user-username").textContent =
-            "Username: Not available";
+        document.getElementById(
+            "user-name"
+        ).textContent =
+            "User";
 
-        document.getElementById("user-role").textContent =
-            "Role: Not available";
+
+        document.getElementById(
+            "user-username"
+        ).textContent =
+            "@Not set";
+
+
+        document.getElementById(
+            "user-role"
+        ).textContent =
+            "User";
+
 
         return;
+
     }
 
-    const name = data.full_name || data.username || "User";
 
-document.getElementById("profile-avatar").textContent =
-    name.charAt(0).toUpperCase();
+    const name =
+        data.full_name ||
+        data.username ||
+        "User";
 
-document.getElementById("user-name").textContent =
-    name;
 
-document.getElementById("user-username").textContent =
-    "@" + (data.username || "Not set");
+    /*
+       PROFILE AVATAR
+    */
 
-document.getElementById("user-role").textContent =
-    data.role || "User";
+    document.getElementById(
+        "profile-avatar"
+    ).textContent =
+        name
+            .charAt(0)
+            .toUpperCase();
+
+
+
+    /*
+       FULL NAME
+    */
+
+    document.getElementById(
+        "user-name"
+    ).textContent =
+        name;
+
+
+
+    /*
+       USERNAME
+    */
+
+    document.getElementById(
+        "user-username"
+    ).textContent =
+        "@" +
+        (data.username || "Not set");
+
+
+
+    /*
+       ROLE
+    */
+
+    document.getElementById(
+        "user-role"
+    ).textContent =
+        data.role || "User";
+
 }
+
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
 
 async function logoutUser() {
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient.auth.signOut();
 
+
     if (error) {
+
         alert(error.message);
+
         return;
+
     }
 
-    window.location.href = "login.html";
+
+    window.location.href =
+        "login.html";
+
 }
+
+
+
+/* =====================================================
+   EVENTS
+   ===================================================== */
 
 document
     .getElementById("logout-button")
-    .addEventListener("click", logoutUser);
-
-document.addEventListener("DOMContentLoaded", checkUser);
-    const tradeForm = document.getElementById("trade-form");
-
-const tradeFormContainer =
-    document.getElementById("trade-form-container");
-
-const tradeStatus =
-    document.getElementById("trade-status");
-
-const tradesList =
-    document.getElementById("trades-list");
-
-
-document
-    .getElementById("show-trade-form")
-    .addEventListener("click", function () {
-
-        tradeFormContainer.style.display = "block";
-
-    });
-
-
-document
-    .getElementById("cancel-trade")
-    .addEventListener("click", function () {
-
-        tradeForm.reset();
-
-        tradeFormContainer.style.display = "none";
-
-        tradeStatus.textContent = "";
-
-    });
-
-
-async function loadTrades() {
-
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
-
-    if (!user) {
-
-        window.location.href = "login.html";
-
-        return;
-
-    }
-
-
-    const { data, error } = await supabaseClient
-        .from("trades")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("trade_date", {
-            ascending: false
-        });
-
-
-    if (error) {
-
-        console.error(error);
-
-        tradesList.innerHTML =
-            "<p>Unable to load trades.</p>";
-
-        return;
-
-    }
-
-
-    if (!data.length) {
-
-        tradesList.innerHTML =
-            "<p>No trades recorded yet. Add your first trade.</p>";
-
-        return;
-
-    }
-
-
-    tradesList.innerHTML = data.map(function (trade) {
-
-        return `
-            <div class="feature">
-
-                <h3>
-                    ${trade.symbol}
-                    — ${trade.trade_type}
-                </h3>
-
-                <p>
-                    Entry: ${trade.entry_price ?? "-"}
-                </p>
-
-                <p>
-                    Exit: ${trade.exit_price ?? "-"}
-                </p>
-
-                <p>
-                    P/L: ${trade.profit_loss ?? "-"}
-                </p>
-
-                <p>
-                    Strategy: ${trade.strategy ?? "-"}
-                </p>
-
-                <p>
-                    ${trade.notes ?? ""}
-                </p>
-
-            </div>
-        `;
-
-    }).join("");
-
-}
-
-
-tradeForm.addEventListener("submit", async function (event) {
-
-    event.preventDefault();
-
-    tradeStatus.textContent =
-        "🟡 Saving trade...";
-
-
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
-
-
-    if (!user) {
-
-        window.location.href = "login.html";
-
-        return;
-
-    }
-
-
-    const trade = {
-
-        user_id: user.id,
-
-        symbol:
-            document.getElementById("trade-symbol").value
-            .trim()
-            .toUpperCase(),
-
-        trade_type:
-            document.getElementById("trade-type").value,
-
-        entry_price:
-            document.getElementById("entry-price").value || null,
-
-        stop_loss:
-            document.getElementById("stop-loss").value || null,
-
-        take_profit:
-            document.getElementById("take-profit").value || null,
-
-        exit_price:
-            document.getElementById("exit-price").value || null,
-
-        lot_size:
-            document.getElementById("lot-size").value || null,
-
-        profit_loss:
-            document.getElementById("profit-loss").value || null,
-
-        strategy:
-            document.getElementById("strategy").value.trim() || null,
-
-        notes:
-            document.getElementById("trade-notes").value.trim() || null
-
-    };
-
-
-    const { error } = await supabaseClient
-        .from("trades")
-        .insert(trade);
-
-
-    if (error) {
-
-        console.error(error);
-
-        tradeStatus.textContent =
-            "🔴 " + error.message;
-
-        return;
-
-    }
-
-
-    tradeStatus.textContent =
-        "🟢 Trade saved successfully!";
-
-
-    tradeForm.reset();
-
-
-    setTimeout(function () {
-
-        tradeFormContainer.style.display = "none";
-
-        tradeStatus.textContent = "";
-
-    }, 1000);
-
-
-    loadTrades();
-
-});
-
-
-loadTrades();   
-    async function loadTradingStatistics() {
-
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
-
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    const { data, error } = await supabaseClient
-        .from("trades")
-        .select("profit_loss")
-        .eq("user_id", user.id);
-
-    if (error) {
-
-        console.error("Statistics error:", error);
-
-        return;
-    }
-
-    const totalTrades = data.length;
-
-    const winningTrades = data.filter(function(trade) {
-        return Number(trade.profit_loss) > 0;
-    }).length;
-
-    const losingTrades = data.filter(function(trade) {
-        return Number(trade.profit_loss) < 0;
-    }).length;
-
-    const totalProfit = data.reduce(function(total, trade) {
-
-        return total + Number(trade.profit_loss || 0);
-
-    }, 0);
-
-    const winRate =
-        totalTrades > 0
-        ? (winningTrades / totalTrades) * 100
-        : 0;
-
-    document.getElementById("total-trades").textContent =
-        totalTrades;
-
-    document.getElementById("winning-trades").textContent =
-        winningTrades;
-
-    document.getElementById("losing-trades").textContent =
-        losingTrades;
-
-    document.getElementById("win-rate").textContent =
-        winRate.toFixed(1) + "%";
-
-    document.getElementById("total-profit").textContent =
-        totalProfit.toFixed(2);
-
-}
-
-loadTradingStatistics();
-document
-    .getElementById("calculate-risk")
-    .addEventListener("click", function () {
-
-        const balance =
-            Number(document.getElementById("account-balance").value);
-
-        const riskPercentage =
-            Number(document.getElementById("risk-percentage").value);
-
-        const entry =
-            Number(document.getElementById("calculator-entry").value);
-
-        const stop =
-            Number(document.getElementById("calculator-stop").value);
-
-        const result =
-            document.getElementById("risk-result");
-
-        if (
-            balance <= 0 ||
-            riskPercentage <= 0 ||
-            entry <= 0 ||
-            stop <= 0
-        ) {
-            result.textContent =
-                "⚠️ Please enter valid values.";
-            return;
-        }
-
-        const riskAmount =
-            balance * (riskPercentage / 100);
-
-        const priceDistance =
-            Math.abs(entry - stop);
-
-        result.innerHTML = `
-            <strong>Risk Amount: ${riskAmount.toFixed(2)}</strong>
-            <p>Stop Loss Distance: ${priceDistance.toFixed(2)}</p>
-            <p>You are risking ${riskPercentage}% of your account.</p>
-        `;
-
-    });
+    .addEventListener(
+        "click",
+        logoutUser
+    );
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    checkUser
+);
 
 </script>
 
+
 </body>
-  </html>
+
+</html>
