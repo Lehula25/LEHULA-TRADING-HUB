@@ -2,37 +2,69 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Community | LEHULA Trading Hub</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
 </head>
 
+
 <body>
+
 
 <header class="topbar">
 
     <div class="brand">
-        <div class="logo">L25</div>
+
+        <div class="logo">
+            L25
+        </div>
 
         <div>
-            <div class="brand-main">LEHULA</div>
-            <div class="brand-sub">TRADING HUB</div>
+
+            <div class="brand-main">
+                LEHULA
+            </div>
+
+            <div class="brand-sub">
+                TRADING HUB
+            </div>
+
         </div>
+
     </div>
 
-    <a href="dashboard.html" class="back-button">
+
+    <a
+        href="dashboard.html"
+        class="back-button"
+    >
         ←
     </a>
 
 </header>
 
 
+
 <main class="community-page">
+
+
+    <!-- COMMUNITY HEADER -->
 
     <section class="community-header">
 
@@ -40,13 +72,16 @@
             👥 LEHULA COMMUNITY
         </div>
 
-        <h1>TRADING COMMUNITY.</h1>
+        <h1>
+            TRADING COMMUNITY.
+        </h1>
 
         <p>
             Connect with traders, share ideas and learn together.
         </p>
 
     </section>
+
 
 
     <!-- CREATE POST -->
@@ -57,11 +92,13 @@
             CREATE A POST
         </div>
 
+
         <textarea
             id="post-content"
             maxlength="1000"
             placeholder="What's happening in the markets?"
         ></textarea>
+
 
         <div class="community-create-bottom">
 
@@ -69,15 +106,18 @@
                 0 / 1000
             </span>
 
+
             <button id="post-button">
                 POST
             </button>
 
         </div>
 
+
         <div id="post-message"></div>
 
     </section>
+
 
 
     <!-- FEED -->
@@ -87,6 +127,7 @@
         <div class="community-section-title">
             LATEST DISCUSSIONS
         </div>
+
 
         <div id="community-feed">
 
@@ -98,7 +139,9 @@
 
     </section>
 
+
 </main>
+
 
 
 <script src="Script.js"></script>
@@ -106,28 +149,48 @@
 
 <script>
 
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
 const postContent =
-    document.getElementById("post-content");
+    document.getElementById(
+        "post-content"
+    );
+
 
 const characterCount =
-    document.getElementById("character-count");
+    document.getElementById(
+        "character-count"
+    );
+
 
 const postButton =
-    document.getElementById("post-button");
+    document.getElementById(
+        "post-button"
+    );
+
 
 const postMessage =
-    document.getElementById("post-message");
+    document.getElementById(
+        "post-message"
+    );
+
 
 const communityFeed =
-    document.getElementById("community-feed");
+    document.getElementById(
+        "community-feed"
+    );
 
 
 let currentUser = null;
 
 
-/* ================================
+
+/* =========================================================
    ESCAPE HTML
-================================ */
+========================================================= */
 
 function escapeHTML(value) {
 
@@ -139,27 +202,32 @@ function escapeHTML(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
 
-/* ================================
-   TIME FORMAT
-================================ */
+
+/* =========================================================
+   TIME
+========================================================= */
 
 function formatTime(dateString) {
 
-    const date = new Date(dateString);
+    const date =
+        new Date(dateString);
 
     return date.toLocaleString([], {
         dateStyle: "medium",
         timeStyle: "short"
     });
+
 }
 
 
-/* ================================
-   LOAD USER
-================================ */
+
+/* =========================================================
+   CURRENT USER
+========================================================= */
 
 async function loadCurrentUser() {
 
@@ -169,7 +237,10 @@ async function loadCurrentUser() {
         },
         error
     } =
-        await supabaseClient.auth.getUser();
+        await supabaseClient
+            .auth
+            .getUser();
+
 
     if (error || !user) {
 
@@ -180,16 +251,19 @@ async function loadCurrentUser() {
 
     }
 
+
     currentUser = user;
 
 }
 
 
-/* ================================
+
+/* =========================================================
    LOAD POSTS
-================================ */
+========================================================= */
 
 async function loadPosts() {
+
 
     communityFeed.innerHTML = `
         <div class="community-loading">
@@ -258,184 +332,537 @@ async function loadPosts() {
 
     for (const post of data) {
 
-        const profile =
-            post.profiles || {};
-
-
-        let avatarHTML = "";
-
-
-        if (profile.avatar_url) {
-
-            avatarHTML = `
-                <img
-                    src="${escapeHTML(profile.avatar_url)}"
-                    alt="Profile"
-                >
-            `;
-
-        }
-
-        else if (profile.avatar_emoji) {
-
-            avatarHTML =
-                escapeHTML(
-                    profile.avatar_emoji
-                );
-
-        }
-
-        else {
-
-            avatarHTML = "👤";
-
-        }
-
-
-        const fullName =
-            profile.full_name ||
-            profile.username ||
-            "Trader";
-
-
-        const username =
-            profile.username ||
-            "";
-
-
-        const postElement =
-            document.createElement("article");
-
-
-        postElement.className =
-            "community-post";
-
-
-        postElement.innerHTML = `
-
-            <div class="community-post-header">
-
-                <div class="community-avatar">
-
-                    ${avatarHTML}
-
-                </div>
-
-
-                <div class="community-user">
-
-                    <div class="community-name">
-
-                        ${escapeHTML(fullName)}
-
-                    </div>
-
-                    <div class="community-username">
-
-                        ${username
-                            ? "@" + escapeHTML(username)
-                            : ""
-                        }
-
-                    </div>
-
-                    <div class="community-time">
-
-                        ${formatTime(post.created_at)}
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="community-post-content">
-
-                ${escapeHTML(post.content)
-                    .replace(/\n/g, "<br>")
-                }
-
-            </div>
-
-
-            <div class="community-post-actions">
-
-                <button
-                    class="post-action comment-toggle"
-                    data-post-id="${post.id}"
-                >
-                    💬 Comment
-                </button>
-
-            </div>
-
-
-            <div
-                class="comments-area"
-                id="comments-${post.id}"
-            >
-
-                <div class="comments-loading">
-                    Loading comments...
-                </div>
-
-            </div>
-
-        `;
-
-
-        communityFeed.appendChild(
-            postElement
-        );
-
-
-        await loadComments(
-            post.id
-        );
-
-
-        const commentButton =
-            postElement.querySelector(
-                ".comment-toggle"
-            );
-
-
-        commentButton.addEventListener(
-            "click",
-            () => {
-
-                const commentsArea =
-                    document.getElementById(
-                        `comments-${post.id}`
-                    );
-
-
-                const input =
-                    commentsArea.querySelector(
-                        ".comment-input"
-                    );
-
-
-                if (input) {
-
-                    input.focus();
-
-                }
-
-            }
-        );
+        await createPostCard(post);
 
     }
 
 }
 
 
-/* ================================
-   LOAD COMMENTS
-================================ */
 
-async function loadComments(postId) {
+/* =========================================================
+   CREATE POST CARD
+========================================================= */
+
+async function createPostCard(post) {
+
+
+    const profile =
+        post.profiles || {};
+
+
+    let avatarHTML = "";
+
+
+    if (profile.avatar_url) {
+
+        avatarHTML = `
+            <img
+                src="${escapeHTML(
+                    profile.avatar_url
+                )}"
+                alt="Profile"
+            >
+        `;
+
+    }
+
+    else if (profile.avatar_emoji) {
+
+        avatarHTML =
+            escapeHTML(
+                profile.avatar_emoji
+            );
+
+    }
+
+    else {
+
+        avatarHTML = "👤";
+
+    }
+
+
+    const fullName =
+        profile.full_name ||
+        profile.username ||
+        "Trader";
+
+
+    const username =
+        profile.username ||
+        "";
+
+
+
+    /* =========================
+       GET LIKE DATA
+    ========================= */
+
+    const {
+        data: likes,
+        error: likesError
+    } =
+        await supabaseClient
+            .from("community_likes")
+            .select("user_id")
+            .eq(
+                "post_id",
+                post.id
+            );
+
+
+    if (likesError) {
+
+        console.error(likesError);
+
+    }
+
+
+    const likeList =
+        likes || [];
+
+
+    const likeCount =
+        likeList.length;
+
+
+    const userLiked =
+        likeList.some(
+            like =>
+                like.user_id ===
+                currentUser.id
+        );
+
+
+
+    /* =========================
+       POST ELEMENT
+    ========================= */
+
+    const postElement =
+        document.createElement(
+            "article"
+        );
+
+
+    postElement.className =
+        "community-post";
+
+
+    postElement.innerHTML = `
+
+
+        <!-- POST HEADER -->
+
+        <div class="community-post-header">
+
+
+            <div class="community-avatar">
+
+                ${avatarHTML}
+
+            </div>
+
+
+            <div class="community-user">
+
+                <div class="community-name">
+
+                    ${escapeHTML(fullName)}
+
+                </div>
+
+
+                <div class="community-username">
+
+                    ${
+                        username
+                        ? "@" +
+                          escapeHTML(username)
+                        : ""
+                    }
+
+                </div>
+
+
+                <div class="community-time">
+
+                    ${formatTime(
+                        post.created_at
+                    )}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- POST CONTENT -->
+
+        <div class="community-post-content">
+
+            ${escapeHTML(
+                post.content
+            ).replace(
+                /\n/g,
+                "<br>"
+            )}
+
+        </div>
+
+
+
+        <!-- POST ACTIONS -->
+
+        <div class="community-post-actions">
+
+
+            <button
+                class="post-action like-button ${
+                    userLiked
+                    ? "liked"
+                    : ""
+                }"
+                data-post-id="${post.id}"
+            >
+
+                <span class="like-icon">
+                    ${
+                        userLiked
+                        ? "❤️"
+                        : "♡"
+                    }
+                </span>
+
+                <span class="like-text">
+                    Like
+                </span>
+
+                <span class="like-count">
+                    ${likeCount}
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="post-action comment-toggle"
+                data-post-id="${post.id}"
+            >
+
+                💬 Comment
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- COMMENTS -->
+
+        <div
+            class="comments-area"
+            id="comments-${post.id}"
+        >
+
+            <div class="comments-loading">
+                Loading comments...
+            </div>
+
+        </div>
+
+
+    `;
+
+
+    communityFeed.appendChild(
+        postElement
+    );
+
+
+
+    /* =========================
+       LOAD COMMENTS
+    ========================= */
+
+    await loadComments(
+        post.id
+    );
+
+
+
+    /* =========================
+       LIKE BUTTON
+    ========================= */
+
+    const likeButton =
+        postElement.querySelector(
+            ".like-button"
+        );
+
+
+    likeButton.addEventListener(
+        "click",
+        () => {
+
+            toggleLike(
+                post.id,
+                likeButton
+            );
+
+        }
+    );
+
+
+
+    /* =========================
+       COMMENT BUTTON
+    ========================= */
+
+    const commentButton =
+        postElement.querySelector(
+            ".comment-toggle"
+        );
+
+
+    commentButton.addEventListener(
+        "click",
+        () => {
+
+            const commentsArea =
+                document.getElementById(
+                    `comments-${post.id}`
+                );
+
+
+            const input =
+                commentsArea.querySelector(
+                    ".comment-input"
+                );
+
+
+            if (input) {
+
+                input.focus();
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   LIKE / UNLIKE
+========================================================= */
+
+async function toggleLike(
+    postId,
+    button
+) {
+
+
+    button.disabled = true;
+
+
+    const {
+        data: existingLike,
+        error: checkError
+    } =
+        await supabaseClient
+            .from("community_likes")
+            .select("id")
+            .eq(
+                "post_id",
+                postId
+            )
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .maybeSingle();
+
+
+    if (checkError) {
+
+        console.error(
+            checkError
+        );
+
+        button.disabled = false;
+
+        return;
+
+    }
+
+
+
+    /* =========================
+       REMOVE LIKE
+    ========================= */
+
+    if (existingLike) {
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "community_likes"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    existingLike.id
+                );
+
+
+        if (error) {
+
+            console.error(error);
+
+            button.disabled = false;
+
+            return;
+
+        }
+
+    }
+
+
+
+    /* =========================
+       ADD LIKE
+    ========================= */
+
+    else {
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "community_likes"
+                )
+                .insert({
+
+                    post_id:
+                        postId,
+
+                    user_id:
+                        currentUser.id
+
+                });
+
+
+        if (error) {
+
+            console.error(error);
+
+            button.disabled = false;
+
+            return;
+
+        }
+
+    }
+
+
+
+    /* =========================
+       UPDATE COUNT
+    ========================= */
+
+    const {
+        count,
+        error: countError
+    } =
+        await supabaseClient
+            .from("community_likes")
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true
+                }
+            )
+            .eq(
+                "post_id",
+                postId
+            );
+
+
+    if (!countError) {
+
+        const countElement =
+            button.querySelector(
+                ".like-count"
+            );
+
+
+        countElement.textContent =
+            count || 0;
+
+    }
+
+
+
+    /* =========================
+       UPDATE BUTTON
+    ========================= */
+
+    const icon =
+        button.querySelector(
+            ".like-icon"
+        );
+
+
+    if (existingLike) {
+
+        button.classList.remove(
+            "liked"
+        );
+
+        icon.textContent =
+            "♡";
+
+    }
+
+    else {
+
+        button.classList.add(
+            "liked"
+        );
+
+        icon.textContent =
+            "❤️";
+
+    }
+
+
+    button.disabled = false;
+
+}
+
+
+
+/* =========================================================
+   LOAD COMMENTS
+========================================================= */
+
+async function loadComments(
+    postId
+) {
+
 
     const commentsArea =
         document.getElementById(
@@ -448,7 +875,9 @@ async function loadComments(postId) {
         error
     } =
         await supabaseClient
-            .from("community_comments")
+            .from(
+                "community_comments"
+            )
             .select(`
                 id,
                 content,
@@ -491,7 +920,10 @@ async function loadComments(postId) {
     let commentsHTML = "";
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         commentsHTML = `
             <div class="no-comments">
@@ -504,95 +936,116 @@ async function loadComments(postId) {
     else {
 
         commentsHTML =
-            data.map(comment => {
-
-                const profile =
-                    comment.profiles || {};
+            data.map(
+                comment => {
 
 
-                let avatarHTML = "";
+                    const profile =
+                        comment.profiles ||
+                        {};
 
 
-                if (profile.avatar_url) {
+                    let avatarHTML =
+                        "";
 
-                    avatarHTML = `
-                        <img
-                            src="${escapeHTML(profile.avatar_url)}"
-                            alt="Profile"
-                        >
+
+                    if (
+                        profile.avatar_url
+                    ) {
+
+                        avatarHTML = `
+                            <img
+                                src="${escapeHTML(
+                                    profile.avatar_url
+                                )}"
+                                alt="Profile"
+                            >
+                        `;
+
+                    }
+
+                    else if (
+                        profile.avatar_emoji
+                    ) {
+
+                        avatarHTML =
+                            escapeHTML(
+                                profile.avatar_emoji
+                            );
+
+                    }
+
+                    else {
+
+                        avatarHTML =
+                            "👤";
+
+                    }
+
+
+                    const name =
+                        profile.full_name ||
+                        profile.username ||
+                        "Trader";
+
+
+                    return `
+
+                        <div class="community-comment">
+
+
+                            <div class="comment-avatar">
+
+                                ${avatarHTML}
+
+                            </div>
+
+
+                            <div class="comment-body">
+
+
+                                <div class="comment-user">
+
+                                    ${escapeHTML(
+                                        name
+                                    )}
+
+                                </div>
+
+
+                                <div class="comment-text">
+
+                                    ${escapeHTML(
+                                        comment.content
+                                    ).replace(
+                                        /\n/g,
+                                        "<br>"
+                                    )}
+
+                                </div>
+
+
+                                <div class="comment-time">
+
+                                    ${formatTime(
+                                        comment.created_at
+                                    )}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
                     `;
 
                 }
-
-                else if (profile.avatar_emoji) {
-
-                    avatarHTML =
-                        escapeHTML(
-                            profile.avatar_emoji
-                        );
-
-                }
-
-                else {
-
-                    avatarHTML = "👤";
-
-                }
-
-
-                const name =
-                    profile.full_name ||
-                    profile.username ||
-                    "Trader";
-
-
-                return `
-
-                    <div class="community-comment">
-
-                        <div class="comment-avatar">
-
-                            ${avatarHTML}
-
-                        </div>
-
-
-                        <div class="comment-body">
-
-                            <div class="comment-user">
-
-                                ${escapeHTML(name)}
-
-                            </div>
-
-                            <div class="comment-text">
-
-                                ${escapeHTML(
-                                    comment.content
-                                ).replace(
-                                    /\n/g,
-                                    "<br>"
-                                )}
-
-                            </div>
-
-                            <div class="comment-time">
-
-                                ${formatTime(
-                                    comment.created_at
-                                )}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }).join("");
+            ).join("");
 
     }
+
 
 
     commentsArea.innerHTML = `
@@ -606,12 +1059,14 @@ async function loadComments(postId) {
 
         <div class="comment-form">
 
+
             <input
                 type="text"
                 class="comment-input"
                 placeholder="Write a comment..."
                 maxlength="500"
             >
+
 
             <button
                 class="comment-submit"
@@ -620,9 +1075,11 @@ async function loadComments(postId) {
                 SEND
             </button>
 
+
         </div>
 
     `;
+
 
 
     const submitButton =
@@ -673,14 +1130,16 @@ async function loadComments(postId) {
 }
 
 
-/* ================================
+
+/* =========================================================
    ADD COMMENT
-================================ */
+========================================================= */
 
 async function addComment(
     postId,
     input
 ) {
+
 
     const content =
         input.value.trim();
@@ -739,9 +1198,10 @@ async function addComment(
 }
 
 
-/* ================================
+
+/* =========================================================
    CREATE POST
-================================ */
+========================================================= */
 
 postContent.addEventListener(
     "input",
@@ -758,6 +1218,7 @@ postButton.addEventListener(
     "click",
     async () => {
 
+
         const content =
             postContent.value.trim();
 
@@ -772,7 +1233,9 @@ postButton.addEventListener(
         }
 
 
-        postButton.disabled = true;
+        postButton.disabled =
+            true;
+
 
         postButton.textContent =
             "POSTING...";
@@ -782,7 +1245,9 @@ postButton.addEventListener(
             error
         } =
             await supabaseClient
-                .from("community_posts")
+                .from(
+                    "community_posts"
+                )
                 .insert({
 
                     user_id:
@@ -834,15 +1299,22 @@ postButton.addEventListener(
 );
 
 
-/* ================================
-   START COMMUNITY
-================================ */
+
+/* =========================================================
+   START
+========================================================= */
 
 async function startCommunity() {
 
     await loadCurrentUser();
 
-    if (!currentUser) return;
+
+    if (!currentUser) {
+
+        return;
+
+    }
+
 
     await loadPosts();
 
@@ -851,7 +1323,9 @@ async function startCommunity() {
 
 startCommunity();
 
+
 </script>
+
 
 </body>
 
