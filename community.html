@@ -603,18 +603,30 @@ async function createPostCard(post) {
             <div class="community-user">
 
                 <div class="community-name">
-                    ${escapeHTML(fullName)}
-                </div>
+    <a
+        href="profile.html?id=${post.user_id}"
+        class="community-profile-link"
+    >
+        ${escapeHTML(fullName)}
+    </a>
+</div>
 
                 <div class="community-username">
 
-                    ${
-                        username
-                        ? "@" + escapeHTML(username)
-                        : ""
-                    }
+    ${
+        username
+        ? `
+            <a
+                href="profile.html?id=${post.user_id}"
+                class="community-profile-link"
+            >
+                @${escapeHTML(username)}
+            </a>
+        `
+        : ""
+    }
 
-                </div>
+</div>
 
                 <div class="community-time">
                     ${formatTime(post.created_at)}
