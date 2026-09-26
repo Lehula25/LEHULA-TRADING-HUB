@@ -666,7 +666,7 @@ async function checkUser() {
         error: profileError
     } = await supabaseClient
         .from("profiles")
-        .select("username, full_name, role")
+        .select("username, full_name, role, avatar_url, avatar_emoji")
         .eq("id", user.id)
         .single();
 
@@ -711,12 +711,29 @@ async function checkUser() {
        PROFILE AVATAR
     */
 
-    document.getElementById(
-        "profile-avatar"
-    ).textContent =
-        name
-            .charAt(0)
-            .toUpperCase();
+    const profileAvatar =
+    document.getElementById("profile-avatar");
+
+if (data.avatar_url) {
+
+    profileAvatar.innerHTML = `
+        <img
+            src="${data.avatar_url}"
+            alt="Profile picture"
+        >
+    `;
+
+} else if (data.avatar_emoji) {
+
+    profileAvatar.textContent =
+        data.avatar_emoji;
+
+} else {
+
+    profileAvatar.textContent =
+        name.charAt(0).toUpperCase();
+
+}
 
 
 
@@ -801,6 +818,195 @@ document.addEventListener(
     checkUser
 );
 
+/* =====================================================
+   PROFILE AVATAR SYSTEM
+   ===================================================== */
+
+let currentUser = null;
+let selectedEmoji = null;
+let selectedImageFile = null;
+
+
+/* =====================================================
+   OPEN AVATAR MODAL
+   ===================================================== */
+
+document
+    .getElementById("change-avatar-button")
+    .addEventListener("click", function () {
+
+        document
+            .getElementById("avatar-modal")
+            .classList.add("active");
+
+    });
+
+
+/* =====================================================
+   CLOSE AVATAR MODAL
+   ===================================================== */
+
+document
+    .getElementById("close-avatar-modal")
+    .addEventListener("click", function () {
+
+        document
+            .getElementById("avatar-modal")
+            .classList.remove("active");
+
+    });
+
+
+/* =====================================================
+   CLOSE WHEN CLICKING OUTSIDE
+   ===================================================== */
+
+document
+    .getElementById("avatar-modal")
+    .addEventListener("click", function (event) {
+
+        if (
+            event.target ===
+            document.getElementById("avatar-modal")
+        ) {
+
+            document
+                .getElementById("avatar-modal")
+                .classList.remove("active");
+
+        }
+
+    });
+
+
+/* =====================================================
+   EMOJI SELECTION
+   ===================================================== */
+
+document
+    .querySelectorAll(".emoji-option")
+    .forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                selectedEmoji =
+                    button.textContent;
+
+                selectedImageFile = null;
+
+
+                document
+                    .querySelectorAll(".emoji-option")
+                    .forEach(function (item) {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                button.classList.add(
+                    "selected"
+                );
+
+
+                document
+                    .getElementById(
+                        "avatar-preview"
+                    )
+                    .textContent =
+                    selectedEmoji;
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   PHOTO SELECTION
+   ===================================================== */
+
+document
+    .getElementById("avatar-upload")
+    .addEventListener(
+        "change",
+        function (event) {
+
+            const file =
+                event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            if (!file.type.startsWith("image/")) {
+
+                alert(
+                    "Please select an image file."
+                );
+
+                return;
+
+            }
+
+
+            if (file.size > 5 * 1024 * 1024) {
+
+                alert(
+                    "Please choose an image smaller than 5MB."
+                );
+
+                return;
+
+            }
+
+
+            selectedImageFile = file;
+
+            selectedEmoji = null;
+
+
+            document
+                .querySelectorAll(".emoji-option")
+                .forEach(function (item) {
+
+                    item.classList.remove(
+                        "selected"
+                    );
+
+                });
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload = function (e) {
+
+                document
+                    .getElementById(
+                        "avatar-preview"
+                    )
+                    .innerHTML = `
+                        <img
+                            src="${e.target.result}"
+                            alt="Avatar preview"
+                        >
+                    `;
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+    
 </script>
 
 
