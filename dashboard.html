@@ -91,191 +91,34 @@
         </p>
 
 
-        <!-- PROFILE -->
+
+        <!-- =================================================
+             PROFILE
+             ================================================= -->
 
         <div class="profile-card">
 
-    <div class="profile-avatar-wrapper">
 
-        <div
-            class="profile-avatar"
-            id="profile-avatar"
-        >
-            👤
-        </div>
+            <div class="profile-avatar-wrapper">
 
-        <button
-            id="change-avatar-button"
-            class="change-avatar-button"
-            type="button"
-        >
-            CHANGE
-        </button>
-
-    </div>
+                <div
+                    class="profile-avatar"
+                    id="profile-avatar"
+                >
+                    👤
+                </div>
 
 
-    <div class="profile-info">
-
-        <p class="profile-label">
-            MY PROFILE
-        </p>
-
-        <h2>
-            Welcome back,
-            <span id="user-name">
-                Loading name...
-            </span>
-            👋
-        </h2>
-
-        <div class="profile-details">
-
-            <div class="profile-detail">
-
-                <span>
-                    USERNAME
-                </span>
-
-                <strong id="user-username">
-                    Loading username...
-                </strong>
+                <button
+                    id="change-avatar-button"
+                    class="change-avatar-button"
+                    type="button"
+                >
+                    CHANGE
+                </button>
 
             </div>
 
-
-            <div class="profile-detail">
-
-                <span>
-                    EMAIL
-                </span>
-
-                <strong id="user-email">
-                    Loading email...
-                </strong>
-
-            </div>
-
-
-            <div class="profile-detail">
-
-                <span>
-                    ROLE
-                </span>
-
-                <strong id="user-role">
-                    Loading role...
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <button
-        id="logout-button"
-        class="logout-button"
-        type="button"
-    >
-        LOGOUT
-    </button>
-
-</div>
-
-
-<!-- =====================================================
-     AVATAR MODAL
-     ===================================================== -->
-
-<div
-    id="avatar-modal"
-    class="avatar-modal"
->
-
-    <div class="avatar-modal-content">
-
-        <button
-            id="close-avatar-modal"
-            class="close-avatar-modal"
-            type="button"
-        >
-            ×
-        </button>
-
-
-        <p class="profile-label">
-            PROFILE AVATAR
-        </p>
-
-        <h3>
-            Choose Your Avatar
-        </h3>
-
-
-        <div
-            id="avatar-preview"
-            class="avatar-preview"
-        >
-            👤
-        </div>
-
-
-        <label
-            for="avatar-upload"
-            class="avatar-upload-button"
-        >
-            📷 UPLOAD PHOTO
-        </label>
-
-        <input
-            type="file"
-            id="avatar-upload"
-            accept="image/*"
-            hidden
-        >
-
-
-        <div class="avatar-divider">
-            OR
-        </div>
-
-
-        <p class="emoji-title">
-            CHOOSE EMOJI
-        </p>
-
-
-        <div class="emoji-grid">
-
-            <button type="button" class="emoji-option">😀</button>
-            <button type="button" class="emoji-option">😎</button>
-            <button type="button" class="emoji-option">🦁</button>
-            <button type="button" class="emoji-option">🐺</button>
-            <button type="button" class="emoji-option">🐼</button>
-            <button type="button" class="emoji-option">🦊</button>
-            <button type="button" class="emoji-option">🐯</button>
-            <button type="button" class="emoji-option">🐸</button>
-            <button type="button" class="emoji-option">🐵</button>
-            <button type="button" class="emoji-option">🐲</button>
-            <button type="button" class="emoji-option">👽</button>
-            <button type="button" class="emoji-option">🤖</button>
-
-        </div>
-
-
-        <button
-            id="save-avatar-button"
-            class="save-avatar-button"
-            type="button"
-        >
-            SAVE AVATAR
-        </button>
-
-    </div>
-
-</div>
 
 
             <div class="profile-info">
@@ -288,6 +131,7 @@
                 <h2>
 
                     Welcome back,
+
                     <span id="user-name">
                         Loading name...
                     </span>
@@ -295,6 +139,7 @@
                     👋
 
                 </h2>
+
 
 
                 <div class="profile-details">
@@ -313,6 +158,7 @@
                     </div>
 
 
+
                     <div class="profile-detail">
 
                         <span>
@@ -324,6 +170,7 @@
                         </strong>
 
                     </div>
+
 
 
                     <div class="profile-detail">
@@ -344,6 +191,7 @@
             </div>
 
 
+
             <button
                 id="logout-button"
                 class="logout-button"
@@ -354,6 +202,182 @@
 
 
         </div>
+
+
+
+        <!-- =================================================
+             AVATAR MODAL
+             ================================================= -->
+
+        <div
+            id="avatar-modal"
+            class="avatar-modal"
+        >
+
+            <div class="avatar-modal-content">
+
+
+                <button
+                    id="close-avatar-modal"
+                    class="close-avatar-modal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+
+                <p class="profile-label">
+                    PROFILE AVATAR
+                </p>
+
+
+                <h3>
+                    Choose Your Avatar
+                </h3>
+
+
+
+                <div
+                    id="avatar-preview"
+                    class="avatar-preview"
+                >
+                    👤
+                </div>
+
+
+
+                <label
+                    for="avatar-upload"
+                    class="avatar-upload-button"
+                >
+                    📷 UPLOAD PHOTO
+                </label>
+
+
+                <input
+                    type="file"
+                    id="avatar-upload"
+                    accept="image/*"
+                    hidden
+                >
+
+
+
+                <div class="avatar-divider">
+                    OR
+                </div>
+
+
+
+                <p class="emoji-title">
+                    CHOOSE EMOJI
+                </p>
+
+
+
+                <div class="emoji-grid">
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        😀
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        😎
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🦁
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🐺
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🐼
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🦊
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🐯
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🐸
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🐵
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🐲
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        👽
+                    </button>
+
+                    <button
+                        type="button"
+                        class="emoji-option"
+                    >
+                        🤖
+                    </button>
+
+                </div>
+
+
+
+                <button
+                    id="save-avatar-button"
+                    class="save-avatar-button"
+                    type="button"
+                >
+                    SAVE AVATAR
+                </button>
+
+
+            </div>
+
+        </div>
+
 
     </section>
 
@@ -626,49 +650,71 @@
 
 
 <!-- =====================================================
-     DASHBOARD AUTH
+     DASHBOARD JAVASCRIPT
      ===================================================== -->
 
 <script>
 
+
+/* =====================================================
+   AVATAR VARIABLES
+   ===================================================== */
+
+let selectedEmoji = null;
+
+let selectedImageFile = null;
+
+
+
+/* =====================================================
+   CHECK USER
+   ===================================================== */
+
 async function checkUser() {
 
     const {
-        data: { user },
+        data: {
+            user
+        },
         error
     } = await supabaseClient.auth.getUser();
 
 
     if (error || !user) {
 
-        window.location.href = "login.html";
+        window.location.href =
+            "login.html";
 
         return;
 
     }
 
 
-    /*
-       EMAIL
-    */
+    /* EMAIL */
 
-    document.getElementById("user-email").textContent =
+    document.getElementById(
+        "user-email"
+    ).textContent =
         user.email;
 
 
 
-    /*
-       LOAD PROFILE
-    */
+    /* LOAD PROFILE */
 
     const {
         data,
         error: profileError
     } = await supabaseClient
         .from("profiles")
-        .select("username, full_name, role, avatar_url, avatar_emoji")
-        .eq("id", user.id)
+        .select(
+            "username, full_name, role, avatar_url, avatar_emoji"
+        )
+        .eq(
+            "id",
+            user.id
+        )
         .single();
+
 
 
     if (profileError) {
@@ -695,11 +741,13 @@ async function checkUser() {
         ).textContent =
             "User";
 
-
         return;
 
     }
 
+
+
+    /* NAME */
 
     const name =
         data.full_name ||
@@ -707,39 +755,45 @@ async function checkUser() {
         "User";
 
 
-    /*
-       PROFILE AVATAR
-    */
+
+    /* AVATAR */
 
     const profileAvatar =
-    document.getElementById("profile-avatar");
-
-if (data.avatar_url) {
-
-    profileAvatar.innerHTML = `
-        <img
-            src="${data.avatar_url}"
-            alt="Profile picture"
-        >
-    `;
-
-} else if (data.avatar_emoji) {
-
-    profileAvatar.textContent =
-        data.avatar_emoji;
-
-} else {
-
-    profileAvatar.textContent =
-        name.charAt(0).toUpperCase();
-
-}
+        document.getElementById(
+            "profile-avatar"
+        );
 
 
+    if (data.avatar_url) {
 
-    /*
-       FULL NAME
-    */
+        profileAvatar.innerHTML = `
+            <img
+                src="${data.avatar_url}"
+                alt="Profile picture"
+            >
+        `;
+
+    }
+
+    else if (data.avatar_emoji) {
+
+        profileAvatar.textContent =
+            data.avatar_emoji;
+
+    }
+
+    else {
+
+        profileAvatar.textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+
+    /* FULL NAME */
 
     document.getElementById(
         "user-name"
@@ -748,26 +802,26 @@ if (data.avatar_url) {
 
 
 
-    /*
-       USERNAME
-    */
+    /* USERNAME */
 
     document.getElementById(
         "user-username"
     ).textContent =
         "@" +
-        (data.username || "Not set");
+        (
+            data.username ||
+            "Not set"
+        );
 
 
 
-    /*
-       ROLE
-    */
+    /* ROLE */
 
     document.getElementById(
         "user-role"
     ).textContent =
-        data.role || "User";
+        data.role ||
+        "User";
 
 }
 
@@ -787,7 +841,9 @@ async function logoutUser() {
 
     if (error) {
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -802,44 +858,28 @@ async function logoutUser() {
 
 
 /* =====================================================
-   EVENTS
-   ===================================================== */
-
-document
-    .getElementById("logout-button")
-    .addEventListener(
-        "click",
-        logoutUser
-    );
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    checkUser
-);
-
-/* =====================================================
-   PROFILE AVATAR SYSTEM
-   ===================================================== */
-
-let currentUser = null;
-let selectedEmoji = null;
-let selectedImageFile = null;
-
-
-/* =====================================================
    OPEN AVATAR MODAL
    ===================================================== */
 
 document
-    .getElementById("change-avatar-button")
-    .addEventListener("click", function () {
+    .getElementById(
+        "change-avatar-button"
+    )
+    .addEventListener(
+        "click",
+        function () {
 
-        document
-            .getElementById("avatar-modal")
-            .classList.add("active");
+            document
+                .getElementById(
+                    "avatar-modal"
+                )
+                .classList.add(
+                    "active"
+                );
 
-    });
+        }
+    );
+
 
 
 /* =====================================================
@@ -847,36 +887,58 @@ document
    ===================================================== */
 
 document
-    .getElementById("close-avatar-modal")
-    .addEventListener("click", function () {
+    .getElementById(
+        "close-avatar-modal"
+    )
+    .addEventListener(
+        "click",
+        function () {
 
-        document
-            .getElementById("avatar-modal")
-            .classList.remove("active");
+            document
+                .getElementById(
+                    "avatar-modal"
+                )
+                .classList.remove(
+                    "active"
+                );
 
-    });
+        }
+    );
+
 
 
 /* =====================================================
-   CLOSE WHEN CLICKING OUTSIDE
+   CLOSE MODAL OUTSIDE
    ===================================================== */
 
 document
-    .getElementById("avatar-modal")
-    .addEventListener("click", function (event) {
+    .getElementById(
+        "avatar-modal"
+    )
+    .addEventListener(
+        "click",
+        function (event) {
 
-        if (
-            event.target ===
-            document.getElementById("avatar-modal")
-        ) {
+            if (
+                event.target ===
+                document.getElementById(
+                    "avatar-modal"
+                )
+            ) {
 
-            document
-                .getElementById("avatar-modal")
-                .classList.remove("active");
+                document
+                    .getElementById(
+                        "avatar-modal"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+            }
 
         }
+    );
 
-    });
 
 
 /* =====================================================
@@ -884,46 +946,56 @@ document
    ===================================================== */
 
 document
-    .querySelectorAll(".emoji-option")
-    .forEach(function (button) {
+    .querySelectorAll(
+        ".emoji-option"
+    )
+    .forEach(
+        function (button) {
 
-        button.addEventListener(
-            "click",
-            function () {
+            button.addEventListener(
+                "click",
+                function () {
 
-                selectedEmoji =
-                    button.textContent;
+                    selectedEmoji =
+                        button.textContent.trim();
 
-                selectedImageFile = null;
+                    selectedImageFile =
+                        null;
 
 
-                document
-                    .querySelectorAll(".emoji-option")
-                    .forEach(function (item) {
+                    document
+                        .querySelectorAll(
+                            ".emoji-option"
+                        )
+                        .forEach(
+                            function (item) {
 
-                        item.classList.remove(
-                            "selected"
+                                item.classList.remove(
+                                    "selected"
+                                );
+
+                            }
                         );
 
-                    });
+
+                    button.classList.add(
+                        "selected"
+                    );
 
 
-                button.classList.add(
-                    "selected"
-                );
+                    document
+                        .getElementById(
+                            "avatar-preview"
+                        )
+                        .textContent =
+                        selectedEmoji;
 
+                }
+            );
 
-                document
-                    .getElementById(
-                        "avatar-preview"
-                    )
-                    .textContent =
-                    selectedEmoji;
+        }
+    );
 
-            }
-        );
-
-    });
 
 
 /* =====================================================
@@ -931,7 +1003,9 @@ document
    ===================================================== */
 
 document
-    .getElementById("avatar-upload")
+    .getElementById(
+        "avatar-upload"
+    )
     .addEventListener(
         "change",
         function (event) {
@@ -939,12 +1013,20 @@ document
             const file =
                 event.target.files[0];
 
+
             if (!file) {
+
                 return;
+
             }
 
 
-            if (!file.type.startsWith("image/")) {
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
 
                 alert(
                     "Please select an image file."
@@ -955,7 +1037,11 @@ document
             }
 
 
-            if (file.size > 5 * 1024 * 1024) {
+
+            if (
+                file.size >
+                5 * 1024 * 1024
+            ) {
 
                 alert(
                     "Please choose an image smaller than 5MB."
@@ -966,243 +1052,386 @@ document
             }
 
 
-            selectedImageFile = file;
 
-            selectedEmoji = null;
+            selectedImageFile =
+                file;
+
+            selectedEmoji =
+                null;
+
 
 
             document
-                .querySelectorAll(".emoji-option")
-                .forEach(function (item) {
+                .querySelectorAll(
+                    ".emoji-option"
+                )
+                .forEach(
+                    function (item) {
 
-                    item.classList.remove(
-                        "selected"
-                    );
+                        item.classList.remove(
+                            "selected"
+                        );
 
-                });
+                    }
+                );
+
 
 
             const reader =
                 new FileReader();
 
 
-            reader.onload = function (e) {
 
-                document
-                    .getElementById(
-                        "avatar-preview"
-                    )
-                    .innerHTML = `
-                        <img
-                            src="${e.target.result}"
-                            alt="Avatar preview"
-                        >
-                    `;
+            reader.onload =
+                function (e) {
 
-            };
+                    document
+                        .getElementById(
+                            "avatar-preview"
+                        )
+                        .innerHTML = `
+                            <img
+                                src="${e.target.result}"
+                                alt="Avatar preview"
+                            >
+                        `;
+
+                };
 
 
-            reader.readAsDataURL(file);
 
-            /* =====================================================
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+
+
+/* =====================================================
    SAVE AVATAR
    ===================================================== */
 
 document
-    .getElementById("save-avatar-button")
-    .addEventListener("click", async function () {
+    .getElementById(
+        "save-avatar-button"
+    )
+    .addEventListener(
+        "click",
+        async function () {
 
-        const saveButton = this;
-
-        const {
-            data: {
-                user
-            },
-            error: userError
-        } = await supabaseClient.auth.getUser();
-
-        if (userError || !user) {
-
-            alert("Please log in again.");
-
-            return;
-        }
-
-        if (!selectedImageFile && !selectedEmoji) {
-
-            alert("Please choose a photo or emoji first.");
-
-            return;
-        }
-
-        saveButton.disabled = true;
-        saveButton.textContent = "SAVING...";
-
-        try {
-
-            let avatarUrl = null;
-            let avatarEmoji = null;
+            const saveButton =
+                this;
 
 
-            /* ================================
-               SAVE PHOTO
-               ================================ */
 
-            if (selectedImageFile) {
-
-                const extension =
-                    selectedImageFile.name
-                        .split(".")
-                        .pop()
-                        .toLowerCase();
-
-                const filePath =
-                    `${user.id}/${crypto.randomUUID()}.${extension}`;
+            const {
+                data: {
+                    user
+                },
+                error: userError
+            } =
+                await supabaseClient
+                    .auth
+                    .getUser();
 
 
-                const {
-                    error: uploadError
-                } = await supabaseClient
-                    .storage
-                    .from("profile-pictures")
-                    .upload(
-                        filePath,
-                        selectedImageFile,
-                        {
-                            cacheControl: "3600",
-                            upsert: false,
-                            contentType:
-                                selectedImageFile.type
-                        }
-                    );
+
+            if (
+                userError ||
+                !user
+            ) {
+
+                alert(
+                    "Please log in again."
+                );
+
+                return;
+
+            }
 
 
-                if (uploadError) {
 
-                    throw uploadError;
+            if (
+                !selectedImageFile &&
+                !selectedEmoji
+            ) {
+
+                alert(
+                    "Please choose a photo or emoji first."
+                );
+
+                return;
+
+            }
+
+
+
+            saveButton.disabled =
+                true;
+
+            saveButton.textContent =
+                "SAVING...";
+
+
+
+            try {
+
+                let avatarUrl =
+                    null;
+
+                let avatarEmoji =
+                    null;
+
+
+
+                /* ==========================================
+                   PHOTO
+                   ========================================== */
+
+                if (
+                    selectedImageFile
+                ) {
+
+                    const extension =
+                        selectedImageFile
+                            .name
+                            .split(".")
+                            .pop()
+                            .toLowerCase();
+
+
+
+                    const filePath =
+                        `${user.id}/${crypto.randomUUID()}.${extension}`;
+
+
+
+                    const {
+                        error: uploadError
+                    } =
+                        await supabaseClient
+                            .storage
+                            .from(
+                                "profile-pictures"
+                            )
+                            .upload(
+                                filePath,
+                                selectedImageFile,
+                                {
+                                    cacheControl:
+                                        "3600",
+
+                                    upsert:
+                                        false,
+
+                                    contentType:
+                                        selectedImageFile.type
+                                }
+                            );
+
+
+
+                    if (
+                        uploadError
+                    ) {
+
+                        throw uploadError;
+
+                    }
+
+
+
+                    const {
+                        data:
+                            publicData
+                    } =
+                        supabaseClient
+                            .storage
+                            .from(
+                                "profile-pictures"
+                            )
+                            .getPublicUrl(
+                                filePath
+                            );
+
+
+
+                    avatarUrl =
+                        publicData.publicUrl;
+
+                    avatarEmoji =
+                        null;
 
                 }
 
 
+
+                /* ==========================================
+                   EMOJI
+                   ========================================== */
+
+                else if (
+                    selectedEmoji
+                ) {
+
+                    avatarEmoji =
+                        selectedEmoji;
+
+                    avatarUrl =
+                        null;
+
+                }
+
+
+
+                /* ==========================================
+                   UPDATE PROFILE
+                   ========================================== */
+
                 const {
-                    data: publicData
-                } = supabaseClient
-                    .storage
-                    .from("profile-pictures")
-                    .getPublicUrl(filePath);
+                    error: updateError
+                } =
+                    await supabaseClient
+                        .from("profiles")
+                        .update({
+
+                            avatar_url:
+                                avatarUrl,
+
+                            avatar_emoji:
+                                avatarEmoji
+
+                        })
+                        .eq(
+                            "id",
+                            user.id
+                        );
 
 
-                avatarUrl =
-                    publicData.publicUrl;
 
-                avatarEmoji = null;
+                if (
+                    updateError
+                ) {
 
-            }
+                    throw updateError;
 
-
-            /* ================================
-               SAVE EMOJI
-               ================================ */
-
-            else if (selectedEmoji) {
-
-                avatarEmoji =
-                    selectedEmoji;
-
-                avatarUrl = null;
-
-            }
+                }
 
 
-            /* ================================
-               UPDATE PROFILE
-               ================================ */
 
-            const {
-                error: updateError
-            } = await supabaseClient
-                .from("profiles")
-                .update({
-                    avatar_url: avatarUrl,
-                    avatar_emoji: avatarEmoji
-                })
-                .eq("id", user.id);
+                /* ==========================================
+                   UPDATE AVATAR ON SCREEN
+                   ========================================== */
+
+                const profileAvatar =
+                    document.getElementById(
+                        "profile-avatar"
+                    );
 
 
-            if (updateError) {
 
-                throw updateError;
+                if (
+                    avatarUrl
+                ) {
 
-            }
+                    profileAvatar.innerHTML = `
+                        <img
+                            src="${avatarUrl}"
+                            alt="Profile picture"
+                        >
+                    `;
+
+                }
+
+                else {
+
+                    profileAvatar.textContent =
+                        avatarEmoji;
+
+                }
 
 
-            /* ================================
-               UPDATE DASHBOARD AVATAR
-               ================================ */
 
-            const profileAvatar =
-                document.getElementById(
-                    "profile-avatar"
+                /* ==========================================
+                   CLOSE MODAL
+                   ========================================== */
+
+                document
+                    .getElementById(
+                        "avatar-modal"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+
+
+                alert(
+                    "Avatar saved successfully!"
                 );
 
 
-            if (avatarUrl) {
 
-                profileAvatar.innerHTML = `
-                    <img
-                        src="${avatarUrl}"
-                        alt="Profile picture"
-                    >
-                `;
+            }
 
-            } else {
+            catch (error) {
 
-                profileAvatar.textContent =
-                    avatarEmoji;
+                console.error(
+                    "Avatar save error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Unable to save avatar."
+                );
 
             }
 
 
-            /* ================================
-               CLOSE MODAL
-               ================================ */
+            finally {
 
-            document
-                .getElementById("avatar-modal")
-                .classList.remove("active");
+                saveButton.disabled =
+                    false;
 
+                saveButton.textContent =
+                    "SAVE AVATAR";
 
-            alert(
-                "Avatar saved successfully!"
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Avatar save error:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Unable to save avatar."
-            );
-
-        } finally {
-
-            saveButton.disabled = false;
-
-            saveButton.textContent =
-                "SAVE AVATAR";
-
-        }
-
-    });
+            }
 
         }
     );
-    
+
+
+
+/* =====================================================
+   BUTTON EVENTS
+   ===================================================== */
+
+document
+    .getElementById(
+        "logout-button"
+    )
+    .addEventListener(
+        "click",
+        logoutUser
+    );
+
+
+
+/* =====================================================
+   START DASHBOARD
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    checkUser
+);
+
+
 </script>
 
 
