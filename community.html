@@ -100,14 +100,65 @@
         ></textarea>
 
 
+        <!-- PHOTO PREVIEW -->
+
+        <div
+            id="photo-preview-container"
+            class="photo-preview-container"
+            style="display:none;"
+        >
+
+            <img
+                id="photo-preview"
+                class="photo-preview"
+                src=""
+                alt="Selected image"
+            >
+
+            <button
+                id="remove-photo"
+                class="remove-photo"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <!-- CREATE POST ACTIONS -->
+
         <div class="community-create-bottom">
 
-            <span id="character-count">
-                0 / 1000
-            </span>
+
+            <div class="create-post-tools">
+
+                <label
+                    for="photo-input"
+                    class="add-photo-button"
+                >
+                    📷 ADD PHOTO
+                </label>
+
+                <input
+                    id="photo-input"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                >
 
 
-            <button id="post-button">
+                <span id="character-count">
+                    0 / 1000
+                </span>
+
+            </div>
+
+
+            <button
+                id="post-button"
+            >
                 POST
             </button>
 
@@ -184,7 +235,33 @@ const communityFeed =
     );
 
 
+const photoInput =
+    document.getElementById(
+        "photo-input"
+    );
+
+
+const photoPreviewContainer =
+    document.getElementById(
+        "photo-preview-container"
+    );
+
+
+const photoPreview =
+    document.getElementById(
+        "photo-preview"
+    );
+
+
+const removePhotoButton =
+    document.getElementById(
+        "remove-photo"
+    );
+
+
 let currentUser = null;
+
+let selectedImageFile = null;
 
 
 
@@ -259,6 +336,107 @@ async function loadCurrentUser() {
 
 
 /* =========================================================
+   PHOTO SELECT
+========================================================= */
+
+photoInput.addEventListener(
+    "change",
+    event => {
+
+        const file =
+            event.target.files[0];
+
+
+        if (!file) {
+
+            return;
+
+        }
+
+
+        /* Maximum 10 MB */
+
+        if (
+            file.size >
+            10 * 1024 * 1024
+        ) {
+
+            alert(
+                "Please choose an image smaller than 10 MB."
+            );
+
+            photoInput.value = "";
+
+            return;
+
+        }
+
+
+        if (
+            !file.type.startsWith(
+                "image/"
+            )
+        ) {
+
+            alert(
+                "Please select an image file."
+            );
+
+            photoInput.value = "";
+
+            return;
+
+        }
+
+
+        selectedImageFile =
+            file;
+
+
+        const imageURL =
+            URL.createObjectURL(
+                file
+            );
+
+
+        photoPreview.src =
+            imageURL;
+
+
+        photoPreviewContainer.style.display =
+            "block";
+
+    }
+);
+
+
+
+/* =========================================================
+   REMOVE PHOTO
+========================================================= */
+
+removePhotoButton.addEventListener(
+    "click",
+    () => {
+
+        selectedImageFile =
+            null;
+
+        photoInput.value =
+            "";
+
+        photoPreview.src =
+            "";
+
+        photoPreviewContainer.style.display =
+            "none";
+
+    }
+);
+
+
+
+/* =========================================================
    LOAD POSTS
 ========================================================= */
 
@@ -281,6 +459,7 @@ async function loadPosts() {
             .select(`
                 id,
                 content,
+                image_url,
                 created_at,
                 user_id,
                 profiles (
@@ -313,7 +492,10 @@ async function loadPosts() {
     }
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         communityFeed.innerHTML = `
             <div class="community-empty">
@@ -332,7 +514,9 @@ async function loadPosts() {
 
     for (const post of data) {
 
-        await createPostCard(post);
+        await createPostCard(
+            post
+        );
 
     }
 
@@ -344,17 +528,22 @@ async function loadPosts() {
    CREATE POST CARD
 ========================================================= */
 
-async function createPostCard(post) {
+async function createPostCard(
+    post
+) {
 
 
     const profile =
         post.profiles || {};
 
 
-    let avatarHTML = "";
+    let avatarHTML =
+        "";
 
 
-    if (profile.avatar_url) {
+    if (
+        profile.avatar_url
+    ) {
 
         avatarHTML = `
             <img
@@ -367,7 +556,9 @@ async function createPostCard(post) {
 
     }
 
-    else if (profile.avatar_emoji) {
+    else if (
+        profile.avatar_emoji
+    ) {
 
         avatarHTML =
             escapeHTML(
@@ -378,7 +569,8 @@ async function createPostCard(post) {
 
     else {
 
-        avatarHTML = "👤";
+        avatarHTML =
+            "👤";
 
     }
 
@@ -396,7 +588,7 @@ async function createPostCard(post) {
 
 
     /* =========================
-       GET LIKE DATA
+       LIKES
     ========================= */
 
     const {
@@ -404,8 +596,12 @@ async function createPostCard(post) {
         error: likesError
     } =
         await supabaseClient
-            .from("community_likes")
-            .select("user_id")
+            .from(
+                "community_likes"
+            )
+            .select(
+                "user_id"
+            )
             .eq(
                 "post_id",
                 post.id
@@ -414,7 +610,9 @@ async function createPostCard(post) {
 
     if (likesError) {
 
-        console.error(likesError);
+        console.error(
+            likesError
+        );
 
     }
 
@@ -437,6 +635,35 @@ async function createPostCard(post) {
 
 
     /* =========================
+       IMAGE
+    ========================= */
+
+    let imageHTML = "";
+
+
+    if (post.image_url) {
+
+        imageHTML = `
+
+            <div class="community-post-image">
+
+                <img
+                    src="${escapeHTML(
+                        post.image_url
+                    )}"
+                    alt="Community post image"
+                    loading="lazy"
+                >
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /* =========================
        POST ELEMENT
     ========================= */
 
@@ -453,8 +680,6 @@ async function createPostCard(post) {
     postElement.innerHTML = `
 
 
-        <!-- POST HEADER -->
-
         <div class="community-post-header">
 
 
@@ -469,7 +694,9 @@ async function createPostCard(post) {
 
                 <div class="community-name">
 
-                    ${escapeHTML(fullName)}
+                    ${escapeHTML(
+                        fullName
+                    )}
 
                 </div>
 
@@ -479,7 +706,9 @@ async function createPostCard(post) {
                     ${
                         username
                         ? "@" +
-                          escapeHTML(username)
+                          escapeHTML(
+                              username
+                          )
                         : ""
                     }
 
@@ -496,26 +725,31 @@ async function createPostCard(post) {
 
             </div>
 
+
         </div>
 
 
-
-        <!-- POST CONTENT -->
 
         <div class="community-post-content">
 
-            ${escapeHTML(
+            ${
                 post.content
-            ).replace(
-                /\n/g,
-                "<br>"
-            )}
+                ? escapeHTML(
+                    post.content
+                ).replace(
+                    /\n/g,
+                    "<br>"
+                )
+                : ""
+            }
 
         </div>
 
 
 
-        <!-- POST ACTIONS -->
+        ${imageHTML}
+
+
 
         <div class="community-post-actions">
 
@@ -530,19 +764,25 @@ async function createPostCard(post) {
             >
 
                 <span class="like-icon">
+
                     ${
                         userLiked
                         ? "❤️"
                         : "♡"
                     }
+
                 </span>
+
 
                 <span class="like-text">
                     Like
                 </span>
 
+
                 <span class="like-count">
+
                     ${likeCount}
+
                 </span>
 
             </button>
@@ -562,8 +802,6 @@ async function createPostCard(post) {
         </div>
 
 
-
-        <!-- COMMENTS -->
 
         <div
             class="comments-area"
@@ -586,19 +824,11 @@ async function createPostCard(post) {
 
 
 
-    /* =========================
-       LOAD COMMENTS
-    ========================= */
-
     await loadComments(
         post.id
     );
 
 
-
-    /* =========================
-       LIKE BUTTON
-    ========================= */
 
     const likeButton =
         postElement.querySelector(
@@ -619,10 +849,6 @@ async function createPostCard(post) {
     );
 
 
-
-    /* =========================
-       COMMENT BUTTON
-    ========================= */
 
     const commentButton =
         postElement.querySelector(
@@ -669,7 +895,8 @@ async function toggleLike(
 ) {
 
 
-    button.disabled = true;
+    button.disabled =
+        true;
 
 
     const {
@@ -677,8 +904,12 @@ async function toggleLike(
         error: checkError
     } =
         await supabaseClient
-            .from("community_likes")
-            .select("id")
+            .from(
+                "community_likes"
+            )
+            .select(
+                "id"
+            )
             .eq(
                 "post_id",
                 postId
@@ -696,17 +927,13 @@ async function toggleLike(
             checkError
         );
 
-        button.disabled = false;
+        button.disabled =
+            false;
 
         return;
 
     }
 
-
-
-    /* =========================
-       REMOVE LIKE
-    ========================= */
 
     if (existingLike) {
 
@@ -727,9 +954,12 @@ async function toggleLike(
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
-            button.disabled = false;
+            button.disabled =
+                false;
 
             return;
 
@@ -737,11 +967,6 @@ async function toggleLike(
 
     }
 
-
-
-    /* =========================
-       ADD LIKE
-    ========================= */
 
     else {
 
@@ -766,9 +991,12 @@ async function toggleLike(
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
-            button.disabled = false;
+            button.disabled =
+                false;
 
             return;
 
@@ -778,21 +1006,21 @@ async function toggleLike(
 
 
 
-    /* =========================
-       UPDATE COUNT
-    ========================= */
-
     const {
         count,
         error: countError
     } =
         await supabaseClient
-            .from("community_likes")
+            .from(
+                "community_likes"
+            )
             .select(
                 "id",
                 {
-                    count: "exact",
-                    head: true
+                    count:
+                        "exact",
+                    head:
+                        true
                 }
             )
             .eq(
@@ -815,10 +1043,6 @@ async function toggleLike(
     }
 
 
-
-    /* =========================
-       UPDATE BUTTON
-    ========================= */
 
     const icon =
         button.querySelector(
@@ -849,7 +1073,8 @@ async function toggleLike(
     }
 
 
-    button.disabled = false;
+    button.disabled =
+        false;
 
 }
 
@@ -904,7 +1129,9 @@ async function loadComments(
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         commentsArea.innerHTML = `
             <div class="comments-error">
@@ -917,7 +1144,8 @@ async function loadComments(
     }
 
 
-    let commentsHTML = "";
+    let commentsHTML =
+        "";
 
 
     if (
@@ -1177,7 +1405,9 @@ async function addComment(
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Unable to add comment."
@@ -1188,7 +1418,8 @@ async function addComment(
     }
 
 
-    input.value = "";
+    input.value =
+        "";
 
 
     await loadComments(
@@ -1214,6 +1445,7 @@ postContent.addEventListener(
 );
 
 
+
 postButton.addEventListener(
     "click",
     async () => {
@@ -1223,10 +1455,13 @@ postButton.addEventListener(
             postContent.value.trim();
 
 
-        if (!content) {
+        if (
+            !content &&
+            !selectedImageFile
+        ) {
 
             postMessage.textContent =
-                "Please write something first.";
+                "Write something or add a photo first.";
 
             return;
 
@@ -1241,6 +1476,106 @@ postButton.addEventListener(
             "POSTING...";
 
 
+        postMessage.textContent =
+            "";
+
+
+
+        /* =========================
+           IMAGE URL
+        ========================= */
+
+        let imageUrl =
+            null;
+
+
+
+        if (selectedImageFile) {
+
+
+            const extension =
+                selectedImageFile
+                    .name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            const filePath =
+                `${currentUser.id}/${crypto.randomUUID()}.${extension}`;
+
+
+            const {
+                error:
+                    uploadError
+            } =
+                await supabaseClient
+                    .storage
+                    .from(
+                        "community-media"
+                    )
+                    .upload(
+                        filePath,
+                        selectedImageFile,
+                        {
+                            cacheControl:
+                                "3600",
+
+                            upsert:
+                                false,
+
+                            contentType:
+                                selectedImageFile.type
+                        }
+                    );
+
+
+            if (uploadError) {
+
+                console.error(
+                    uploadError
+                );
+
+                alert(
+                    "Unable to upload photo."
+                );
+
+                postButton.disabled =
+                    false;
+
+                postButton.textContent =
+                    "POST";
+
+                return;
+
+            }
+
+
+            const {
+                data:
+                    publicData
+            } =
+                supabaseClient
+                    .storage
+                    .from(
+                        "community-media"
+                    )
+                    .getPublicUrl(
+                        filePath
+                    );
+
+
+            imageUrl =
+                publicData.publicUrl;
+
+        }
+
+
+
+        /* =========================
+           CREATE DATABASE POST
+        ========================= */
+
         const {
             error
         } =
@@ -1254,17 +1589,24 @@ postButton.addEventListener(
                         currentUser.id,
 
                     content:
-                        content
+                        content ||
+                        "",
+
+                    image_url:
+                        imageUrl
 
                 });
 
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
-            postMessage.textContent =
-                "Unable to create post.";
+            alert(
+                "Unable to create post."
+            );
 
             postButton.disabled =
                 false;
@@ -1277,10 +1619,33 @@ postButton.addEventListener(
         }
 
 
-        postContent.value = "";
+
+        /* =========================
+           RESET
+        ========================= */
+
+        postContent.value =
+            "";
 
         characterCount.textContent =
             "0 / 1000";
+
+
+        selectedImageFile =
+            null;
+
+
+        photoInput.value =
+            "";
+
+
+        photoPreview.src =
+            "";
+
+
+        photoPreviewContainer.style.display =
+            "none";
+
 
         postMessage.textContent =
             "Post published successfully.";
@@ -1288,6 +1653,7 @@ postButton.addEventListener(
 
         postButton.disabled =
             false;
+
 
         postButton.textContent =
             "POST";
