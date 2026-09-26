@@ -1,268 +1,234 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>Community | LEHULA Trading Hub</title>
+<title>Community | LEHULA Trading Hub</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+<link
+    rel="stylesheet"
+    href="style.css"
+>
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-    ></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+```
 
 </head>
 
-
 <body>
-
 
 <header class="topbar">
 
-    <div class="brand">
+```
+<div class="brand">
 
-        <div class="logo">
-            L25
+    <div class="logo">
+        L25
+    </div>
+
+    <div>
+
+        <div class="brand-main">
+            LEHULA
         </div>
 
-        <div>
-
-            <div class="brand-main">
-                LEHULA
-            </div>
-
-            <div class="brand-sub">
-                TRADING HUB
-            </div>
-
+        <div class="brand-sub">
+            TRADING HUB
         </div>
 
     </div>
 
+</div>
 
-    <a
-        href="dashboard.html"
-        class="back-button"
-    >
-        ←
-    </a>
+<a
+    href="dashboard.html"
+    class="back-button"
+>
+    ←
+</a>
+```
 
 </header>
 
-
-
 <main class="community-page">
 
+```
+<!-- COMMUNITY HEADER -->
 
-    <!-- COMMUNITY HEADER -->
+<section class="community-header">
 
-    <section class="community-header">
+    <div class="community-label">
+        👥 LEHULA COMMUNITY
+    </div>
 
-        <div class="community-label">
-            👥 LEHULA COMMUNITY
-        </div>
+    <h1>
+        TRADING COMMUNITY.
+    </h1>
 
-        <h1>
-            TRADING COMMUNITY.
-        </h1>
+    <p>
+        Connect with traders, share ideas and learn together.
+    </p>
 
-        <p>
-            Connect with traders, share ideas and learn together.
-        </p>
-
-    </section>
-
-
-
-    <!-- CREATE POST -->
-
-    <section class="community-create">
-
-        <div class="community-create-title">
-            CREATE A POST
-        </div>
+</section>
 
 
-        <textarea
-            id="post-content"
-            maxlength="1000"
-            placeholder="What's happening in the markets?"
-        ></textarea>
+
+<!-- CREATE POST -->
+
+<section class="create-post">
+
+    <div class="community-create-title">
+        CREATE A POST
+    </div>
+
+    <textarea
+        id="post-content"
+        maxlength="1000"
+        placeholder="What's happening in the markets?"
+    ></textarea>
 
 
-        <!-- PHOTO PREVIEW -->
+    <!-- PHOTO PREVIEW -->
 
-        <div
-            id="photo-preview-container"
-            class="photo-preview-container"
-            style="display:none;"
+    <div
+        id="photo-preview-container"
+        class="photo-preview-container"
+        style="display:none;"
+    >
+
+        <img
+            id="photo-preview"
+            class="photo-preview"
+            src=""
+            alt="Selected image"
         >
 
-            <img
-                id="photo-preview"
-                class="photo-preview"
-                src=""
-                alt="Selected image"
+        <button
+            id="remove-photo"
+            class="remove-photo"
+            type="button"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="community-create-bottom">
+
+        <div class="create-post-tools">
+
+            <label
+                for="photo-input"
+                class="add-photo-button"
+            >
+                📷 ADD PHOTO
+            </label>
+
+            <input
+                id="photo-input"
+                type="file"
+                accept="image/*"
+                hidden
             >
 
-            <button
-                id="remove-photo"
-                class="remove-photo"
-                type="button"
-            >
-                ×
-            </button>
+            <span id="character-count">
+                0 / 1000
+            </span>
 
         </div>
 
 
+        <button
+            id="post-button"
+            class="primary"
+        >
+            POST
+        </button>
 
-        <!-- CREATE POST ACTIONS -->
-
-        <div class="community-create-bottom">
-
-
-            <div class="create-post-tools">
-
-                <label
-                    for="photo-input"
-                    class="add-photo-button"
-                >
-                    📷 ADD PHOTO
-                </label>
-
-                <input
-                    id="photo-input"
-                    type="file"
-                    accept="image/*"
-                    hidden
-                >
+    </div>
 
 
-                <span id="character-count">
-                    0 / 1000
-                </span>
+    <div id="post-message"></div>
 
-            </div>
+</section>
 
 
-            <button
-                id="post-button"
-            >
-                POST
-            </button>
 
+<!-- FEED -->
+
+<section class="community-section">
+
+    <div class="community-section-title">
+        LATEST DISCUSSIONS
+    </div>
+
+
+    <div id="community-feed">
+
+        <div class="community-loading">
+            Loading community...
         </div>
 
+    </div>
 
-        <div id="post-message"></div>
-
-    </section>
-
-
-
-    <!-- FEED -->
-
-    <section class="community-section">
-
-        <div class="community-section-title">
-            LATEST DISCUSSIONS
-        </div>
-
-
-        <div id="community-feed">
-
-            <div class="community-loading">
-                Loading community...
-            </div>
-
-        </div>
-
-    </section>
-
+</section>
+```
 
 </main>
 
-
-
 <script src="Script.js"></script>
 
-
 <script>
-
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
 const postContent =
-    document.getElementById(
-        "post-content"
-    );
-
+    document.getElementById("post-content");
 
 const characterCount =
-    document.getElementById(
-        "character-count"
-    );
-
+    document.getElementById("character-count");
 
 const postButton =
-    document.getElementById(
-        "post-button"
-    );
-
+    document.getElementById("post-button");
 
 const postMessage =
-    document.getElementById(
-        "post-message"
-    );
-
+    document.getElementById("post-message");
 
 const communityFeed =
-    document.getElementById(
-        "community-feed"
-    );
-
+    document.getElementById("community-feed");
 
 const photoInput =
-    document.getElementById(
-        "photo-input"
-    );
-
+    document.getElementById("photo-input");
 
 const photoPreviewContainer =
     document.getElementById(
         "photo-preview-container"
     );
 
-
 const photoPreview =
-    document.getElementById(
-        "photo-preview"
-    );
-
+    document.getElementById("photo-preview");
 
 const removePhotoButton =
-    document.getElementById(
-        "remove-photo"
-    );
+    document.getElementById("remove-photo");
 
 
 let currentUser = null;
 
 let selectedImageFile = null;
-
 
 
 /* =========================================================
@@ -273,7 +239,7 @@ function escapeHTML(value) {
 
     if (!value) return "";
 
-    return value
+    return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -283,15 +249,13 @@ function escapeHTML(value) {
 }
 
 
-
 /* =========================================================
    TIME
 ========================================================= */
 
 function formatTime(dateString) {
 
-    const date =
-        new Date(dateString);
+    const date = new Date(dateString);
 
     return date.toLocaleString([], {
         dateStyle: "medium",
@@ -299,7 +263,6 @@ function formatTime(dateString) {
     });
 
 }
-
 
 
 /* =========================================================
@@ -334,7 +297,6 @@ async function loadCurrentUser() {
 }
 
 
-
 /* =========================================================
    PHOTO SELECT
 ========================================================= */
@@ -346,15 +308,10 @@ photoInput.addEventListener(
         const file =
             event.target.files[0];
 
-
         if (!file) {
-
             return;
-
         }
 
-
-        /* Maximum 10 MB */
 
         if (
             file.size >
@@ -373,9 +330,7 @@ photoInput.addEventListener(
 
 
         if (
-            !file.type.startsWith(
-                "image/"
-            )
+            !file.type.startsWith("image/")
         ) {
 
             alert(
@@ -389,14 +344,11 @@ photoInput.addEventListener(
         }
 
 
-        selectedImageFile =
-            file;
+        selectedImageFile = file;
 
 
         const imageURL =
-            URL.createObjectURL(
-                file
-            );
+            URL.createObjectURL(file);
 
 
         photoPreview.src =
@@ -410,7 +362,6 @@ photoInput.addEventListener(
 );
 
 
-
 /* =========================================================
    REMOVE PHOTO
 ========================================================= */
@@ -419,14 +370,11 @@ removePhotoButton.addEventListener(
     "click",
     () => {
 
-        selectedImageFile =
-            null;
+        selectedImageFile = null;
 
-        photoInput.value =
-            "";
+        photoInput.value = "";
 
-        photoPreview.src =
-            "";
+        photoPreview.src = "";
 
         photoPreviewContainer.style.display =
             "none";
@@ -435,13 +383,11 @@ removePhotoButton.addEventListener(
 );
 
 
-
 /* =========================================================
    LOAD POSTS
 ========================================================= */
 
 async function loadPosts() {
-
 
     communityFeed.innerHTML = `
         <div class="community-loading">
@@ -499,7 +445,7 @@ async function loadPosts() {
 
         communityFeed.innerHTML = `
             <div class="community-empty">
-                No posts yet.<br>
+                No posts yet.<br><br>
                 Be the first trader to start a discussion.
             </div>
         `;
@@ -514,51 +460,38 @@ async function loadPosts() {
 
     for (const post of data) {
 
-        await createPostCard(
-            post
-        );
+        await createPostCard(post);
 
     }
 
 }
 
 
-
 /* =========================================================
    CREATE POST CARD
 ========================================================= */
 
-async function createPostCard(
-    post
-) {
-
+async function createPostCard(post) {
 
     const profile =
         post.profiles || {};
 
 
-    let avatarHTML =
-        "";
+    let avatarHTML = "";
 
 
-    if (
-        profile.avatar_url
-    ) {
+    if (profile.avatar_url) {
 
         avatarHTML = `
             <img
-                src="${escapeHTML(
-                    profile.avatar_url
-                )}"
+                src="${escapeHTML(profile.avatar_url)}"
                 alt="Profile"
             >
         `;
 
     }
 
-    else if (
-        profile.avatar_emoji
-    ) {
+    else if (profile.avatar_emoji) {
 
         avatarHTML =
             escapeHTML(
@@ -569,8 +502,7 @@ async function createPostCard(
 
     else {
 
-        avatarHTML =
-            "👤";
+        avatarHTML = "👤";
 
     }
 
@@ -586,34 +518,22 @@ async function createPostCard(
         "";
 
 
-
-    /* =========================
+    /* =====================================================
        LIKES
-    ========================= */
+    ===================================================== */
 
     const {
         data: likes,
         error: likesError
     } =
         await supabaseClient
-            .from(
-                "community_likes"
-            )
-            .select(
-                "user_id"
-            )
-            .eq(
-                "post_id",
-                post.id
-            );
+            .from("community_likes")
+            .select("user_id")
+            .eq("post_id", post.id);
 
 
     if (likesError) {
-
-        console.error(
-            likesError
-        );
-
+        console.error(likesError);
     }
 
 
@@ -633,10 +553,9 @@ async function createPostCard(
         );
 
 
-
-    /* =========================
+    /* =====================================================
        IMAGE
-    ========================= */
+    ===================================================== */
 
     let imageHTML = "";
 
@@ -648,9 +567,7 @@ async function createPostCard(
             <div class="community-post-image">
 
                 <img
-                    src="${escapeHTML(
-                        post.image_url
-                    )}"
+                    src="${escapeHTML(post.image_url)}"
                     alt="Community post image"
                     loading="lazy"
                 >
@@ -662,15 +579,12 @@ async function createPostCard(
     }
 
 
-
-    /* =========================
-       POST ELEMENT
-    ========================= */
+    /* =====================================================
+       POST
+    ===================================================== */
 
     const postElement =
-        document.createElement(
-            "article"
-        );
+        document.createElement("article");
 
 
     postElement.className =
@@ -679,132 +593,99 @@ async function createPostCard(
 
     postElement.innerHTML = `
 
-
         <div class="community-post-header">
 
-
             <div class="community-avatar">
-
                 ${avatarHTML}
-
             </div>
 
 
             <div class="community-user">
 
                 <div class="community-name">
-
-                    ${escapeHTML(
-                        fullName
-                    )}
-
+                    ${escapeHTML(fullName)}
                 </div>
-
 
                 <div class="community-username">
 
                     ${
                         username
-                        ? "@" +
-                          escapeHTML(
-                              username
-                          )
+                        ? "@" + escapeHTML(username)
                         : ""
                     }
 
                 </div>
 
-
                 <div class="community-time">
-
-                    ${formatTime(
-                        post.created_at
-                    )}
-
+                    ${formatTime(post.created_at)}
                 </div>
 
             </div>
 
-
         </div>
 
 
+        ${
+            post.content
+            ? `
+                <div class="community-post-content">
 
-        <div class="community-post-content">
+                    ${escapeHTML(
+                        post.content
+                    ).replace(
+                        /\n/g,
+                        "<br>"
+                    )}
 
-            ${
-                post.content
-                ? escapeHTML(
-                    post.content
-                ).replace(
-                    /\n/g,
-                    "<br>"
-                )
-                : ""
-            }
-
-        </div>
-
+                </div>
+            `
+            : ""
+        }
 
 
         ${imageHTML}
 
 
-
         <div class="community-post-actions">
-
 
             <button
                 class="post-action like-button ${
-                    userLiked
-                    ? "liked"
-                    : ""
+                    userLiked ? "liked" : ""
                 }"
                 data-post-id="${post.id}"
+                type="button"
             >
 
                 <span class="like-icon">
-
-                    ${
-                        userLiked
-                        ? "❤️"
-                        : "♡"
-                    }
-
+                    ${userLiked ? "❤️" : "♡"}
                 </span>
 
-
-                <span class="like-text">
+                <span>
                     Like
                 </span>
 
-
                 <span class="like-count">
-
                     ${likeCount}
-
                 </span>
 
             </button>
-
 
 
             <button
                 class="post-action comment-toggle"
                 data-post-id="${post.id}"
+                type="button"
             >
-
                 💬 Comment
-
             </button>
-
 
         </div>
 
 
+        <!-- COMMENTS -->
 
         <div
-            class="comments-area"
+            class="community-comments"
             id="comments-${post.id}"
         >
 
@@ -814,7 +695,6 @@ async function createPostCard(
 
         </div>
 
-
     `;
 
 
@@ -823,11 +703,7 @@ async function createPostCard(
     );
 
 
-
-    await loadComments(
-        post.id
-    );
-
+    await loadComments(post.id);
 
 
     const likeButton =
@@ -847,7 +723,6 @@ async function createPostCard(
 
         }
     );
-
 
 
     const commentButton =
@@ -873,16 +748,13 @@ async function createPostCard(
 
 
             if (input) {
-
                 input.focus();
-
             }
 
         }
     );
 
 }
-
 
 
 /* =========================================================
@@ -894,9 +766,7 @@ async function toggleLike(
     button
 ) {
 
-
-    button.disabled =
-        true;
+    button.disabled = true;
 
 
     const {
@@ -904,31 +774,18 @@ async function toggleLike(
         error: checkError
     } =
         await supabaseClient
-            .from(
-                "community_likes"
-            )
-            .select(
-                "id"
-            )
-            .eq(
-                "post_id",
-                postId
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            )
+            .from("community_likes")
+            .select("id")
+            .eq("post_id", postId)
+            .eq("user_id", currentUser.id)
             .maybeSingle();
 
 
     if (checkError) {
 
-        console.error(
-            checkError
-        );
+        console.error(checkError);
 
-        button.disabled =
-            false;
+        button.disabled = false;
 
         return;
 
@@ -937,29 +794,20 @@ async function toggleLike(
 
     if (existingLike) {
 
-
         const {
             error
         } =
             await supabaseClient
-                .from(
-                    "community_likes"
-                )
+                .from("community_likes")
                 .delete()
-                .eq(
-                    "id",
-                    existingLike.id
-                );
+                .eq("id", existingLike.id);
 
 
         if (error) {
 
-            console.error(
-                error
-            );
+            console.error(error);
 
-            button.disabled =
-                false;
+            button.disabled = false;
 
             return;
 
@@ -967,17 +815,13 @@ async function toggleLike(
 
     }
 
-
     else {
-
 
         const {
             error
         } =
             await supabaseClient
-                .from(
-                    "community_likes"
-                )
+                .from("community_likes")
                 .insert({
 
                     post_id:
@@ -991,12 +835,9 @@ async function toggleLike(
 
         if (error) {
 
-            console.error(
-                error
-            );
+            console.error(error);
 
-            button.disabled =
-                false;
+            button.disabled = false;
 
             return;
 
@@ -1005,28 +846,20 @@ async function toggleLike(
     }
 
 
-
     const {
         count,
         error: countError
     } =
         await supabaseClient
-            .from(
-                "community_likes"
-            )
+            .from("community_likes")
             .select(
                 "id",
                 {
-                    count:
-                        "exact",
-                    head:
-                        true
+                    count: "exact",
+                    head: true
                 }
             )
-            .eq(
-                "post_id",
-                postId
-            );
+            .eq("post_id", postId);
 
 
     if (!countError) {
@@ -1043,7 +876,6 @@ async function toggleLike(
     }
 
 
-
     const icon =
         button.querySelector(
             ".like-icon"
@@ -1052,42 +884,31 @@ async function toggleLike(
 
     if (existingLike) {
 
-        button.classList.remove(
-            "liked"
-        );
+        button.classList.remove("liked");
 
-        icon.textContent =
-            "♡";
+        icon.textContent = "♡";
 
     }
 
     else {
 
-        button.classList.add(
-            "liked"
-        );
+        button.classList.add("liked");
 
-        icon.textContent =
-            "❤️";
+        icon.textContent = "❤️";
 
     }
 
 
-    button.disabled =
-        false;
+    button.disabled = false;
 
 }
-
 
 
 /* =========================================================
    LOAD COMMENTS
 ========================================================= */
 
-async function loadComments(
-    postId
-) {
-
+async function loadComments(postId) {
 
     const commentsArea =
         document.getElementById(
@@ -1100,9 +921,7 @@ async function loadComments(
         error
     } =
         await supabaseClient
-            .from(
-                "community_comments"
-            )
+            .from("community_comments")
             .select(`
                 id,
                 content,
@@ -1115,10 +934,7 @@ async function loadComments(
                     avatar_emoji
                 )
             `)
-            .eq(
-                "post_id",
-                postId
-            )
+            .eq("post_id", postId)
             .order(
                 "created_at",
                 {
@@ -1129,9 +945,7 @@ async function loadComments(
 
     if (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         commentsArea.innerHTML = `
             <div class="comments-error">
@@ -1144,8 +958,7 @@ async function loadComments(
     }
 
 
-    let commentsHTML =
-        "";
+    let commentsHTML = "";
 
 
     if (
@@ -1167,14 +980,12 @@ async function loadComments(
             data.map(
                 comment => {
 
-
                     const profile =
                         comment.profiles ||
                         {};
 
 
-                    let avatarHTML =
-                        "";
+                    let avatarHTML = "";
 
 
                     if (
@@ -1221,7 +1032,6 @@ async function loadComments(
 
                         <div class="community-comment">
 
-
                             <div class="comment-avatar">
 
                                 ${avatarHTML}
@@ -1231,12 +1041,9 @@ async function loadComments(
 
                             <div class="comment-body">
 
-
                                 <div class="comment-user">
 
-                                    ${escapeHTML(
-                                        name
-                                    )}
+                                    ${escapeHTML(name)}
 
                                 </div>
 
@@ -1261,9 +1068,7 @@ async function loadComments(
 
                                 </div>
 
-
                             </div>
-
 
                         </div>
 
@@ -1273,7 +1078,6 @@ async function loadComments(
             ).join("");
 
     }
-
 
 
     commentsArea.innerHTML = `
@@ -1287,7 +1091,6 @@ async function loadComments(
 
         <div class="comment-form">
 
-
             <input
                 type="text"
                 class="comment-input"
@@ -1299,15 +1102,14 @@ async function loadComments(
             <button
                 class="comment-submit"
                 data-post-id="${postId}"
+                type="button"
             >
                 SEND
             </button>
 
-
         </div>
 
     `;
-
 
 
     const submitButton =
@@ -1358,7 +1160,6 @@ async function loadComments(
 }
 
 
-
 /* =========================================================
    ADD COMMENT
 ========================================================= */
@@ -1367,7 +1168,6 @@ async function addComment(
     postId,
     input
 ) {
-
 
     const content =
         input.value.trim();
@@ -1386,9 +1186,7 @@ async function addComment(
         error
     } =
         await supabaseClient
-            .from(
-                "community_comments"
-            )
+            .from("community_comments")
             .insert({
 
                 post_id:
@@ -1405,9 +1203,7 @@ async function addComment(
 
     if (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         alert(
             "Unable to add comment."
@@ -1418,20 +1214,15 @@ async function addComment(
     }
 
 
-    input.value =
-        "";
+    input.value = "";
 
-
-    await loadComments(
-        postId
-    );
+    await loadComments(postId);
 
 }
 
 
-
 /* =========================================================
-   CREATE POST
+   CHARACTER COUNT
 ========================================================= */
 
 postContent.addEventListener(
@@ -1445,11 +1236,13 @@ postContent.addEventListener(
 );
 
 
+/* =========================================================
+   CREATE POST
+========================================================= */
 
 postButton.addEventListener(
     "click",
     async () => {
-
 
         const content =
             postContent.value.trim();
@@ -1468,30 +1261,20 @@ postButton.addEventListener(
         }
 
 
-        postButton.disabled =
-            true;
-
+        postButton.disabled = true;
 
         postButton.textContent =
             "POSTING...";
 
-
-        postMessage.textContent =
-            "";
+        postMessage.textContent = "";
 
 
-
-        /* =========================
-           IMAGE URL
-        ========================= */
-
-        let imageUrl =
-            null;
+        let imageUrl = null;
 
 
+        /* IMAGE UPLOAD */
 
         if (selectedImageFile) {
-
 
             const extension =
                 selectedImageFile
@@ -1506,24 +1289,17 @@ postButton.addEventListener(
 
 
             const {
-                error:
-                    uploadError
+                error: uploadError
             } =
                 await supabaseClient
                     .storage
-                    .from(
-                        "community-media"
-                    )
+                    .from("community-media")
                     .upload(
                         filePath,
                         selectedImageFile,
                         {
-                            cacheControl:
-                                "3600",
-
-                            upsert:
-                                false,
-
+                            cacheControl: "3600",
+                            upsert: false,
                             contentType:
                                 selectedImageFile.type
                         }
@@ -1552,14 +1328,11 @@ postButton.addEventListener(
 
 
             const {
-                data:
-                    publicData
+                data: publicData
             } =
                 supabaseClient
                     .storage
-                    .from(
-                        "community-media"
-                    )
+                    .from("community-media")
                     .getPublicUrl(
                         filePath
                     );
@@ -1571,26 +1344,20 @@ postButton.addEventListener(
         }
 
 
-
-        /* =========================
-           CREATE DATABASE POST
-        ========================= */
+        /* CREATE POST */
 
         const {
             error
         } =
             await supabaseClient
-                .from(
-                    "community_posts"
-                )
+                .from("community_posts")
                 .insert({
 
                     user_id:
                         currentUser.id,
 
                     content:
-                        content ||
-                        "",
+                        content || "",
 
                     image_url:
                         imageUrl
@@ -1600,9 +1367,7 @@ postButton.addEventListener(
 
         if (error) {
 
-            console.error(
-                error
-            );
+            console.error(error);
 
             alert(
                 "Unable to create post."
@@ -1619,29 +1384,18 @@ postButton.addEventListener(
         }
 
 
+        /* RESET */
 
-        /* =========================
-           RESET
-        ========================= */
-
-        postContent.value =
-            "";
+        postContent.value = "";
 
         characterCount.textContent =
             "0 / 1000";
 
+        selectedImageFile = null;
 
-        selectedImageFile =
-            null;
+        photoInput.value = "";
 
-
-        photoInput.value =
-            "";
-
-
-        photoPreview.src =
-            "";
-
+        photoPreview.src = "";
 
         photoPreviewContainer.style.display =
             "none";
@@ -1651,9 +1405,7 @@ postButton.addEventListener(
             "Post published successfully.";
 
 
-        postButton.disabled =
-            false;
-
+        postButton.disabled = false;
 
         postButton.textContent =
             "POST";
@@ -1665,9 +1417,8 @@ postButton.addEventListener(
 );
 
 
-
 /* =========================================================
-   START
+   START COMMUNITY
 ========================================================= */
 
 async function startCommunity() {
@@ -1676,9 +1427,7 @@ async function startCommunity() {
 
 
     if (!currentUser) {
-
         return;
-
     }
 
 
@@ -1689,9 +1438,7 @@ async function startCommunity() {
 
 startCommunity();
 
-
 </script>
-
 
 </body>
 
