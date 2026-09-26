@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Trader Profile | LEHULA Trading Hub</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+```
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+```
+<div class="brand">
+
+    <div class="logo">
+        L25
+    </div>
+
+    <div>
+
+        <div class="brand-main">
+            LEHULA
+        </div>
+
+        <div class="brand-sub">
+            TRADING HUB
+        </div>
+
+    </div>
+
+</div>
+
+
+<a
+    href="community.html"
+    class="back-button"
+>
+    ←
+</a>
+```
+
+</header>
+
+<main class="profile-page">
+
+```
+<!-- PROFILE CARD -->
+
+<section class="trader-profile-card">
+
+
+    <div
+        id="profile-avatar"
+        class="trader-profile-avatar"
+    >
+        👤
+    </div>
+
+
+    <div
+        id="profile-name"
+        class="trader-profile-name"
+    >
+        Trader
+    </div>
+
+
+    <div
+        id="profile-username"
+        class="trader-profile-username"
+    >
+        @trader
+    </div>
+
+
+    <div
+        id="profile-bio"
+        class="trader-profile-bio"
+    >
+        No bio yet.
+    </div>
+
+
+    <div class="trader-profile-stats">
+
+
+        <div class="profile-stat">
+
+            <strong id="post-count">
+                0
+            </strong>
+
+            <span>
+                Posts
+            </span>
+
+        </div>
+
+
+        <div class="profile-stat">
+
+            <strong>
+                LEHULA
+            </strong>
+
+            <span>
+                Trader
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- POSTS -->
+
+<section class="profile-posts-section">
+
+
+    <div class="profile-posts-title">
+        TRADER POSTS
+    </div>
+
+
+    <div id="profile-posts">
+
+        <div class="community-loading">
+            Loading posts...
+        </div>
+
+    </div>
+
+
+</section>
+```
+
+</main>
+
+<script src="Script.js"></script>
+
+<script>
+
+/* =========================================================
+   GET PROFILE ID
+========================================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const profileId =
+    params.get("id");
+
+
+const profileAvatar =
+    document.getElementById(
+        "profile-avatar"
+    );
+
+
+const profileName =
+    document.getElementById(
+        "profile-name"
+    );
+
+
+const profileUsername =
+    document.getElementById(
+        "profile-username"
+    );
+
+
+const profileBio =
+    document.getElementById(
+        "profile-bio"
+    );
+
+
+const postCount =
+    document.getElementById(
+        "post-count"
+    );
+
+
+const profilePosts =
+    document.getElementById(
+        "profile-posts"
+    );
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    if (!value) return "";
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
+
+function formatTime(dateString) {
+
+    const date =
+        new Date(dateString);
+
+    return date.toLocaleString([], {
+        dateStyle: "medium",
+        timeStyle: "short"
+    });
+
+}
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
+
+async function loadProfile() {
+
+
+    if (!profileId) {
+
+        profilePosts.innerHTML = `
+            <div class="community-error">
+                Profile not found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const {
+        data: profile,
+        error: profileError
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select(`
+                username,
+                full_name,
+                bio,
+                avatar_url,
+                avatar_emoji
+            `)
+            .eq(
+                "id",
+                profileId
+            )
+            .single();
+
+
+    if (profileError) {
+
+        console.error(
+            profileError
+        );
+
+        profilePosts.innerHTML = `
+            <div class="community-error">
+                Unable to load profile.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       PROFILE INFORMATION
+    ===================================================== */
+
+    profileName.textContent =
+        profile.full_name ||
+        profile.username ||
+        "Trader";
+
+
+    profileUsername.textContent =
+        profile.username
+        ? "@" + profile.username
+        : "";
+
+
+    profileBio.textContent =
+        profile.bio ||
+        "No bio yet.";
+
+
+    /* =====================================================
+       AVATAR
+    ===================================================== */
+
+    if (profile.avatar_url) {
+
+        profileAvatar.innerHTML = `
+
+            <img
+                src="${escapeHTML(
+                    profile.avatar_url
+                )}"
+                alt="Profile picture"
+            >
+
+        `;
+
+    }
+
+    else if (profile.avatar_emoji) {
+
+        profileAvatar.textContent =
+            profile.avatar_emoji;
+
+    }
+
+    else {
+
+        profileAvatar.textContent =
+            "👤";
+
+    }
+
+
+    await loadTraderPosts();
+
+}
+
+
+/* =========================================================
+   LOAD TRADER POSTS
+========================================================= */
+
+async function loadTraderPosts() {
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("community_posts")
+            .select(`
+                id,
+                content,
+                image_url,
+                created_at
+            `)
+            .eq(
+                "user_id",
+                profileId
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(error);
+
+        profilePosts.innerHTML = `
+            <div class="community-error">
+                Unable to load posts.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    postCount.textContent =
+        data
+        ? data.length
+        : 0;
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        profilePosts.innerHTML = `
+            <div class="community-empty">
+                This trader has not posted anything yet.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    profilePosts.innerHTML = "";
+
+
+    data.forEach(
+        post => {
+
+            const article =
+                document.createElement(
+                    "article"
+                );
+
+
+            article.className =
+                "profile-post";
+
+
+            let imageHTML = "";
+
+
+            if (post.image_url) {
+
+                imageHTML = `
+
+                    <div class="profile-post-image">
+
+                        <img
+                            src="${escapeHTML(
+                                post.image_url
+                            )}"
+                            alt="Post image"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                `;
+
+            }
+
+
+            article.innerHTML = `
+
+                <div class="profile-post-time">
+
+                    ${formatTime(
+                        post.created_at
+                    )}
+
+                </div>
+
+
+                ${
+                    post.content
+                    ? `
+                        <div class="profile-post-content">
+
+                            ${escapeHTML(
+                                post.content
+                            ).replace(
+                                /\n/g,
+                                "<br>"
+                            )}
+
+                        </div>
+                    `
+                    : ""
+                }
+
+
+                ${imageHTML}
+
+            `;
+
+
+            profilePosts.appendChild(
+                article
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadProfile();
+
+</script>
+
+</body>
+
+</html>
