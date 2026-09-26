@@ -2,199 +2,166 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Community | LEHULA Trading Hub</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 
 <body>
 
-
-<header>
-
-    <div class="logo">
-        L25
-    </div>
+<header class="topbar">
 
     <div class="brand">
+        <div class="logo">L25</div>
 
-        <h1>
-            LEHULA
-        </h1>
-
-        <p>
-            TRADING HUB
-        </p>
-
+        <div>
+            <div class="brand-main">LEHULA</div>
+            <div class="brand-sub">TRADING HUB</div>
+        </div>
     </div>
 
-    <a
-        href="dashboard.html"
-        class="menu"
-        style="text-decoration:none;"
-    >
+    <a href="dashboard.html" class="back-button">
         ←
     </a>
 
 </header>
 
 
+<main class="community-page">
 
-<main>
+    <section class="community-header">
 
-    <section class="hero">
+        <div class="community-label">
+            👥 LEHULA COMMUNITY
+        </div>
 
-        <p class="country">
-            🇱🇸 LESOTHO FX TRADING
+        <h1>TRADING COMMUNITY.</h1>
+
+        <p>
+            Connect with traders, share ideas and learn together.
         </p>
 
-        <h2>
+    </section>
 
-            TRADING
-            <br>
 
-            <span>
-                COMMUNITY.
+    <!-- CREATE POST -->
+
+    <section class="community-create">
+
+        <div class="community-create-title">
+            CREATE A POST
+        </div>
+
+        <textarea
+            id="post-content"
+            maxlength="1000"
+            placeholder="What's happening in the markets?"
+        ></textarea>
+
+        <div class="community-create-bottom">
+
+            <span id="character-count">
+                0 / 1000
             </span>
 
-        </h2>
-
-        <p class="description">
-
-            Connect, share ideas and learn
-            with other traders.
-
-        </p>
-
-
-        <!-- ==========================================
-             CREATE POST
-             ========================================== -->
-
-        <div class="community-create">
-
-            <h3>
-                SHARE WITH THE COMMUNITY
-            </h3>
-
-
-            <textarea
-                id="post-content"
-                placeholder="Share your trading thoughts, lessons or ideas..."
-                maxlength="1000"
-            ></textarea>
-
-
-            <div class="community-create-bottom">
-
-                <span id="character-count">
-                    0 / 1000
-                </span>
-
-
-                <button
-                    id="post-button"
-                    class="primary"
-                    type="button"
-                >
-                    POST
-                </button>
-
-            </div>
+            <button id="post-button">
+                POST
+            </button>
 
         </div>
 
+        <div id="post-message"></div>
+
+    </section>
 
 
-        <!-- ==========================================
-             COMMUNITY POSTS
-             ========================================== -->
+    <!-- FEED -->
 
-        <div class="community-section">
+    <section class="community-section">
 
-            <div class="community-heading">
+        <div class="community-section-title">
+            LATEST DISCUSSIONS
+        </div>
 
-                <div>
+        <div id="community-feed">
 
-                    <p class="profile-label">
-                        LEHULA COMMUNITY
-                    </p>
-
-                    <h3>
-                        Latest Discussions
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div id="community-posts">
-
-                <div class="community-loading">
-                    Loading community posts...
-                </div>
-
+            <div class="community-loading">
+                Loading community...
             </div>
 
         </div>
-
 
     </section>
 
 </main>
 
 
-
-<footer>
-
-    <p>
-        LEHULA TRADING HUB © 2026
-    </p>
-
-    <p>
-        Lesotho FX Trading to the World 🌍
-    </p>
-
-</footer>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="Script.js"></script>
 
 
 <script>
 
+const postContent =
+    document.getElementById("post-content");
 
-/* =====================================================
-   COMMUNITY
-   ===================================================== */
+const characterCount =
+    document.getElementById("character-count");
+
+const postButton =
+    document.getElementById("post-button");
+
+const postMessage =
+    document.getElementById("post-message");
+
+const communityFeed =
+    document.getElementById("community-feed");
 
 
 let currentUser = null;
 
 
+/* ================================
+   ESCAPE HTML
+================================ */
 
-/* =====================================================
-   CHECK USER
-   ===================================================== */
+function escapeHTML(value) {
 
-async function loadCommunity() {
+    if (!value) return "";
+
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* ================================
+   TIME FORMAT
+================================ */
+
+function formatTime(dateString) {
+
+    const date = new Date(dateString);
+
+    return date.toLocaleString([], {
+        dateStyle: "medium",
+        timeStyle: "short"
+    });
+}
+
+
+/* ================================
+   LOAD USER
+================================ */
+
+async function loadCurrentUser() {
 
     const {
         data: {
@@ -202,49 +169,31 @@ async function loadCommunity() {
         },
         error
     } =
-        await supabaseClient
-            .auth
-            .getUser();
+        await supabaseClient.auth.getUser();
 
-
-    if (
-        error ||
-        !user
-    ) {
+    if (error || !user) {
 
         window.location.href =
-            "login.html";
+            "index.html";
 
         return;
 
     }
 
-
-    currentUser =
-        user;
-
-
-    loadPosts();
+    currentUser = user;
 
 }
 
 
-
-/* =====================================================
+/* ================================
    LOAD POSTS
-   ===================================================== */
+================================ */
 
 async function loadPosts() {
 
-    const postsContainer =
-        document.getElementById(
-            "community-posts"
-        );
-
-
-    postsContainer.innerHTML = `
+    communityFeed.innerHTML = `
         <div class="community-loading">
-            Loading community posts...
+            Loading community...
         </div>
     `;
 
@@ -277,13 +226,9 @@ async function loadPosts() {
 
     if (error) {
 
-        console.error(
-            "Community load error:",
-            error
-        );
+        console.error(error);
 
-
-        postsContainer.innerHTML = `
+        communityFeed.innerHTML = `
             <div class="community-error">
                 Unable to load community posts.
             </div>
@@ -294,27 +239,12 @@ async function loadPosts() {
     }
 
 
-    if (
-        !data ||
-        data.length === 0
-    ) {
+    if (!data || data.length === 0) {
 
-        postsContainer.innerHTML = `
+        communityFeed.innerHTML = `
             <div class="community-empty">
-
-                <div>
-                    💬
-                </div>
-
-                <h3>
-                    No posts yet
-                </h3>
-
-                <p>
-                    Be the first trader to
-                    start the conversation.
-                </p>
-
+                No posts yet.<br>
+                Be the first trader to start a discussion.
             </div>
         `;
 
@@ -323,168 +253,499 @@ async function loadPosts() {
     }
 
 
-    postsContainer.innerHTML =
-        data
-            .map(
-                function (post) {
-
-                    const profile =
-                        post.profiles || {};
+    communityFeed.innerHTML = "";
 
 
-                    const name =
-                        profile.full_name ||
-                        profile.username ||
-                        "Trader";
+    for (const post of data) {
+
+        const profile =
+            post.profiles || {};
 
 
-                    let avatar =
-                        name
-                            .charAt(0)
-                            .toUpperCase();
+        let avatarHTML = "";
 
 
-                    if (
-                        profile.avatar_emoji
-                    ) {
+        if (profile.avatar_url) {
 
-                        avatar =
-                            profile.avatar_emoji;
+            avatarHTML = `
+                <img
+                    src="${escapeHTML(profile.avatar_url)}"
+                    alt="Profile"
+                >
+            `;
 
-                    }
+        }
+
+        else if (profile.avatar_emoji) {
+
+            avatarHTML =
+                escapeHTML(
+                    profile.avatar_emoji
+                );
+
+        }
+
+        else {
+
+            avatarHTML = "👤";
+
+        }
 
 
-                    const avatarHTML =
-                        profile.avatar_url
-
-                            ? `
-                                <img
-                                    src="${profile.avatar_url}"
-                                    alt="Profile picture"
-                                >
-                            `
-
-                            : avatar;
+        const fullName =
+            profile.full_name ||
+            profile.username ||
+            "Trader";
 
 
+        const username =
+            profile.username ||
+            "";
 
-                    const date =
-                        new Date(
-                            post.created_at
+
+        const postElement =
+            document.createElement("article");
+
+
+        postElement.className =
+            "community-post";
+
+
+        postElement.innerHTML = `
+
+            <div class="community-post-header">
+
+                <div class="community-avatar">
+
+                    ${avatarHTML}
+
+                </div>
+
+
+                <div class="community-user">
+
+                    <div class="community-name">
+
+                        ${escapeHTML(fullName)}
+
+                    </div>
+
+                    <div class="community-username">
+
+                        ${username
+                            ? "@" + escapeHTML(username)
+                            : ""
+                        }
+
+                    </div>
+
+                    <div class="community-time">
+
+                        ${formatTime(post.created_at)}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="community-post-content">
+
+                ${escapeHTML(post.content)
+                    .replace(/\n/g, "<br>")
+                }
+
+            </div>
+
+
+            <div class="community-post-actions">
+
+                <button
+                    class="post-action comment-toggle"
+                    data-post-id="${post.id}"
+                >
+                    💬 Comment
+                </button>
+
+            </div>
+
+
+            <div
+                class="comments-area"
+                id="comments-${post.id}"
+            >
+
+                <div class="comments-loading">
+                    Loading comments...
+                </div>
+
+            </div>
+
+        `;
+
+
+        communityFeed.appendChild(
+            postElement
+        );
+
+
+        await loadComments(
+            post.id
+        );
+
+
+        const commentButton =
+            postElement.querySelector(
+                ".comment-toggle"
+            );
+
+
+        commentButton.addEventListener(
+            "click",
+            () => {
+
+                const commentsArea =
+                    document.getElementById(
+                        `comments-${post.id}`
+                    );
+
+
+                const input =
+                    commentsArea.querySelector(
+                        ".comment-input"
+                    );
+
+
+                if (input) {
+
+                    input.focus();
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* ================================
+   LOAD COMMENTS
+================================ */
+
+async function loadComments(postId) {
+
+    const commentsArea =
+        document.getElementById(
+            `comments-${postId}`
+        );
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("community_comments")
+            .select(`
+                id,
+                content,
+                created_at,
+                user_id,
+                profiles (
+                    username,
+                    full_name,
+                    avatar_url,
+                    avatar_emoji
+                )
+            `)
+            .eq(
+                "post_id",
+                postId
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(error);
+
+        commentsArea.innerHTML = `
+            <div class="comments-error">
+                Unable to load comments.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    let commentsHTML = "";
+
+
+    if (!data || data.length === 0) {
+
+        commentsHTML = `
+            <div class="no-comments">
+                No comments yet.
+            </div>
+        `;
+
+    }
+
+    else {
+
+        commentsHTML =
+            data.map(comment => {
+
+                const profile =
+                    comment.profiles || {};
+
+
+                let avatarHTML = "";
+
+
+                if (profile.avatar_url) {
+
+                    avatarHTML = `
+                        <img
+                            src="${escapeHTML(profile.avatar_url)}"
+                            alt="Profile"
+                        >
+                    `;
+
+                }
+
+                else if (profile.avatar_emoji) {
+
+                    avatarHTML =
+                        escapeHTML(
+                            profile.avatar_emoji
                         );
 
+                }
 
-                    const timeText =
-                        date.toLocaleString();
+                else {
 
+                    avatarHTML = "👤";
 
-
-                    return `
-
-                        <article
-                            class="community-post"
-                        >
-
-                            <div
-                                class="community-post-header"
-                            >
-
-                                <div
-                                    class="community-avatar"
-                                >
-
-                                    ${avatarHTML}
-
-                                </div>
+                }
 
 
-                                <div
-                                    class="community-user"
-                                >
+                const name =
+                    profile.full_name ||
+                    profile.username ||
+                    "Trader";
 
-                                    <strong>
-                                        ${escapeHTML(name)}
-                                    </strong>
 
-                                    <span>
-                                        @${escapeHTML(
-                                            profile.username ||
-                                            "trader"
-                                        )}
-                                    </span>
+                return `
 
-                                    <small>
-                                        ${timeText}
-                                    </small>
+                    <div class="community-comment">
 
-                                </div>
+                        <div class="comment-avatar">
+
+                            ${avatarHTML}
+
+                        </div>
+
+
+                        <div class="comment-body">
+
+                            <div class="comment-user">
+
+                                ${escapeHTML(name)}
 
                             </div>
 
-
-                            <div
-                                class="community-post-content"
-                            >
+                            <div class="comment-text">
 
                                 ${escapeHTML(
-                                    post.content
+                                    comment.content
+                                ).replace(
+                                    /\n/g,
+                                    "<br>"
                                 )}
 
                             </div>
 
-                        </article>
+                            <div class="comment-time">
 
-                    `;
+                                ${formatTime(
+                                    comment.created_at
+                                )}
 
-                }
-            )
-            .join("");
+                            </div>
 
-}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }
 
 
+    commentsArea.innerHTML = `
 
-/* =====================================================
-   ESCAPE HTML
-   ===================================================== */
+        <div class="comments-list">
 
-function escapeHTML(text) {
+            ${commentsHTML}
 
-    const element =
-        document.createElement(
-            "div"
+        </div>
+
+
+        <div class="comment-form">
+
+            <input
+                type="text"
+                class="comment-input"
+                placeholder="Write a comment..."
+                maxlength="500"
+            >
+
+            <button
+                class="comment-submit"
+                data-post-id="${postId}"
+            >
+                SEND
+            </button>
+
+        </div>
+
+    `;
+
+
+    const submitButton =
+        commentsArea.querySelector(
+            ".comment-submit"
         );
 
 
-    element.textContent =
-        text;
+    const input =
+        commentsArea.querySelector(
+            ".comment-input"
+        );
 
 
-    return element.innerHTML;
+    submitButton.addEventListener(
+        "click",
+        () => {
+
+            addComment(
+                postId,
+                input
+            );
+
+        }
+    );
+
+
+    input.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                addComment(
+                    postId,
+                    input
+                );
+
+            }
+
+        }
+    );
 
 }
 
 
+/* ================================
+   ADD COMMENT
+================================ */
 
-/* =====================================================
-   CHARACTER COUNT
-   ===================================================== */
+async function addComment(
+    postId,
+    input
+) {
 
-const postContent =
-    document.getElementById(
-        "post-content"
+    const content =
+        input.value.trim();
+
+
+    if (!content) {
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "community_comments"
+            )
+            .insert({
+
+                post_id:
+                    postId,
+
+                user_id:
+                    currentUser.id,
+
+                content:
+                    content
+
+            });
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to add comment."
+        );
+
+        return;
+
+    }
+
+
+    input.value = "";
+
+
+    await loadComments(
+        postId
     );
 
+}
 
-const characterCount =
-    document.getElementById(
-        "character-count"
-    );
 
+/* ================================
+   CREATE POST
+================================ */
 
 postContent.addEventListener(
     "input",
-    function () {
+    () => {
 
         characterCount.textContent =
             `${postContent.value.length} / 1000`;
@@ -493,146 +754,104 @@ postContent.addEventListener(
 );
 
 
+postButton.addEventListener(
+    "click",
+    async () => {
 
-/* =====================================================
-   CREATE POST
-   ===================================================== */
-
-document
-    .getElementById(
-        "post-button"
-    )
-    .addEventListener(
-        "click",
-        async function () {
-
-            const content =
-                postContent.value.trim();
+        const content =
+            postContent.value.trim();
 
 
-            if (!content) {
+        if (!content) {
 
-                alert(
-                    "Please write something first."
-                );
+            postMessage.textContent =
+                "Please write something first.";
 
-                return;
-
-            }
-
-
-            const button =
-                this;
-
-
-            button.disabled =
-                true;
-
-            button.textContent =
-                "POSTING...";
-
-
-            try {
-
-                const {
-                    data: {
-                        user
-                    }
-                } =
-                    await supabaseClient
-                        .auth
-                        .getUser();
-
-
-                if (!user) {
-
-                    window.location.href =
-                        "login.html";
-
-                    return;
-
-                }
-
-
-                const {
-                    error
-                } =
-                    await supabaseClient
-                        .from(
-                            "community_posts"
-                        )
-                        .insert({
-
-                            user_id:
-                                user.id,
-
-                            content:
-                                content
-
-                        });
-
-
-                if (error) {
-
-                    throw error;
-
-                }
-
-
-                postContent.value =
-                    "";
-
-                characterCount.textContent =
-                    "0 / 1000";
-
-
-                await loadPosts();
-
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Post error:",
-                    error
-                );
-
-
-                alert(
-                    error.message ||
-                    "Unable to create post."
-                );
-
-            }
-
-            finally {
-
-                button.disabled =
-                    false;
-
-                button.textContent =
-                    "POST";
-
-            }
+            return;
 
         }
-    );
 
 
+        postButton.disabled = true;
 
-/* =====================================================
-   START
-   ===================================================== */
+        postButton.textContent =
+            "POSTING...";
 
-document.addEventListener(
-    "DOMContentLoaded",
-    loadCommunity
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("community_posts")
+                .insert({
+
+                    user_id:
+                        currentUser.id,
+
+                    content:
+                        content
+
+                });
+
+
+        if (error) {
+
+            console.error(error);
+
+            postMessage.textContent =
+                "Unable to create post.";
+
+            postButton.disabled =
+                false;
+
+            postButton.textContent =
+                "POST";
+
+            return;
+
+        }
+
+
+        postContent.value = "";
+
+        characterCount.textContent =
+            "0 / 1000";
+
+        postMessage.textContent =
+            "Post published successfully.";
+
+
+        postButton.disabled =
+            false;
+
+        postButton.textContent =
+            "POST";
+
+
+        await loadPosts();
+
+    }
 );
 
 
-</script>
+/* ================================
+   START COMMUNITY
+================================ */
 
+async function startCommunity() {
+
+    await loadCurrentUser();
+
+    if (!currentUser) return;
+
+    await loadPosts();
+
+}
+
+
+startCommunity();
+
+</script>
 
 </body>
 
