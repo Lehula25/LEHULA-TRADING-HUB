@@ -95,13 +95,187 @@
 
         <div class="profile-card">
 
+    <div class="profile-avatar-wrapper">
 
-            <div
-                class="profile-avatar"
-                id="profile-avatar"
-            >
-                👤
+        <div
+            class="profile-avatar"
+            id="profile-avatar"
+        >
+            👤
+        </div>
+
+        <button
+            id="change-avatar-button"
+            class="change-avatar-button"
+            type="button"
+        >
+            CHANGE
+        </button>
+
+    </div>
+
+
+    <div class="profile-info">
+
+        <p class="profile-label">
+            MY PROFILE
+        </p>
+
+        <h2>
+            Welcome back,
+            <span id="user-name">
+                Loading name...
+            </span>
+            👋
+        </h2>
+
+        <div class="profile-details">
+
+            <div class="profile-detail">
+
+                <span>
+                    USERNAME
+                </span>
+
+                <strong id="user-username">
+                    Loading username...
+                </strong>
+
             </div>
+
+
+            <div class="profile-detail">
+
+                <span>
+                    EMAIL
+                </span>
+
+                <strong id="user-email">
+                    Loading email...
+                </strong>
+
+            </div>
+
+
+            <div class="profile-detail">
+
+                <span>
+                    ROLE
+                </span>
+
+                <strong id="user-role">
+                    Loading role...
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="logout-button"
+        class="logout-button"
+        type="button"
+    >
+        LOGOUT
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     AVATAR MODAL
+     ===================================================== -->
+
+<div
+    id="avatar-modal"
+    class="avatar-modal"
+>
+
+    <div class="avatar-modal-content">
+
+        <button
+            id="close-avatar-modal"
+            class="close-avatar-modal"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <p class="profile-label">
+            PROFILE AVATAR
+        </p>
+
+        <h3>
+            Choose Your Avatar
+        </h3>
+
+
+        <div
+            id="avatar-preview"
+            class="avatar-preview"
+        >
+            👤
+        </div>
+
+
+        <label
+            for="avatar-upload"
+            class="avatar-upload-button"
+        >
+            📷 UPLOAD PHOTO
+        </label>
+
+        <input
+            type="file"
+            id="avatar-upload"
+            accept="image/*"
+            hidden
+        >
+
+
+        <div class="avatar-divider">
+            OR
+        </div>
+
+
+        <p class="emoji-title">
+            CHOOSE EMOJI
+        </p>
+
+
+        <div class="emoji-grid">
+
+            <button type="button" class="emoji-option">😀</button>
+            <button type="button" class="emoji-option">😎</button>
+            <button type="button" class="emoji-option">🦁</button>
+            <button type="button" class="emoji-option">🐺</button>
+            <button type="button" class="emoji-option">🐼</button>
+            <button type="button" class="emoji-option">🦊</button>
+            <button type="button" class="emoji-option">🐯</button>
+            <button type="button" class="emoji-option">🐸</button>
+            <button type="button" class="emoji-option">🐵</button>
+            <button type="button" class="emoji-option">🐲</button>
+            <button type="button" class="emoji-option">👽</button>
+            <button type="button" class="emoji-option">🤖</button>
+
+        </div>
+
+
+        <button
+            id="save-avatar-button"
+            class="save-avatar-button"
+            type="button"
+        >
+            SAVE AVATAR
+        </button>
+
+    </div>
+
+</div>
 
 
             <div class="profile-info">
