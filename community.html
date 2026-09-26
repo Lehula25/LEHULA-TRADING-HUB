@@ -5,107 +5,634 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Community | LEHULA Trading Hub</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
+
 <body>
+
 
 <header>
 
-    <div class="logo">L25</div>
-
-    <div class="brand">
-        <h1>LEHULA</h1>
-        <p>TRADING HUB</p>
+    <div class="logo">
+        L25
     </div>
 
+    <div class="brand">
+
+        <h1>
+            LEHULA
+        </h1>
+
+        <p>
+            TRADING HUB
+        </p>
+
+    </div>
+
+    <a
+        href="dashboard.html"
+        class="menu"
+        style="text-decoration:none;"
+    >
+        ←
+    </a>
+
 </header>
+
+
 
 <main>
 
     <section class="hero">
 
-        <p class="country">🇱🇸 LEHULA COMMUNITY</p>
+        <p class="country">
+            🇱🇸 LESOTHO FX TRADING
+        </p>
 
         <h2>
-            TRADING<br>
-            <span>COMMUNITY.</span>
+
+            TRADING
+            <br>
+
+            <span>
+                COMMUNITY.
+            </span>
+
         </h2>
 
         <p class="description">
-            Connect, share ideas and learn with other traders.
+
+            Connect, share ideas and learn
+            with other traders.
+
         </p>
 
-        <a href="dashboard.html" class="primary">
-            ← BACK TO DASHBOARD
-        </a>
 
-    </section>
+        <!-- ==========================================
+             CREATE POST
+             ========================================== -->
+
+        <div class="community-create">
+
+            <h3>
+                SHARE WITH THE COMMUNITY
+            </h3>
 
 
-    <section class="features">
+            <textarea
+                id="post-content"
+                placeholder="Share your trading thoughts, lessons or ideas..."
+                maxlength="1000"
+            ></textarea>
 
-        <div class="feature">
 
-            <div class="icon">💬</div>
+            <div class="community-create-bottom">
 
-            <h3>Community Chat</h3>
+                <span id="character-count">
+                    0 / 1000
+                </span>
 
-            <p>
-                Discuss trading ideas, strategies and
-                market observations with other members.
-            </p>
+
+                <button
+                    id="post-button"
+                    class="primary"
+                    type="button"
+                >
+                    POST
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             COMMUNITY POSTS
+             ========================================== -->
+
+        <div class="community-section">
+
+            <div class="community-heading">
+
+                <div>
+
+                    <p class="profile-label">
+                        LEHULA COMMUNITY
+                    </p>
+
+                    <h3>
+                        Latest Discussions
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div id="community-posts">
+
+                <div class="community-loading">
+                    Loading community posts...
+                </div>
+
+            </div>
 
         </div>
 
-
-        <div class="feature">
-
-            <div class="icon">📊</div>
-
-            <h3>Trade Ideas</h3>
-
-            <p>
-                Share charts and discuss potential
-                market setups with the community.
-            </p>
-
-        </div>
-
-
-        <div class="feature">
-
-            <div class="icon">🎓</div>
-
-            <h3>Learn Together</h3>
-
-            <p>
-                Exchange knowledge about technical
-                analysis, ICT, SMC and risk management.
-            </p>
-
-        </div>
 
     </section>
 
 </main>
 
 
+
 <footer>
 
-    <p>LEHULA TRADING HUB © 2026</p>
+    <p>
+        LEHULA TRADING HUB © 2026
+    </p>
 
     <p>
         Lesotho FX Trading to the World 🌍
     </p>
 
 </footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="Script.js"></script>
+
+
+<script>
+
+
+/* =====================================================
+   COMMUNITY
+   ===================================================== */
+
+
+let currentUser = null;
+
+
+
+/* =====================================================
+   CHECK USER
+   ===================================================== */
+
+async function loadCommunity() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    currentUser =
+        user;
+
+
+    loadPosts();
+
+}
+
+
+
+/* =====================================================
+   LOAD POSTS
+   ===================================================== */
+
+async function loadPosts() {
+
+    const postsContainer =
+        document.getElementById(
+            "community-posts"
+        );
+
+
+    postsContainer.innerHTML = `
+        <div class="community-loading">
+            Loading community posts...
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("community_posts")
+            .select(`
+                id,
+                content,
+                created_at,
+                user_id,
+                profiles (
+                    username,
+                    full_name,
+                    avatar_url,
+                    avatar_emoji
+                )
+            `)
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "Community load error:",
+            error
+        );
+
+
+        postsContainer.innerHTML = `
+            <div class="community-error">
+                Unable to load community posts.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        postsContainer.innerHTML = `
+            <div class="community-empty">
+
+                <div>
+                    💬
+                </div>
+
+                <h3>
+                    No posts yet
+                </h3>
+
+                <p>
+                    Be the first trader to
+                    start the conversation.
+                </p>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    postsContainer.innerHTML =
+        data
+            .map(
+                function (post) {
+
+                    const profile =
+                        post.profiles || {};
+
+
+                    const name =
+                        profile.full_name ||
+                        profile.username ||
+                        "Trader";
+
+
+                    let avatar =
+                        name
+                            .charAt(0)
+                            .toUpperCase();
+
+
+                    if (
+                        profile.avatar_emoji
+                    ) {
+
+                        avatar =
+                            profile.avatar_emoji;
+
+                    }
+
+
+                    const avatarHTML =
+                        profile.avatar_url
+
+                            ? `
+                                <img
+                                    src="${profile.avatar_url}"
+                                    alt="Profile picture"
+                                >
+                            `
+
+                            : avatar;
+
+
+
+                    const date =
+                        new Date(
+                            post.created_at
+                        );
+
+
+                    const timeText =
+                        date.toLocaleString();
+
+
+
+                    return `
+
+                        <article
+                            class="community-post"
+                        >
+
+                            <div
+                                class="community-post-header"
+                            >
+
+                                <div
+                                    class="community-avatar"
+                                >
+
+                                    ${avatarHTML}
+
+                                </div>
+
+
+                                <div
+                                    class="community-user"
+                                >
+
+                                    <strong>
+                                        ${escapeHTML(name)}
+                                    </strong>
+
+                                    <span>
+                                        @${escapeHTML(
+                                            profile.username ||
+                                            "trader"
+                                        )}
+                                    </span>
+
+                                    <small>
+                                        ${timeText}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="community-post-content"
+                            >
+
+                                ${escapeHTML(
+                                    post.content
+                                )}
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
+
+function escapeHTML(text) {
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    element.textContent =
+        text;
+
+
+    return element.innerHTML;
+
+}
+
+
+
+/* =====================================================
+   CHARACTER COUNT
+   ===================================================== */
+
+const postContent =
+    document.getElementById(
+        "post-content"
+    );
+
+
+const characterCount =
+    document.getElementById(
+        "character-count"
+    );
+
+
+postContent.addEventListener(
+    "input",
+    function () {
+
+        characterCount.textContent =
+            `${postContent.value.length} / 1000`;
+
+    }
+);
+
+
+
+/* =====================================================
+   CREATE POST
+   ===================================================== */
+
+document
+    .getElementById(
+        "post-button"
+    )
+    .addEventListener(
+        "click",
+        async function () {
+
+            const content =
+                postContent.value.trim();
+
+
+            if (!content) {
+
+                alert(
+                    "Please write something first."
+                );
+
+                return;
+
+            }
+
+
+            const button =
+                this;
+
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "POSTING...";
+
+
+            try {
+
+                const {
+                    data: {
+                        user
+                    }
+                } =
+                    await supabaseClient
+                        .auth
+                        .getUser();
+
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .from(
+                            "community_posts"
+                        )
+                        .insert({
+
+                            user_id:
+                                user.id,
+
+                            content:
+                                content
+
+                        });
+
+
+                if (error) {
+
+                    throw error;
+
+                }
+
+
+                postContent.value =
+                    "";
+
+                characterCount.textContent =
+                    "0 / 1000";
+
+
+                await loadPosts();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Post error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Unable to create post."
+                );
+
+            }
+
+            finally {
+
+                button.disabled =
+                    false;
+
+                button.textContent =
+                    "POST";
+
+            }
+
+        }
+    );
+
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadCommunity
+);
+
+
+</script>
+
 
 </body>
 
