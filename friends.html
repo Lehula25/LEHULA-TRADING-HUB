@@ -244,46 +244,61 @@ let currentUser = null;
 
 async function checkUser() {
 
+    console.log("Checking LEHULA user...");
+
     const {
-        data: {
-            session
-        },
+        data,
         error
-    } = await supabaseClient.auth.getSession();
+    } = await supabaseClient.auth.getUser();
+
+    console.log("Auth result:", data);
+    console.log("Auth error:", error);
 
     if (error) {
 
         console.error(
-            "Session error:",
+            "Authentication error:",
             error
         );
 
-        return;
-
-    }
-
-    if (!session || !session.user) {
-
-        console.log(
-            "No active session."
-        );
-
-        window.location.href =
-            "login.html";
+        document.getElementById(
+            "friends-list"
+        ).innerHTML = `
+            <div class="friends-error">
+                Authentication error.
+                Please refresh the page.
+            </div>
+        `;
 
         return;
-
     }
 
-    currentUser =
-        session.user;
+    if (!data || !data.user) {
 
+        document.getElementById(
+            "friends-list"
+        ).innerHTML = `
+            <div class="friends-error">
+                Your LEHULA session could not be found.
+                Please log in again.
+            </div>
+        `;
 
-    loadFriends();
+        return;
+    }
 
-    loadRequests();
+    currentUser = data.user;
 
-    loadSentRequests();
+    console.log(
+        "LEHULA user:",
+        currentUser.id
+    );
+
+    await loadFriends();
+
+    await loadRequests();
+
+    await loadSentRequests();
 
 }
 
