@@ -1476,6 +1476,42 @@ async function startCommunity() {
 
 startCommunity();
 
+    async function setupMyProfileLink() {
+
+    const profileLink =
+        document.getElementById(
+            "my-profile-link"
+        );
+
+    if (!profileLink) {
+        return;
+    }
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if (
+        session &&
+        session.user
+    ) {
+
+        profileLink.href =
+            `profile.html?id=${session.user.id}`;
+
+    } else {
+
+        profileLink.href =
+            "login.html";
+
+    }
+
+}
+
+setupMyProfileLink();
+
 </script>
 
 </body>
