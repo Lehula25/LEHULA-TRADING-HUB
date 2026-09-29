@@ -3548,3 +3548,437 @@ PROFILE MOBILE
     font-size: 13px;
     text-align: center;
 }
+.friends-page {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 40px 20px 70px;
+}
+
+.friends-header {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(32, 232, 121, 0.14),
+            rgba(9, 24, 38, 0.96)
+        );
+
+    border: 1px solid rgba(32, 232, 121, 0.16);
+
+    border-radius: 22px;
+
+    padding: 34px;
+
+    margin-bottom: 24px;
+}
+
+.friends-header h1 {
+    margin: 10px 0 8px;
+
+    font-size: 36px;
+
+    letter-spacing: 1px;
+}
+
+.friends-header p {
+    margin: 0;
+
+    color: #aebbc7;
+
+    font-size: 15px;
+}
+
+.friends-tabs {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+.friends-tab {
+    border: 1px solid
+        rgba(255,255,255,0.08);
+
+    background: #0b1a29;
+
+    color: #b8c4cf;
+
+    padding: 14px 10px;
+
+    border-radius: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.friends-tab.active {
+    background: #20e879;
+
+    color: #06111d;
+
+    border-color: #20e879;
+}
+
+.friends-tab span {
+    display: inline-flex;
+
+    min-width: 20px;
+
+    height: 20px;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-left: 5px;
+
+    border-radius: 50%;
+
+    background: rgba(0,0,0,0.18);
+
+    font-size: 11px;
+}
+
+.friends-section {
+    margin-top: 10px;
+}
+
+.friends-section-title {
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    color: #8f9eab;
+
+    margin-bottom: 12px;
+}
+
+.friends-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.friend-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 16px;
+
+    background: #0b1a29;
+
+    border: 1px solid
+        rgba(255,255,255,0.07);
+
+    border-radius: 16px;
+}
+
+.friend-card-avatar {
+    width: 54px;
+
+    height: 54px;
+
+    min-width: 54px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #14283a;
+
+    font-size: 27px;
+}
+
+.friend-card-avatar img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.friends-avatar-emoji {
+    font-size: 27px;
+}
+
+.friend-card-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.friend-card-name {
+    display: block;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    margin-bottom: 4px;
+}
+
+.friend-card-name:hover {
+    color: #61d89d;
+}
+
+.friend-card-username {
+    color: #7f8d9a;
+
+    font-size: 13px;
+}
+
+.friend-request-status {
+    margin-top: 5px;
+
+    color: #d4b96b;
+
+    font-size: 12px;
+}
+
+.friend-card-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+}
+
+.friend-card-actions button,
+.view-profile-button {
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 9px 13px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    text-decoration: none;
+}
+
+.accept-friend-button {
+    background: #20e879;
+
+    color: #06111d;
+}
+
+.decline-friend-button,
+.remove-friend-button,
+.cancel-friend-button {
+    background: #182a3a;
+
+    color: #b8c4cf;
+}
+
+.decline-friend-button:hover,
+.remove-friend-button:hover,
+.cancel-friend-button:hover {
+    background: #24394c;
+}
+
+.view-profile-button {
+    background: #162a3b;
+
+    color: #20e879;
+}
+
+.friends-empty {
+    text-align: center;
+
+    padding: 55px 20px;
+
+    background: #0b1a29;
+
+    border: 1px dashed
+        rgba(255,255,255,0.10);
+
+    border-radius: 18px;
+
+    color: #8998a6;
+}
+
+.friends-empty-icon {
+    font-size: 40px;
+
+    margin-bottom: 12px;
+}
+
+.friends-empty h3 {
+    margin: 0 0 7px;
+
+    color: #ffffff;
+}
+
+.friends-empty p {
+    margin: 0 0 18px;
+
+    font-size: 14px;
+}
+
+.find-friends-button {
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 11px 17px;
+
+    background: #20e879;
+
+    color: #06111d;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.friends-loading {
+    text-align: center;
+
+    padding: 40px;
+
+    color: #8d9aa7;
+}
+
+.friends-error {
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 70, 70, 0.08);
+
+    border: 1px solid
+        rgba(255, 70, 70, 0.15);
+
+    color: #ff9a9a;
+}
+
+.trader-search {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+}
+
+.trader-search input {
+    flex: 1;
+
+    min-width: 0;
+
+    background: #081522;
+
+    border: 1px solid
+        rgba(255,255,255,0.08);
+
+    border-radius: 11px;
+
+    padding: 13px 14px;
+
+    color: #ffffff;
+
+    outline: none;
+}
+
+.trader-search input:focus {
+    border-color: rgba(32,232,121,0.45);
+}
+
+.trader-search button {
+    border: none;
+
+    border-radius: 11px;
+
+    padding: 0 20px;
+
+    background: #20e879;
+
+    color: #06111d;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+
+    .friends-tabs {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .friends-header {
+        padding: 25px;
+    }
+
+    .friends-header h1 {
+        font-size: 29px;
+    }
+
+    .friend-card {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+    .friend-card-info {
+        padding-top: 3px;
+    }
+
+    .friend-card-actions {
+        width: 100%;
+
+        justify-content: flex-start;
+
+        margin-left: 69px;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .friends-page {
+        padding: 25px 14px 50px;
+    }
+
+    .friends-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .trader-search {
+        flex-direction: column;
+    }
+
+    .trader-search button {
+        min-height: 44px;
+    }
+
+}
