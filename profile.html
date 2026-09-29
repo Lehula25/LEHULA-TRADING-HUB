@@ -102,20 +102,22 @@
     </div>
 
 
-    <div class="trader-profile-stats">
+   <div class="profile-actions">
 
+    <button
+        id="friend-button"
+        class="friend-button"
+        type="button"
+        style="display:none;"
+    >
+        ➕ Add Friend
+    </button>
 
-        <div class="profile-stat">
+    <div id="friend-message" class="friend-message"></div>
 
-            <strong id="post-count">
-                0
-            </strong>
+</div>
 
-            <span>
-                Posts
-            </span>
-
-        </div>
+<div class="trader-profile-stats">
 
 
         <div class="profile-stat">
@@ -525,6 +527,253 @@ async function loadTraderPosts() {
 ========================================================= */
 
 loadProfile();
+
+    const friendButton =
+    document.getElementById("friend-button");
+
+const friendMessage =
+    document.getElementById("friend-message");
+
+let currentUser = null;
+let currentFriendRequest = null;
+
+
+async function setupFriendSystem() {
+
+    const {
+        data: {
+            user
+        }
+    } = await supabaseClient.auth.getUser();
+
+    currentUser = user;
+
+    if (!currentUser) {
+        return;
+    }
+
+    if (!profileId) {
+        return;
+    }
+
+    if (currentUser.id === profileId) {
+        return;
+    }
+
+    friendButton.style.display = "inline-flex";
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .select("*")
+        .or(
+            `and(sender_id.eq.${currentUser.id},receiver_id.eq.${profileId}),and(sender_id.eq.${profileId},receiver_id.eq.${currentUser.id})`
+        )
+        .maybeSingle();
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    currentFriendRequest = data;
+
+    updateFriendButton();
+}
+
+
+function updateFriendButton() {
+
+    if (!friendButton) {
+        return;
+    }
+
+    if (!currentFriendRequest) {
+
+        friendButton.textContent =
+            "➕ Add Friend";
+
+        friendButton.disabled = false;
+
+        return;
+    }
+
+    if (
+        currentFriendRequest.sender_id ===
+        currentUser.id
+    ) {
+
+        if (
+            currentFriendRequest.status ===
+            "pending"
+        ) {
+
+            friendButton.textContent =
+                "⏳ Request Sent";
+
+            friendButton.disabled = true;
+
+        } else if (
+            currentFriendRequest.status ===
+            "accepted"
+        ) {
+
+            friendButton.textContent =
+                "👥 Friends";
+
+            friendButton.disabled = true;
+
+        } else {
+
+            friendButton.textContent =
+                "➕ Add Friend";
+
+            friendButton.disabled = false;
+        }
+
+        return;
+    }
+
+
+    if (
+        currentFriendRequest.receiver_id ===
+        currentUser.id
+    ) {
+
+        if (
+            currentFriendRequest.status ===
+            "pending"
+        ) {
+
+            friendButton.textContent =
+                "🤝 Accept Friend";
+
+            friendButton.disabled = false;
+
+        } else if (
+            currentFriendRequest.status ===
+            "accepted"
+        ) {
+
+            friendButton.textContent =
+                "👥 Friends";
+
+            friendButton.disabled = true;
+
+        } else {
+
+            friendButton.textContent =
+                "➕ Add Friend";
+
+            friendButton.disabled = false;
+        }
+    }
+}
+
+
+friendButton.addEventListener(
+    "click",
+    async () => {
+
+        if (!currentUser) {
+            return;
+        }
+
+        if (!profileId) {
+            return;
+        }
+
+
+        if (
+            currentFriendRequest &&
+            currentFriendRequest.status ===
+            "pending" &&
+            currentFriendRequest.receiver_id ===
+            currentUser.id
+        ) {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("friend_requests")
+                .update({
+                    status: "accepted"
+                })
+                .eq(
+                    "id",
+                    currentFriendRequest.id
+                );
+
+            if (error) {
+
+                console.error(error);
+
+                friendMessage.textContent =
+                    "Could not accept request.";
+
+                return;
+            }
+
+            currentFriendRequest.status =
+                "accepted";
+
+            friendMessage.textContent =
+                "You are now friends! 👥";
+
+            updateFriendButton();
+
+            return;
+        }
+
+
+        if (
+            !currentFriendRequest ||
+            currentFriendRequest.status ===
+            "declined"
+        ) {
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("friend_requests")
+                .insert({
+                    sender_id:
+                        currentUser.id,
+
+                    receiver_id:
+                        profileId,
+
+                    status:
+                        "pending"
+                })
+                .select()
+                .single();
+
+            if (error) {
+
+                console.error(error);
+
+                friendMessage.textContent =
+                    "Could not send friend request.";
+
+                return;
+            }
+
+            currentFriendRequest = data;
+
+            friendMessage.textContent =
+                "Friend request sent! ✅";
+
+            updateFriendButton();
+        }
+    }
+);
+
+
+setupFriendSystem();
 
 </script>
 
