@@ -3982,3 +3982,48 @@ PROFILE MOBILE
     }
 
 }
+.community-navigation {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.community-nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 17px;
+    border-radius: 11px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #b8c4cf;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+    transition: 0.2s ease;
+}
+
+.community-nav-link:hover {
+    color: #20e879;
+    border-color: rgba(32,232,121,0.35);
+}
+
+.community-nav-link.active {
+    background: #20e879;
+    color: #06111d;
+    border-color: #20e879;
+}
+
+@media (max-width: 600px) {
+
+    .community-navigation {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .community-nav-link {
+        width: 100%;
+    }
+
+}
