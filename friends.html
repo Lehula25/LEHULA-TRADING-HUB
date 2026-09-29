@@ -246,11 +246,27 @@ async function checkUser() {
 
     const {
         data: {
-            user
-        }
-    } = await supabaseClient.auth.getUser();
+            session
+        },
+        error
+    } = await supabaseClient.auth.getSession();
 
-    if (!user) {
+    if (error) {
+
+        console.error(
+            "Session error:",
+            error
+        );
+
+        return;
+
+    }
+
+    if (!session || !session.user) {
+
+        console.log(
+            "No active session."
+        );
 
         window.location.href =
             "login.html";
@@ -259,7 +275,9 @@ async function checkUser() {
 
     }
 
-    currentUser = user;
+    currentUser =
+        session.user;
+
 
     loadFriends();
 
