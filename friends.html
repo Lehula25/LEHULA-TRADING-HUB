@@ -254,6 +254,7 @@ async function checkUser() {
     console.log("Auth result:", data);
     console.log("Auth error:", error);
 
+
     if (error) {
 
         console.error(
@@ -265,13 +266,24 @@ async function checkUser() {
             "friends-list"
         ).innerHTML = `
             <div class="friends-error">
-                Authentication error.
-                Please refresh the page.
+
+                <strong>
+                    Authentication error
+                </strong>
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message ||
+                    "Unknown authentication error"
+                )}
+
             </div>
         `;
 
         return;
     }
+
 
     if (!data || !data.user) {
 
@@ -279,13 +291,19 @@ async function checkUser() {
             "friends-list"
         ).innerHTML = `
             <div class="friends-error">
+
                 Your LEHULA session could not be found.
+
+                <br><br>
+
                 Please log in again.
+
             </div>
         `;
 
         return;
     }
+
 
     currentUser = data.user;
 
@@ -293,6 +311,7 @@ async function checkUser() {
         "LEHULA user:",
         currentUser.id
     );
+
 
     await loadFriends();
 
@@ -332,6 +351,7 @@ function getAvatar(profile) {
 
     }
 
+
     if (profile.avatar_emoji) {
 
         return `
@@ -341,6 +361,7 @@ function getAvatar(profile) {
         `;
 
     }
+
 
     return "👤";
 
@@ -364,6 +385,7 @@ async function getProfiles(userIds) {
         return {};
     }
 
+
     const {
         data,
         error
@@ -374,6 +396,7 @@ async function getProfiles(userIds) {
         )
         .in("id", userIds);
 
+
     if (error) {
 
         console.error(error);
@@ -382,7 +405,9 @@ async function getProfiles(userIds) {
 
     }
 
+
     const profiles = {};
+
 
     data.forEach(profile => {
 
@@ -390,6 +415,7 @@ async function getProfiles(userIds) {
             profile;
 
     });
+
 
     return profiles;
 
@@ -399,7 +425,10 @@ async function getProfiles(userIds) {
 async function loadFriends() {
 
     const container =
-        document.getElementById("friends-list");
+        document.getElementById(
+            "friends-list"
+        );
+
 
     const {
         data,
@@ -407,10 +436,14 @@ async function loadFriends() {
     } = await supabaseClient
         .from("friend_requests")
         .select("*")
-        .eq("status", "accepted")
+        .eq(
+            "status",
+            "accepted"
+        )
         .or(
             `sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`
         );
+
 
     if (error) {
 
@@ -430,7 +463,9 @@ async function loadFriends() {
     if (!data || data.length === 0) {
 
         container.innerHTML = `
+
             <div class="friends-empty">
+
                 <div class="friends-empty-icon">
                     👥
                 </div>
@@ -450,7 +485,9 @@ async function loadFriends() {
                 >
                     🔎 FIND TRADERS
                 </button>
+
             </div>
+
         `;
 
         return;
@@ -463,7 +500,9 @@ async function loadFriends() {
 
             return request.sender_id ===
                 currentUser.id
+
                 ? request.receiver_id
+
                 : request.sender_id;
 
         });
@@ -480,8 +519,11 @@ async function loadFriends() {
 
         const friendId =
             request.sender_id === currentUser.id
+
                 ? request.receiver_id
+
                 : request.sender_id;
+
 
         const profile =
             profiles[friendId];
@@ -492,10 +534,11 @@ async function loadFriends() {
         }
 
 
-        container.innerHTML += createFriendCard(
-            profile,
-            "friend"
-        );
+        container.innerHTML +=
+            createFriendCard(
+                profile,
+                "friend"
+            );
 
     });
 
@@ -505,7 +548,10 @@ async function loadFriends() {
 async function loadRequests() {
 
     const container =
-        document.getElementById("requests-list");
+        document.getElementById(
+            "requests-list"
+        );
+
 
     const {
         data,
@@ -553,7 +599,9 @@ async function loadRequests() {
     if (data.length === 0) {
 
         container.innerHTML = `
+
             <div class="friends-empty">
+
                 <div class="friends-empty-icon">
                     📨
                 </div>
@@ -565,7 +613,9 @@ async function loadRequests() {
                 <p>
                     New requests will appear here.
                 </p>
+
             </div>
+
         `;
 
         return;
@@ -596,6 +646,7 @@ async function loadRequests() {
 
 
         container.innerHTML += `
+
             <div class="friend-card">
 
                 <div class="friend-card-avatar">
@@ -605,18 +656,24 @@ async function loadRequests() {
                 <div class="friend-card-info">
 
                     <div class="friend-card-name">
-                        ${escapeHTML(getName(profile))}
+                        ${escapeHTML(
+                            getName(profile)
+                        )}
                     </div>
 
                     <div class="friend-card-username">
+
                         ${
                             profile.username
+
                             ? "@" +
                               escapeHTML(
                                   profile.username
                               )
+
                             : ""
                         }
+
                     </div>
 
                 </div>
@@ -640,6 +697,7 @@ async function loadRequests() {
                 </div>
 
             </div>
+
         `;
 
     });
@@ -650,7 +708,10 @@ async function loadRequests() {
 async function loadSentRequests() {
 
     const container =
-        document.getElementById("sent-list");
+        document.getElementById(
+            "sent-list"
+        );
+
 
     const {
         data,
@@ -692,7 +753,9 @@ async function loadSentRequests() {
     if (data.length === 0) {
 
         container.innerHTML = `
+
             <div class="friends-empty">
+
                 <div class="friends-empty-icon">
                     📤
                 </div>
@@ -705,7 +768,9 @@ async function loadSentRequests() {
                     Friend requests you send will
                     appear here.
                 </p>
+
             </div>
+
         `;
 
         return;
@@ -746,18 +811,24 @@ async function loadSentRequests() {
                 <div class="friend-card-info">
 
                     <div class="friend-card-name">
-                        ${escapeHTML(getName(profile))}
+                        ${escapeHTML(
+                            getName(profile)
+                        )}
                     </div>
 
                     <div class="friend-card-username">
+
                         ${
                             profile.username
+
                             ? "@" +
                               escapeHTML(
                                   profile.username
                               )
+
                             : ""
                         }
+
                     </div>
 
                     <div class="friend-request-status">
@@ -805,17 +876,21 @@ function createFriendCard(
                     href="profile.html?id=${profile.id}"
                     class="friend-card-name"
                 >
-                    ${escapeHTML(getName(profile))}
+                    ${escapeHTML(
+                        getName(profile)
+                    )}
                 </a>
 
                 <div class="friend-card-username">
 
                     ${
                         profile.username
+
                         ? "@" +
                           escapeHTML(
                               profile.username
                           )
+
                         : ""
                     }
 
@@ -827,14 +902,18 @@ function createFriendCard(
 
                 ${
                     type === "friend"
+
                     ? `
+
                         <button
                             class="remove-friend-button"
                             onclick="removeFriend('${profile.id}')"
                         >
                             REMOVE
                         </button>
+
                     `
+
                     : ""
                 }
 
@@ -965,6 +1044,7 @@ async function removeFriend(friendId) {
             "Remove this trader from your friends?"
         );
 
+
     if (!confirmed) {
         return;
     }
@@ -1005,10 +1085,12 @@ async function searchTraders() {
             "trader-search-input"
         );
 
+
     const results =
         document.getElementById(
             "trader-results"
         );
+
 
     const search =
         input.value.trim();
@@ -1017,9 +1099,11 @@ async function searchTraders() {
     if (!search) {
 
         results.innerHTML = `
+
             <div class="friends-empty">
                 Enter a name or username to search.
             </div>
+
         `;
 
         return;
@@ -1028,9 +1112,11 @@ async function searchTraders() {
 
 
     results.innerHTML = `
+
         <div class="friends-loading">
             Searching traders...
         </div>
+
     `;
 
 
@@ -1057,9 +1143,11 @@ async function searchTraders() {
         console.error(error);
 
         results.innerHTML = `
+
             <div class="friends-error">
                 Search failed.
             </div>
+
         `;
 
         return;
@@ -1070,7 +1158,9 @@ async function searchTraders() {
     if (!data || data.length === 0) {
 
         results.innerHTML = `
+
             <div class="friends-empty">
+
                 <div class="friends-empty-icon">
                     🔎
                 </div>
@@ -1082,7 +1172,9 @@ async function searchTraders() {
                 <p>
                     Try another name or username.
                 </p>
+
             </div>
+
         `;
 
         return;
@@ -1109,17 +1201,21 @@ async function searchTraders() {
                         href="profile.html?id=${profile.id}"
                         class="friend-card-name"
                     >
-                        ${escapeHTML(getName(profile))}
+                        ${escapeHTML(
+                            getName(profile)
+                        )}
                     </a>
 
                     <div class="friend-card-username">
 
                         ${
                             profile.username
+
                             ? "@" +
                               escapeHTML(
                                   profile.username
                               )
+
                             : ""
                         }
 
@@ -1194,6 +1290,7 @@ function showSection(section) {
             document.getElementById(
                 name + "-section"
             );
+
 
         if (element) {
 
