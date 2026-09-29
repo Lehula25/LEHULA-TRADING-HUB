@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Friends | LEHULA Trading Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            L25
+        </div>
+
+        <div class="brand-text">
+
+            <strong>
+                LEHULA
+            </strong>
+
+            <span>
+                TRADING HUB
+            </span>
+
+        </div>
+
+    </div>
+
+    <a
+        href="community.html"
+        class="back-button"
+    >
+        ←
+    </a>
+
+</header>
+
+
+<main class="friends-page">
+
+    <section class="friends-header">
+
+        <div class="community-label">
+            👥 LEHULA COMMUNITY
+        </div>
+
+        <h1>
+            FRIENDS.
+        </h1>
+
+        <p>
+            Connect with traders, build your network
+            and grow together.
+        </p>
+
+    </section>
+
+
+    <section class="friends-tabs">
+
+        <button
+            class="friends-tab active"
+            data-section="friends"
+        >
+            👥 My Friends
+        </button>
+
+        <button
+            class="friends-tab"
+            data-section="requests"
+        >
+            📨 Requests
+            <span id="request-count">
+                0
+            </span>
+        </button>
+
+        <button
+            class="friends-tab"
+            data-section="sent"
+        >
+            📤 Sent
+        </button>
+
+        <button
+            class="friends-tab"
+            data-section="find"
+        >
+            🔎 Find Traders
+        </button>
+
+    </section>
+
+
+    <section
+        id="friends-section"
+        class="friends-section"
+    >
+
+        <div class="friends-section-title">
+            👥 MY FRIENDS
+        </div>
+
+        <div
+            id="friends-list"
+            class="friends-list"
+        >
+
+            <div class="friends-loading">
+                Loading friends...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section
+        id="requests-section"
+        class="friends-section"
+        style="display:none;"
+    >
+
+        <div class="friends-section-title">
+            📨 FRIEND REQUESTS
+        </div>
+
+        <div
+            id="requests-list"
+            class="friends-list"
+        >
+
+            <div class="friends-loading">
+                Loading requests...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section
+        id="sent-section"
+        class="friends-section"
+        style="display:none;"
+    >
+
+        <div class="friends-section-title">
+            📤 SENT REQUESTS
+        </div>
+
+        <div
+            id="sent-list"
+            class="friends-list"
+        >
+
+            <div class="friends-loading">
+                Loading sent requests...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section
+        id="find-section"
+        class="friends-section"
+        style="display:none;"
+    >
+
+        <div class="friends-section-title">
+            🔎 FIND TRADERS
+        </div>
+
+        <div class="trader-search">
+
+            <input
+                type="text"
+                id="trader-search-input"
+                placeholder="Search username or name..."
+            >
+
+            <button
+                id="search-traders-button"
+            >
+                SEARCH
+            </button>
+
+        </div>
+
+        <div
+            id="trader-results"
+            class="friends-list"
+        >
+
+            <div class="friends-empty">
+                Search for traders to connect with them.
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+    "https://qqavebqfrbkvbxsrtqke.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_lGWnmqnaz8H6R_2qIJQO3A_oW2rc8K";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+let currentUser = null;
+
+
+async function checkUser() {
+
+    const {
+        data: {
+            user
+        }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    loadFriends();
+
+    loadRequests();
+
+    loadSentRequests();
+
+}
+
+
+function escapeHTML(text) {
+
+    if (!text) {
+        return "";
+    }
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function getAvatar(profile) {
+
+    if (profile.avatar_url) {
+
+        return `
+            <img
+                src="${profile.avatar_url}"
+                alt="Trader"
+            >
+        `;
+
+    }
+
+    if (profile.avatar_emoji) {
+
+        return `
+            <span class="friends-avatar-emoji">
+                ${escapeHTML(profile.avatar_emoji)}
+            </span>
+        `;
+
+    }
+
+    return "👤";
+
+}
+
+
+function getName(profile) {
+
+    return (
+        profile.full_name ||
+        profile.username ||
+        "LEHULA Trader"
+    );
+
+}
+
+
+async function getProfiles(userIds) {
+
+    if (!userIds.length) {
+        return {};
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select(
+            "id, username, full_name, avatar_url, avatar_emoji"
+        )
+        .in("id", userIds);
+
+    if (error) {
+
+        console.error(error);
+
+        return {};
+
+    }
+
+    const profiles = {};
+
+    data.forEach(profile => {
+
+        profiles[profile.id] =
+            profile;
+
+    });
+
+    return profiles;
+
+}
+
+
+async function loadFriends() {
+
+    const container =
+        document.getElementById("friends-list");
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .select("*")
+        .eq("status", "accepted")
+        .or(
+            `sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`
+        );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="friends-error">
+                Could not load friends.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="friends-empty">
+                <div class="friends-empty-icon">
+                    👥
+                </div>
+
+                <h3>
+                    No friends yet
+                </h3>
+
+                <p>
+                    Find traders and start building
+                    your LEHULA network.
+                </p>
+
+                <button
+                    class="find-friends-button"
+                    onclick="showSection('find')"
+                >
+                    🔎 FIND TRADERS
+                </button>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const userIds =
+        data.map(request => {
+
+            return request.sender_id ===
+                currentUser.id
+                ? request.receiver_id
+                : request.sender_id;
+
+        });
+
+
+    const profiles =
+        await getProfiles(userIds);
+
+
+    container.innerHTML = "";
+
+
+    data.forEach(request => {
+
+        const friendId =
+            request.sender_id === currentUser.id
+                ? request.receiver_id
+                : request.sender_id;
+
+        const profile =
+            profiles[friendId];
+
+
+        if (!profile) {
+            return;
+        }
+
+
+        container.innerHTML += createFriendCard(
+            profile,
+            "friend"
+        );
+
+    });
+
+}
+
+
+async function loadRequests() {
+
+    const container =
+        document.getElementById("requests-list");
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .select("*")
+        .eq(
+            "receiver_id",
+            currentUser.id
+        )
+        .eq(
+            "status",
+            "pending"
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="friends-error">
+                Could not load friend requests.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "request-count"
+    ).textContent =
+        data.length;
+
+
+    if (data.length === 0) {
+
+        container.innerHTML = `
+            <div class="friends-empty">
+                <div class="friends-empty-icon">
+                    📨
+                </div>
+
+                <h3>
+                    No friend requests
+                </h3>
+
+                <p>
+                    New requests will appear here.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const profiles =
+        await getProfiles(
+            data.map(request =>
+                request.sender_id
+            )
+        );
+
+
+    container.innerHTML = "";
+
+
+    data.forEach(request => {
+
+        const profile =
+            profiles[request.sender_id];
+
+
+        if (!profile) {
+            return;
+        }
+
+
+        container.innerHTML += `
+            <div class="friend-card">
+
+                <div class="friend-card-avatar">
+                    ${getAvatar(profile)}
+                </div>
+
+                <div class="friend-card-info">
+
+                    <div class="friend-card-name">
+                        ${escapeHTML(getName(profile))}
+                    </div>
+
+                    <div class="friend-card-username">
+                        ${
+                            profile.username
+                            ? "@" +
+                              escapeHTML(
+                                  profile.username
+                              )
+                            : ""
+                        }
+                    </div>
+
+                </div>
+
+                <div class="friend-card-actions">
+
+                    <button
+                        class="accept-friend-button"
+                        onclick="acceptRequest('${request.id}')"
+                    >
+                        ACCEPT
+                    </button>
+
+                    <button
+                        class="decline-friend-button"
+                        onclick="declineRequest('${request.id}')"
+                    >
+                        DECLINE
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    });
+
+}
+
+
+async function loadSentRequests() {
+
+    const container =
+        document.getElementById("sent-list");
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .select("*")
+        .eq(
+            "sender_id",
+            currentUser.id
+        )
+        .eq(
+            "status",
+            "pending"
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="friends-error">
+                Could not load sent requests.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (data.length === 0) {
+
+        container.innerHTML = `
+            <div class="friends-empty">
+                <div class="friends-empty-icon">
+                    📤
+                </div>
+
+                <h3>
+                    No sent requests
+                </h3>
+
+                <p>
+                    Friend requests you send will
+                    appear here.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const profiles =
+        await getProfiles(
+            data.map(request =>
+                request.receiver_id
+            )
+        );
+
+
+    container.innerHTML = "";
+
+
+    data.forEach(request => {
+
+        const profile =
+            profiles[request.receiver_id];
+
+
+        if (!profile) {
+            return;
+        }
+
+
+        container.innerHTML += `
+
+            <div class="friend-card">
+
+                <div class="friend-card-avatar">
+                    ${getAvatar(profile)}
+                </div>
+
+                <div class="friend-card-info">
+
+                    <div class="friend-card-name">
+                        ${escapeHTML(getName(profile))}
+                    </div>
+
+                    <div class="friend-card-username">
+                        ${
+                            profile.username
+                            ? "@" +
+                              escapeHTML(
+                                  profile.username
+                              )
+                            : ""
+                        }
+                    </div>
+
+                    <div class="friend-request-status">
+                        ⏳ Request pending
+                    </div>
+
+                </div>
+
+                <div class="friend-card-actions">
+
+                    <button
+                        class="cancel-friend-button"
+                        onclick="cancelRequest('${request.id}')"
+                    >
+                        CANCEL
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+function createFriendCard(
+    profile,
+    type
+) {
+
+    return `
+
+        <div class="friend-card">
+
+            <div class="friend-card-avatar">
+                ${getAvatar(profile)}
+            </div>
+
+            <div class="friend-card-info">
+
+                <a
+                    href="profile.html?id=${profile.id}"
+                    class="friend-card-name"
+                >
+                    ${escapeHTML(getName(profile))}
+                </a>
+
+                <div class="friend-card-username">
+
+                    ${
+                        profile.username
+                        ? "@" +
+                          escapeHTML(
+                              profile.username
+                          )
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="friend-card-actions">
+
+                ${
+                    type === "friend"
+                    ? `
+                        <button
+                            class="remove-friend-button"
+                            onclick="removeFriend('${profile.id}')"
+                        >
+                            REMOVE
+                        </button>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+async function acceptRequest(requestId) {
+
+    const {
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .update({
+            status: "accepted"
+        })
+        .eq(
+            "id",
+            requestId
+        )
+        .eq(
+            "receiver_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Could not accept friend request."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    loadRequests();
+
+    loadFriends();
+
+}
+
+
+async function declineRequest(requestId) {
+
+    const {
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .update({
+            status: "declined"
+        })
+        .eq(
+            "id",
+            requestId
+        )
+        .eq(
+            "receiver_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Could not decline request."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    loadRequests();
+
+}
+
+
+async function cancelRequest(requestId) {
+
+    const {
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .delete()
+        .eq(
+            "id",
+            requestId
+        )
+        .eq(
+            "sender_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Could not cancel request."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    loadSentRequests();
+
+}
+
+
+async function removeFriend(friendId) {
+
+    const confirmed =
+        confirm(
+            "Remove this trader from your friends?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .delete()
+        .or(
+            `and(sender_id.eq.${currentUser.id},receiver_id.eq.${friendId}),and(sender_id.eq.${friendId},receiver_id.eq.${currentUser.id})`
+        );
+
+
+    if (error) {
+
+        alert(
+            "Could not remove friend."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    loadFriends();
+
+}
+
+
+async function searchTraders() {
+
+    const input =
+        document.getElementById(
+            "trader-search-input"
+        );
+
+    const results =
+        document.getElementById(
+            "trader-results"
+        );
+
+    const search =
+        input.value.trim();
+
+
+    if (!search) {
+
+        results.innerHTML = `
+            <div class="friends-empty">
+                Enter a name or username to search.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    results.innerHTML = `
+        <div class="friends-loading">
+            Searching traders...
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select(
+            "id, username, full_name, avatar_url, avatar_emoji"
+        )
+        .or(
+            `username.ilike.%${search}%,full_name.ilike.%${search}%`
+        )
+        .neq(
+            "id",
+            currentUser.id
+        )
+        .limit(20);
+
+
+    if (error) {
+
+        console.error(error);
+
+        results.innerHTML = `
+            <div class="friends-error">
+                Search failed.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+        results.innerHTML = `
+            <div class="friends-empty">
+                <div class="friends-empty-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    No traders found
+                </h3>
+
+                <p>
+                    Try another name or username.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    results.innerHTML = "";
+
+
+    data.forEach(profile => {
+
+        results.innerHTML += `
+
+            <div class="friend-card">
+
+                <div class="friend-card-avatar">
+                    ${getAvatar(profile)}
+                </div>
+
+                <div class="friend-card-info">
+
+                    <a
+                        href="profile.html?id=${profile.id}"
+                        class="friend-card-name"
+                    >
+                        ${escapeHTML(getName(profile))}
+                    </a>
+
+                    <div class="friend-card-username">
+
+                        ${
+                            profile.username
+                            ? "@" +
+                              escapeHTML(
+                                  profile.username
+                              )
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="friend-card-actions">
+
+                    <a
+                        href="profile.html?id=${profile.id}"
+                        class="view-profile-button"
+                    >
+                        VIEW
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+document
+    .getElementById(
+        "search-traders-button"
+    )
+    .addEventListener(
+        "click",
+        searchTraders
+    );
+
+
+document
+    .getElementById(
+        "trader-search-input"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                searchTraders();
+
+            }
+
+        }
+    );
+
+
+function showSection(section) {
+
+    const sections = [
+        "friends",
+        "requests",
+        "sent",
+        "find"
+    ];
+
+
+    sections.forEach(name => {
+
+        const element =
+            document.getElementById(
+                name + "-section"
+            );
+
+        if (element) {
+
+            element.style.display =
+                name === section
+                    ? "block"
+                    : "none";
+
+        }
+
+    });
+
+
+    document
+        .querySelectorAll(
+            ".friends-tab"
+        )
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.section ===
+                section
+            );
+
+        });
+
+}
+
+
+document
+    .querySelectorAll(
+        ".friends-tab"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                showSection(
+                    this.dataset.section
+                );
+
+            }
+        );
+
+    });
+
+
+checkUser();
+
+</script>
+
+</body>
+
+</html>
