@@ -49,6 +49,44 @@
     </section>
 
 
+    <!-- REAL NOTIFICATIONS -->
+
+    <section class="notifications-section">
+
+        <div class="notifications-heading">
+
+            <div>
+                <p class="notifications-label">
+                    🔔 LEHULA ACTIVITY
+                </p>
+
+                <h2>
+                    YOUR NOTIFICATIONS
+                </h2>
+            </div>
+
+            <button
+                id="mark-all-read"
+                class="notifications-read-button"
+                type="button"
+            >
+                MARK ALL AS READ
+            </button>
+
+        </div>
+
+
+        <div id="notifications-list">
+
+            <div class="notifications-loading">
+                Loading notifications...
+            </div>
+
+        </div>
+
+    </section>
+
+
     <section class="features">
 
         <div class="feature">
@@ -152,6 +190,601 @@
     </p>
 
 </footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://qqavebqfrbkvbxsrtqke.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_lGWnmqnaz8H6R_2qIJQO3A_o0W2rc8K";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+let currentUser = null;
+
+
+/* ================================
+   HELPERS
+================================ */
+
+function escapeHTML(value) {
+
+    if (!value) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function formatTime(dateString) {
+
+    const date =
+        new Date(dateString);
+
+    return date.toLocaleString(
+        undefined,
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+}
+
+
+/* ================================
+   CHECK USER
+================================ */
+
+async function checkUser() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.getUser();
+
+    if (error || !data || !data.user) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+    currentUser =
+        data.user;
+
+    await loadNotifications();
+}
+
+
+/* ================================
+   LOAD NOTIFICATIONS
+================================ */
+
+async function loadNotifications() {
+
+    const container =
+        document.getElementById(
+            "notifications-list"
+        );
+
+    container.innerHTML = `
+        <div class="notifications-loading">
+            Loading notifications...
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("notifications")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Notification error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="notifications-error">
+                Could not load notifications.
+                <br><br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="notifications-empty">
+
+                <div class="notifications-empty-icon">
+                    🔔
+                </div>
+
+                <h3>
+                    No notifications yet
+                </h3>
+
+                <p>
+                    You're all caught up.
+                    New activity will appear here.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const actorIds =
+        data
+            .filter(notification =>
+                notification.actor_id
+            )
+            .map(notification =>
+                notification.actor_id
+            );
+
+
+    let profiles = {};
+
+
+    if (actorIds.length > 0) {
+
+        const {
+            data: profileData,
+            error: profileError
+        } = await supabaseClient
+            .from("profiles")
+            .select(
+                "id, username, full_name, avatar_url, avatar_emoji"
+            )
+            .in(
+                "id",
+                actorIds
+            );
+
+
+        if (!profileError && profileData) {
+
+            profileData.forEach(profile => {
+
+                profiles[profile.id] =
+                    profile;
+
+            });
+
+        }
+    }
+
+
+    container.innerHTML = "";
+
+
+    data.forEach(notification => {
+
+        const actor =
+            profiles[
+                notification.actor_id
+            ];
+
+
+        container.innerHTML +=
+            createNotificationCard(
+                notification,
+                actor
+            );
+
+    });
+
+}
+
+
+/* ================================
+   CREATE NOTIFICATION CARD
+================================ */
+
+function createNotificationCard(
+    notification,
+    actor
+) {
+
+    let icon = "🔔";
+
+
+    if (
+        notification.type ===
+        "friend_request"
+    ) {
+
+        icon = "👥";
+
+    } else if (
+        notification.type ===
+        "friend_accepted"
+    ) {
+
+        icon = "🤝";
+
+    } else if (
+        notification.type ===
+        "like"
+    ) {
+
+        icon = "❤️";
+
+    } else if (
+        notification.type ===
+        "comment"
+    ) {
+
+        icon = "💬";
+
+    }
+
+
+    let avatar = "👤";
+
+
+    if (
+        actor &&
+        actor.avatar_url
+    ) {
+
+        avatar = `
+            <img
+                src="${escapeHTML(actor.avatar_url)}"
+                alt="Profile"
+            >
+        `;
+
+    } else if (
+        actor &&
+        actor.avatar_emoji
+    ) {
+
+        avatar =
+            escapeHTML(
+                actor.avatar_emoji
+            );
+
+    }
+
+
+    let actorName =
+        "LEHULA Trader";
+
+
+    if (actor) {
+
+        actorName =
+            actor.full_name ||
+            actor.username ||
+            "LEHULA Trader";
+
+    }
+
+
+    let actions = "";
+
+
+    if (
+        notification.type ===
+        "friend_request"
+        &&
+        notification.friend_request_id
+    ) {
+
+        actions = `
+
+            <div class="notification-actions">
+
+                <button
+                    class="notification-accept"
+                    onclick="acceptFriendRequest(
+                        '${notification.friend_request_id}',
+                        '${notification.id}'
+                    )"
+                >
+                    ACCEPT
+                </button>
+
+                <button
+                    class="notification-decline"
+                    onclick="declineFriendRequest(
+                        '${notification.friend_request_id}',
+                        '${notification.id}'
+                    )"
+                >
+                    DECLINE
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    const unreadClass =
+        notification.is_read
+            ? ""
+            : " unread";
+
+
+    return `
+
+        <div
+            class="notification-card${unreadClass}"
+            id="notification-${notification.id}"
+        >
+
+            <div class="notification-avatar">
+                ${avatar}
+            </div>
+
+
+            <div class="notification-content">
+
+                <div class="notification-top">
+
+                    <div>
+
+                        <div class="notification-title">
+
+                            ${icon}
+
+                            ${escapeHTML(
+                                notification.title
+                            )}
+
+                        </div>
+
+                        <div class="notification-message">
+
+                            ${escapeHTML(
+                                notification.message
+                            )}
+
+                        </div>
+
+                    </div>
+
+                    ${
+                        notification.is_read
+                            ? ""
+                            : `
+                                <span class="notification-dot">
+                                </span>
+                              `
+                    }
+
+                </div>
+
+
+                <div class="notification-time">
+
+                    ${formatTime(
+                        notification.created_at
+                    )}
+
+                </div>
+
+
+                ${actions}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================================
+   ACCEPT FRIEND REQUEST
+================================ */
+
+async function acceptFriendRequest(
+    requestId,
+    notificationId
+) {
+
+    const {
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .update({
+            status: "accepted"
+        })
+        .eq(
+            "id",
+            requestId
+        )
+        .eq(
+            "receiver_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Could not accept friend request."
+        );
+
+        console.error(error);
+
+        return;
+    }
+
+
+    await supabaseClient
+        .from("notifications")
+        .update({
+            is_read: true
+        })
+        .eq(
+            "id",
+            notificationId
+        )
+        .eq(
+            "user_id",
+            currentUser.id
+        );
+
+
+    await loadNotifications();
+
+}
+
+
+/* ================================
+   DECLINE FRIEND REQUEST
+================================ */
+
+async function declineFriendRequest(
+    requestId,
+    notificationId
+) {
+
+    const {
+        error
+    } = await supabaseClient
+        .from("friend_requests")
+        .update({
+            status: "declined"
+        })
+        .eq(
+            "id",
+            requestId
+        )
+        .eq(
+            "receiver_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Could not decline friend request."
+        );
+
+        console.error(error);
+
+        return;
+    }
+
+
+    await supabaseClient
+        .from("notifications")
+        .update({
+            is_read: true
+        })
+        .eq(
+            "id",
+            notificationId
+        )
+        .eq(
+            "user_id",
+            currentUser.id
+        );
+
+
+    await loadNotifications();
+
+}
+
+
+/* ================================
+   MARK ALL AS READ
+================================ */
+
+async function markAllAsRead() {
+
+    const {
+        error
+    } = await supabaseClient
+        .from("notifications")
+        .update({
+            is_read: true
+        })
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .eq(
+            "is_read",
+            false
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+
+    await loadNotifications();
+
+}
+
+
+document
+    .getElementById(
+        "mark-all-read"
+    )
+    .addEventListener(
+        "click",
+        markAllAsRead
+    );
+
+
+/* START */
+
+checkUser();
+
+</script>
 
 </body>
 
